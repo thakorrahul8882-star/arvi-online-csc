@@ -8,89 +8,41 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-  font-family:Arial,sans-serif;
-  background:#eef3f9;
-  margin:0;
-  padding:14px;
-  color:#172033;
-}
-.container{
-  max-width:760px;
-  margin:15px auto;
-  background:white;
-  padding:22px;
-  border-radius:16px;
-  box-shadow:0 4px 18px #0001;
-}
-h2{color:#123b70;text-align:center;margin-top:5px}
-h3{color:#123b70}
+body{font-family:Arial,sans-serif;background:#eef3f9;margin:0;padding:14px;color:#172033}
+.container{max-width:850px;margin:15px auto;background:white;padding:22px;border-radius:16px;box-shadow:0 4px 18px #0001}
+h2,h3{color:#123b70}
+h2{text-align:center;margin-top:5px}
 .subtitle{text-align:center;color:#5b6576}
-input,textarea,select,button{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  border:1px solid #ccd3df;
-  border-radius:8px;
-  font-size:16px;
-}
-textarea{min-height:110px;resize:vertical}
-button{
-  background:#123b70;
-  color:white;
-  border:0;
-  cursor:pointer;
-  font-weight:600;
-}
+input,textarea,select,button{width:100%;padding:12px;margin:7px 0;border:1px solid #ccd3df;border-radius:8px;font-size:16px}
+textarea{min-height:100px;resize:vertical}
+button{background:#123b70;color:white;border:0;cursor:pointer;font-weight:600}
 button:disabled{opacity:.6;cursor:not-allowed}
-.secondary{background:#586579}
-.green{background:#12804a}
-.orange{background:#b86b08}
-.red{background:#b42318}
-.edit{background:#245fc7}
+.secondary{background:#586579}.green{background:#12804a}.orange{background:#b86b08}.red{background:#b42318}.edit{background:#245fc7}
 .checkrow{display:flex;align-items:center;gap:10px;margin:12px 0}
 .checkrow input{width:auto;margin:0}
 .checkrow label{font-weight:600}
 #dashboard{display:none}
-.item{
-  border:1px solid #dbe2ec;
-  padding:14px;
-  margin:13px 0;
-  border-radius:12px;
-  overflow-wrap:anywhere;
-  background:#fff;
-}
+.item{border:1px solid #dbe2ec;padding:14px;margin:13px 0;border-radius:12px;overflow-wrap:anywhere;background:#fff}
 .item h3{margin-top:0}
 .item p{white-space:pre-wrap;line-height:1.5}
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:10px;
-}
+.actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .actions button{margin:0}
-.status{
-  padding:10px;
-  border-radius:8px;
-  overflow-wrap:anywhere;
-  line-height:1.5;
-}
+.status{padding:10px;border-radius:8px;overflow-wrap:anywhere;line-height:1.5;background:#f3f6fa}
 .searchbox{background:#f5f8fc}
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:13px;
-  background:#e7edf7;
-  margin-bottom:8px;
-}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;font-size:13px;background:#e7edf7;margin-bottom:8px}
 .published{background:#d9fbe7;color:#116334}
 .draft{background:#fff0cc;color:#855300}
 .small{font-size:13px;color:#5b6576}
 hr{border:0;border-top:1px solid #e0e5ed;margin:22px 0}
-@media(max-width:480px){
-  .container{padding:15px}
-  .actions{grid-template-columns:1fr}
+.section-title{background:#edf4ff;padding:12px;border-radius:8px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.tabs button{margin:0}
+.tabs button.active{background:#12804a}
+.panel{display:none}
+.panel.active{display:block}
+@media(max-width:520px){
+ .container{padding:15px}
+ .actions{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -99,7 +51,7 @@ hr{border:0;border-top:1px solid #e0e5ed;margin:22px 0}
 <div class="container">
 
 <h2>આર્વી ઓનલાઈન & CSC</h2>
-<p class="subtitle">Admin Panel — યોજના અને ભરતી વ્યવસ્થાપન</p>
+<p class="subtitle">Admin Panel — યોજના, ભરતી અને સર્વિસ મેનેજમેન્ટ</p>
 
 <section id="loginSection">
   <h3>🔐 Admin Login</h3>
@@ -112,57 +64,120 @@ hr{border:0;border-top:1px solid #e0e5ed;margin:22px 0}
 
     <button id="loginBtn" type="submit">Login કરો</button>
   </form>
+  <p id="loginStatus" class="status" role="status" aria-live="polite"></p>
 </section>
 
 <section id="dashboard">
-
   <button id="logoutBtn" class="secondary" type="button">Logout</button>
 
-  <hr>
-  <h3 id="formHeading">➕ નવી યોજના / ભરતી ઉમેરો</h3>
+  <div class="tabs">
+    <button id="announcementsTab" class="active" type="button">
+      📋 યોજના અને ભરતી
+    </button>
+    <button id="servicesTab" type="button">
+      🛠️ સર્વિસ મેનેજમેન્ટ
+    </button>
+  </div>
 
-  <form id="announcementForm">
+  <!-- યોજના અને ભરતી -->
+  <section id="announcementsPanel" class="panel active">
+    <hr>
+    <h3 id="formHeading">➕ નવી યોજના / ભરતી ઉમેરો</h3>
 
-    <label for="type">પ્રકાર પસંદ કરો</label>
-    <select id="type" required>
-      <option value="યોજના">સરકારી યોજના</option>
-      <option value="ભરતી">સરકારી ભરતી</option>
-      <option value="અન્ય">અન્ય માહિતી</option>
-    </select>
+    <form id="announcementForm">
+      <label for="type">પ્રકાર પસંદ કરો</label>
+      <select id="type" required>
+        <option value="યોજના">સરકારી યોજના</option>
+        <option value="ભરતી">સરકારી ભરતી</option>
+        <option value="અન્ય">અન્ય માહિતી</option>
+      </select>
 
-    <label for="title">શીર્ષક</label>
-    <input id="title" maxlength="200"
-      placeholder="દા.ત. વ્હાલી દીકરી યોજના" required>
+      <label for="title">શીર્ષક</label>
+      <input id="title" maxlength="200"
+        placeholder="દા.ત. વ્હાલી દીકરી યોજના" required>
 
-    <label for="description">વિગતો</label>
-    <textarea id="description" maxlength="10000"
-      placeholder="યોજનાની માહિતી, પાત્રતા અને જરૂરી દસ્તાવેજો..."
-      required></textarea>
+      <label for="description">વિગતો</label>
+      <textarea id="description" maxlength="10000"
+        placeholder="યોજનાની માહિતી, પાત્રતા અને દસ્તાવેજો..." required></textarea>
 
-    <label for="lastDate">છેલ્લી તારીખ (વૈકલ્પિક)</label>
-    <input id="lastDate" type="date">
+      <label for="lastDate">છેલ્લી તારીખ (વૈકલ્પિક)</label>
+      <input id="lastDate" type="date">
 
-    <div class="checkrow">
-      <input id="published" type="checkbox">
-      <label for="published">વેબસાઇટ પર Publish કરો</label>
-    </div>
+      <div class="checkrow">
+        <input id="published" type="checkbox">
+        <label for="published">વેબસાઇટ પર Publish કરો</label>
+      </div>
 
-    <button id="saveBtn" type="submit">માહિતી સેવ કરો</button>
-    <button id="cancelEditBtn" class="secondary"
-      type="button" style="display:none">Edit રદ કરો</button>
-  </form>
+      <button id="saveBtn" type="submit">માહિતી સેવ કરો</button>
+      <button id="cancelEditBtn" class="secondary"
+        type="button" style="display:none">Edit રદ કરો</button>
+    </form>
 
-  <p id="status" class="status" role="status" aria-live="polite"></p>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
 
-  <hr>
-  <h3>📋 ઉમેરેલી માહિતી</h3>
+    <hr>
+    <h3>📋 ઉમેરેલી માહિતી</h3>
+    <input id="searchInput" class="searchbox" type="search"
+      placeholder="યોજના અથવા ભરતી શોધો...">
+    <div id="records">માહિતી લોડ થઈ રહી છે...</div>
+  </section>
 
-  <input id="searchInput" class="searchbox"
-    type="search" placeholder="યોજના અથવા ભરતી શોધો...">
+  <!-- સર્વિસ મેનેજમેન્ટ -->
+  <section id="servicesPanel" class="panel">
+    <hr>
+    <h3 id="serviceFormHeading">➕ નવી સર્વિસ ઉમેરો</h3>
+    <p class="small">
+      અહીં ઉમેરેલી સર્વિસ Firestore ના services કલેક્શનમાં સેવ થશે.
+    </p>
 
-  <div id="records">માહિતી લોડ થઈ રહી છે...</div>
+    <form id="serviceForm">
+      <label for="serviceTitle">સર્વિસનું નામ</label>
+      <input id="serviceTitle" maxlength="200"
+        placeholder="દા.ત. PAN કાર્ડ સેવા" required>
+
+      <label for="serviceIcon">આઇકન / ઇમોજી</label>
+      <input id="serviceIcon" maxlength="20" value="🪪"
+        placeholder="🪪">
+
+      <label for="serviceDescription">સર્વિસનું વર્ણન</label>
+      <textarea id="serviceDescription" maxlength="3000"
+        placeholder="નવું PAN કાર્ડ અને સુધારા માટે સહાય" required></textarea>
+
+      <label for="serviceFee">ફી</label>
+      <input id="serviceFee" maxlength="100"
+        placeholder="₹250" required>
+
+      <label for="serviceLink">ડોક્યુમેન્ટ / વધુ માહિતીની લિંક</label>
+      <input id="serviceLink" type="url" maxlength="1000"
+        placeholder="https://your-website.com/#pan">
+
+      <label for="serviceDocs">જરૂરી દસ્તાવેજો (દરેક નવી લાઇનમાં)</label>
+      <textarea id="serviceDocs"
+        placeholder="આધાર કાર્ડ&#10;મોબાઇલ નંબર"></textarea>
+
+      <label for="serviceNote">વધારાની નોંધ (વૈકલ્પિક)</label>
+      <textarea id="serviceNote" maxlength="2000"
+        placeholder="વધારાની માહિતી"></textarea>
+
+      <div class="checkrow">
+        <input id="servicePublished" type="checkbox" checked>
+        <label for="servicePublished">વેબસાઇટ પર Publish કરો</label>
+      </div>
+
+      <button id="serviceSaveBtn" type="submit">સર્વિસ સેવ કરો</button>
+      <button id="serviceCancelBtn" class="secondary"
+        type="button" style="display:none">Edit રદ કરો</button>
+    </form>
+
+    <p id="serviceStatus" class="status" role="status" aria-live="polite"></p>
+
+    <hr>
+    <h3>🛠️ તમારી સર્વિસની યાદી</h3>
+    <input id="serviceSearch" class="searchbox" type="search"
+      placeholder="સર્વિસ શોધો...">
+    <div id="serviceRecords">સર્વિસ લોડ થઈ રહી છે...</div>
+  </section>
 </section>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
@@ -182,125 +197,142 @@ const firebaseConfig = {
 
 const ADMIN_UID = "nIreaPMvujbR9IrdilWpSyz3o623";
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const loginSection = document.getElementById("loginSection");
-const dashboard = document.getElementById("dashboard");
-const statusBox = document.getElementById("status");
-const recordsBox = document.getElementById("records");
-const form = document.getElementById("announcementForm");
-const saveBtn = document.getElementById("saveBtn");
-const cancelEditBtn = document.getElementById("cancelEditBtn");
-const searchInput = document.getElementById("searchInput");
+const $ = id => document.getElementById(id);
 
 let editingId = null;
 let announcementCache = [];
+let editingServiceId = null;
+let serviceCache = [];
 
-function setStatus(message) {
-  statusBox.textContent = message;
+function setStatus(message) { $("status").textContent = message; }
+function setLoginStatus(message) { $("loginStatus").textContent = message; }
+function setServiceStatus(message) { $("serviceStatus").textContent = message; }
+
+function isAdmin() {
+  return !!auth.currentUser && auth.currentUser.uid === ADMIN_UID;
 }
 
-function setBusy(busy) {
-  saveBtn.disabled = busy;
-  saveBtn.textContent = busy
-    ? "સેવ થઈ રહ્યું છે..."
-    : (editingId ? "ફેરફાર સેવ કરો" : "માહિતી સેવ કરો");
+function formatDate(value) {
+  if (!value) return "નક્કી નથી";
+  const parts = value.split("-");
+  return parts.length === 3
+    ? parts[2] + "-" + parts[1] + "-" + parts[0]
+    : value;
 }
 
-function resetForm() {
-  editingId = null;
-  form.reset();
-  document.getElementById("formHeading").textContent =
-    "➕ નવી યોજના / ભરતી ઉમેરો";
-  cancelEditBtn.style.display = "none";
-  setBusy(false);
+function addText(parent, tag, text, className) {
+  const el = document.createElement(tag);
+  el.textContent = text || "";
+  if (className) el.className = className;
+  parent.appendChild(el);
+  return el;
 }
 
-function formatDate(dateValue) {
-  if (!dateValue) return "નક્કી નથી";
-
-  const parts = dateValue.split("-");
-  if (parts.length !== 3) return dateValue;
-
-  return parts[2] + "-" + parts[1] + "-" + parts[0];
+function makeButton(label, className, handler) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = label;
+  btn.className = className || "";
+  btn.addEventListener("click", handler);
+  return btn;
 }
 
-/* Login session તપાસો */
-auth.onAuthStateChanged(user => {
+function showTab(tab) {
+  const announcements = tab === "announcements";
+  $("announcementsPanel").classList.toggle("active", announcements);
+  $("servicesPanel").classList.toggle("active", !announcements);
+  $("announcementsTab").classList.toggle("active", announcements);
+  $("servicesTab").classList.toggle("active", !announcements);
+}
+
+$("announcementsTab").addEventListener("click", () => showTab("announcements"));
+$("servicesTab").addEventListener("click", () => showTab("services"));
+
+/* LOGIN SESSION */
+auth.onAuthStateChanged(async user => {
   if (user && user.uid === ADMIN_UID) {
-    loginSection.style.display = "none";
-    dashboard.style.display = "block";
-    loadRecords();
+    $("loginSection").style.display = "none";
+    $("dashboard").style.display = "block";
+    await Promise.all([loadRecords(), loadServices()]);
   } else {
-    dashboard.style.display = "none";
-    loginSection.style.display = "block";
+    $("dashboard").style.display = "none";
+    $("loginSection").style.display = "block";
     announcementCache = [];
-    recordsBox.textContent = "Admin Login કરો.";
+    serviceCache = [];
+    $("records").textContent = "Admin Login કરો.";
+    $("serviceRecords").textContent = "Admin Login કરો.";
+
     if (user) {
-      auth.signOut();
-      setStatus("આ યુઝરને Admin પરવાનગી નથી.");
+      await auth.signOut();
+      setLoginStatus("આ યુઝરને Admin પરવાનગી નથી.");
     }
   }
 });
 
-/* Admin Login */
-document.getElementById("loginForm").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const loginBtn = document.getElementById("loginBtn");
-  loginBtn.disabled = true;
-  loginBtn.textContent = "Login થઈ રહ્યું છે...";
-  setStatus("");
+/* LOGIN */
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  $("loginBtn").disabled = true;
+  $("loginBtn").textContent = "Login થઈ રહ્યું છે...";
+  setLoginStatus("");
 
   try {
     const result = await auth.signInWithEmailAndPassword(
-      document.getElementById("email").value.trim(),
-      document.getElementById("password").value
+      $("email").value.trim(),
+      $("password").value
     );
 
     if (result.user.uid !== ADMIN_UID) {
       await auth.signOut();
-      setStatus("આ યુઝરને Admin પરવાનગી નથી.");
-    } else {
-      setStatus("Login સફળ થયું.");
+      setLoginStatus("આ યુઝરને Admin પરવાનગી નથી.");
     }
   } catch (error) {
-    setStatus("Login કરવામાં સમસ્યા: " + error.message);
+    setLoginStatus("Login કરવામાં સમસ્યા: " + error.message);
   } finally {
-    loginBtn.disabled = false;
-    loginBtn.textContent = "Login કરો";
+    $("loginBtn").disabled = false;
+    $("loginBtn").textContent = "Login કરો";
   }
 });
 
-/* Logout */
-document.getElementById("logoutBtn").addEventListener("click", async () => {
+/* LOGOUT */
+$("logoutBtn").addEventListener("click", async () => {
   try {
     await auth.signOut();
-    resetForm();
-    setStatus("Logout થઈ ગયું.");
+    resetAnnouncementForm();
+    resetServiceForm();
+    setLoginStatus("Logout થઈ ગયું.");
   } catch (error) {
     setStatus("Logout કરવામાં સમસ્યા: " + error.message);
   }
 });
 
-/* નવી માહિતી સેવ કરવી અથવા Edit કરવી */
-form.addEventListener("submit", async e => {
-  e.preventDefault();
+/* =========================
+   ANNOUNCEMENTS MANAGEMENT
+========================= */
+function resetAnnouncementForm() {
+  editingId = null;
+  $("announcementForm").reset();
+  $("formHeading").textContent = "➕ નવી યોજના / ભરતી ઉમેરો";
+  $("cancelEditBtn").style.display = "none";
+  $("saveBtn").disabled = false;
+  $("saveBtn").textContent = "માહિતી સેવ કરો";
+}
 
-  const user = auth.currentUser;
-  if (!user || user.uid !== ADMIN_UID) {
-    setStatus("માહિતી ઉમેરવા માટે Admin Login જરૂરી છે.");
+$("announcementForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!isAdmin()) {
+    setStatus("Admin Login જરૂરી છે.");
     return;
   }
 
-  const title = document.getElementById("title").value.trim();
-  const description = document.getElementById("description").value.trim();
-  const lastDate = document.getElementById("lastDate").value;
+  const title = $("title").value.trim();
+  const description = $("description").value.trim();
 
   if (!title || !description) {
     setStatus("શીર્ષક અને વિગતો ભરવી જરૂરી છે.");
@@ -308,60 +340,52 @@ form.addEventListener("submit", async e => {
   }
 
   const data = {
-    type: document.getElementById("type").value,
-    title: title,
-    description: description,
-    lastDate: lastDate,
-    published: document.getElementById("published").checked,
+    type: $("type").value,
+    title,
+    description,
+    lastDate: $("lastDate").value,
+    published: $("published").checked,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  setBusy(true);
-  setStatus("");
+  $("saveBtn").disabled = true;
+  $("saveBtn").textContent = "સેવ થઈ રહ્યું છે...";
 
   try {
     if (editingId) {
-      await db.collection("announcements")
-        .doc(editingId)
-        .update(data);
-
-      setStatus("ફેરફાર સફળતાપૂર્વક સેવ થઈ ગયા.");
+      await db.collection("announcements").doc(editingId).update(data);
+      setStatus("ફેરફાર સેવ થઈ ગયા.");
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-
       await db.collection("announcements").add(data);
-      setStatus("નવી માહિતી સફળતાપૂર્વક સેવ થઈ ગઈ.");
+      setStatus("નવી માહિતી સેવ થઈ ગઈ.");
     }
 
-    resetForm();
+    resetAnnouncementForm();
     await loadRecords();
-
   } catch (error) {
     setStatus("સેવ કરવામાં સમસ્યા: " + error.message);
   } finally {
-    setBusy(false);
+    $("saveBtn").disabled = false;
+    $("saveBtn").textContent = editingId ? "ફેરફાર સેવ કરો" : "માહિતી સેવ કરો";
   }
 });
 
-/* Edit રદ કરો */
-cancelEditBtn.addEventListener("click", () => {
-  resetForm();
+$("cancelEditBtn").addEventListener("click", () => {
+  resetAnnouncementForm();
   setStatus("Edit રદ કરવામાં આવ્યું.");
 });
 
-/* Search */
-searchInput.addEventListener("input", renderRecords);
+$("searchInput").addEventListener("input", renderRecords);
 
-/* Firestore માંથી માહિતી લોડ કરો */
 async function loadRecords() {
-  if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+  if (!isAdmin()) return;
 
-  recordsBox.textContent = "માહિતી લોડ થઈ રહી છે...";
+  $("records").textContent = "માહિતી લોડ થઈ રહી છે...";
 
   try {
     const snapshot = await db.collection("announcements")
-      .orderBy("createdAt", "desc")
-      .get();
+      .orderBy("createdAt", "desc").get();
 
     announcementCache = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -369,161 +393,306 @@ async function loadRecords() {
     }));
 
     renderRecords();
-
   } catch (error) {
-    recordsBox.textContent = "માહિતી લોડ કરવામાં સમસ્યા: " + error.message;
+    $("records").textContent = "માહિતી લોડ કરવામાં સમસ્યા: " + error.message;
   }
 }
 
-/* યાદી દર્શાવો */
 function renderRecords() {
-  recordsBox.replaceChildren();
+  $("records").replaceChildren();
+  const query = $("searchInput").value.trim().toLocaleLowerCase();
 
-  const query = searchInput.value.trim().toLocaleLowerCase();
-
-  const filtered = announcementCache.filter(d => {
-    const text = [
-      d.title || "",
-      d.description || "",
-      d.type || ""
-    ].join(" ").toLocaleLowerCase();
-
-    return text.includes(query);
-  });
+  const filtered = announcementCache.filter(item =>
+    [item.title, item.description, item.type]
+      .join(" ").toLocaleLowerCase().includes(query)
+  );
 
   if (!filtered.length) {
-    recordsBox.textContent = announcementCache.length
+    $("records").textContent = announcementCache.length
       ? "આ શોધ માટે કોઈ માહિતી મળી નથી."
       : "હજી કોઈ માહિતી ઉમેરાઈ નથી.";
     return;
   }
 
-  filtered.forEach(d => {
+  filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "item";
 
-    const badge = document.createElement("span");
-    badge.className = "badge " + (d.published ? "published" : "draft");
-    badge.textContent = d.published ? "Published" : "Draft";
-
-    const heading = document.createElement("h3");
-    heading.textContent = (d.type || "માહિતી") + ": " + (d.title || "");
-
-    const description = document.createElement("p");
-    description.textContent = d.description || "";
-
-    const date = document.createElement("p");
-    date.textContent = "છેલ્લી તારીખ: " + formatDate(d.lastDate);
-
-    card.append(badge, heading, description, date);
-
-    const editBtn = document.createElement("button");
-    editBtn.type = "button";
-    editBtn.className = "edit";
-    editBtn.textContent = "✏️ Edit / સુધારો";
-    editBtn.addEventListener("click", () => startEdit(d));
-
-    const publishBtn = document.createElement("button");
-    publishBtn.type = "button";
-    publishBtn.className = d.published ? "orange" : "green";
-    publishBtn.textContent = d.published
-      ? "Unpublish / Draft કરો"
-      : "Publish કરો";
-
-    publishBtn.addEventListener("click", () => togglePublish(d));
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.className = "red";
-    deleteBtn.textContent = "🗑️ Delete કરો";
-    deleteBtn.addEventListener("click", () => deleteRecord(d));
+    addText(card, "span", item.published ? "Published" : "Draft",
+      "badge " + (item.published ? "published" : "draft"));
+    addText(card, "h3", (item.type || "માહિતી") + ": " + (item.title || ""));
+    addText(card, "p", item.description || "");
+    addText(card, "p", "છેલ્લી તારીખ: " + formatDate(item.lastDate));
 
     const actions = document.createElement("div");
     actions.className = "actions";
-    actions.append(editBtn, publishBtn, deleteBtn);
-    card.appendChild(actions);
 
-    recordsBox.appendChild(card);
+    actions.append(
+      makeButton("✏️ Edit / સુધારો", "edit", () => startAnnouncementEdit(item)),
+      makeButton(item.published ? "Draft કરો" : "Publish કરો",
+        item.published ? "orange" : "green", () => toggleAnnouncement(item)),
+      makeButton("🗑️ Delete કરો", "red", () => deleteAnnouncement(item))
+    );
+
+    card.appendChild(actions);
+    $("records").appendChild(card);
   });
 }
 
-/* Edit ફોર્મમાં માહિતી ભરો */
-function startEdit(d) {
-  editingId = d.id;
-
-  document.getElementById("type").value = d.type || "યોજના";
-  document.getElementById("title").value = d.title || "";
-  document.getElementById("description").value = d.description || "";
-  document.getElementById("lastDate").value = d.lastDate || "";
-  document.getElementById("published").checked = d.published === true;
-
-  document.getElementById("formHeading").textContent =
-    "✏️ માહિતીમાં ફેરફાર કરો";
-
-  cancelEditBtn.style.display = "block";
-  setBusy(false);
-  setStatus("માહિતી સુધારો અને 'ફેરફાર સેવ કરો' દબાવો.");
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function startAnnouncementEdit(item) {
+  editingId = item.id;
+  $("type").value = item.type || "યોજના";
+  $("title").value = item.title || "";
+  $("description").value = item.description || "";
+  $("lastDate").value = item.lastDate || "";
+  $("published").checked = item.published === true;
+  $("formHeading").textContent = "✏️ માહિતીમાં ફેરફાર કરો";
+  $("cancelEditBtn").style.display = "block";
+  $("saveBtn").textContent = "ફેરફાર સેવ કરો";
+  showTab("announcements");
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-/* Publish અને Draft બદલો */
-async function togglePublish(d) {
-  const user = auth.currentUser;
+async function toggleAnnouncement(item) {
+  if (!isAdmin()) return setStatus("Admin Login જરૂરી છે.");
 
-  if (!user || user.uid !== ADMIN_UID) {
-    setStatus("Admin Login જરૂરી છે.");
-    return;
-  }
-
-  const newValue = !d.published;
-
-  if (!confirm(newValue
-    ? "આ માહિતી વેબસાઇટ પર Publish કરવી છે?"
-    : "આ માહિતી વેબસાઇટ પરથી Draft કરવી છે?")) {
-    return;
-  }
+  const value = !item.published;
+  if (!confirm(value ? "માહિતી Publish કરવી છે?" : "માહિતી Draft કરવી છે?")) return;
 
   try {
-    await db.collection("announcements").doc(d.id).update({
-      published: newValue,
+    await db.collection("announcements").doc(item.id).update({
+      published: value,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-
-    setStatus(newValue
-      ? "માહિતી Publish થઈ ગઈ."
-      : "માહિતી Draft થઈ ગઈ.");
-
+    setStatus(value ? "માહિતી Publish થઈ ગઈ." : "માહિતી Draft થઈ ગઈ.");
     await loadRecords();
-
   } catch (error) {
     setStatus("સ્થિતિ બદલવામાં સમસ્યા: " + error.message);
   }
 }
 
-/* માહિતી Delete કરો */
-async function deleteRecord(d) {
-  const user = auth.currentUser;
-
-  if (!user || user.uid !== ADMIN_UID) {
-    setStatus("Admin Login જરૂરી છે.");
-    return;
-  }
-
-  if (!confirm('શું "' + d.title + '" માહિતી કાયમ માટે Delete કરવી છે?')) {
-    return;
-  }
+async function deleteAnnouncement(item) {
+  if (!isAdmin()) return setStatus("Admin Login જરૂરી છે.");
+  if (!confirm('શું "' + item.title + '" કાયમ માટે Delete કરવી છે?')) return;
 
   try {
-    await db.collection("announcements").doc(d.id).delete();
-
-    if (editingId === d.id) resetForm();
-
+    await db.collection("announcements").doc(item.id).delete();
+    if (editingId === item.id) resetAnnouncementForm();
     setStatus("માહિતી Delete થઈ ગઈ.");
     await loadRecords();
-
   } catch (error) {
     setStatus("Delete કરવામાં સમસ્યા: " + error.message);
+  }
+}
+
+/* =========================
+   SERVICES MANAGEMENT
+========================= */
+function resetServiceForm() {
+  editingServiceId = null;
+  $("serviceForm").reset();
+  $("serviceIcon").value = "🪪";
+  $("servicePublished").checked = true;
+  $("serviceFormHeading").textContent = "➕ નવી સર્વિસ ઉમેરો";
+  $("serviceSaveBtn").disabled = false;
+  $("serviceSaveBtn").textContent = "સર્વિસ સેવ કરો";
+  $("serviceCancelBtn").style.display = "none";
+}
+
+$("serviceForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!isAdmin()) {
+    setServiceStatus("Admin Login જરૂરી છે.");
+    return;
+  }
+
+  const title = $("serviceTitle").value.trim();
+  const description = $("serviceDescription").value.trim();
+  const fee = $("serviceFee").value.trim();
+  const icon = $("serviceIcon").value.trim() || "📄";
+  const link = $("serviceLink").value.trim();
+  const docs = $("serviceDocs").value.split("\n")
+    .map(value => value.trim()).filter(Boolean);
+  const note = $("serviceNote").value.trim();
+
+  if (!title || !description || !fee) {
+    setServiceStatus("સર્વિસનું નામ, વર્ણન અને ફી ભરવી જરૂરી છે.");
+    return;
+  }
+
+  if (link) {
+    try {
+      const parsed = new URL(link);
+      if (!["https:", "http:"].includes(parsed.protocol)) throw new Error();
+    } catch {
+      setServiceStatus("યોગ્ય http અથવા https લિંક દાખલ કરો.");
+      return;
+    }
+  }
+
+  const data = {
+    title,
+    description,
+    fee,
+    icon,
+    link,
+    docs,
+    note,
+    published: $("servicePublished").checked,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  $("serviceSaveBtn").disabled = true;
+  $("serviceSaveBtn").textContent = "સેવ થઈ રહ્યું છે...";
+
+  try {
+    if (editingServiceId) {
+      await db.collection("services").doc(editingServiceId).update(data);
+      setServiceStatus("સર્વિસમાં ફેરફાર સેવ થઈ ગયો.");
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection("services").add(data);
+      setServiceStatus("નવી સર્વિસ સફળતાપૂર્વક ઉમેરાઈ.");
+    }
+
+    resetServiceForm();
+    await loadServices();
+  } catch (error) {
+    setServiceStatus("સર્વિસ સેવ કરવામાં સમસ્યા: " + error.message);
+  } finally {
+    $("serviceSaveBtn").disabled = false;
+    $("serviceSaveBtn").textContent = editingServiceId
+      ? "ફેરફાર સેવ કરો" : "સર્વિસ સેવ કરો";
+  }
+});
+
+$("serviceCancelBtn").addEventListener("click", () => {
+  resetServiceForm();
+  setServiceStatus("Edit રદ કરવામાં આવ્યું.");
+});
+
+$("serviceSearch").addEventListener("input", renderServices);
+
+async function loadServices() {
+  if (!isAdmin()) return;
+
+  $("serviceRecords").textContent = "સર્વિસ લોડ થઈ રહી છે...";
+
+  try {
+    const snapshot = await db.collection("services").get();
+
+    serviceCache = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    serviceCache.sort((a, b) =>
+      (a.title || "").localeCompare(b.title || "")
+    );
+
+    renderServices();
+  } catch (error) {
+    $("serviceRecords").textContent =
+      "સર્વિસ લોડ કરવામાં સમસ્યા: " + error.message;
+  }
+}
+
+function renderServices() {
+  $("serviceRecords").replaceChildren();
+  const query = $("serviceSearch").value.trim().toLocaleLowerCase();
+
+  const filtered = serviceCache.filter(item =>
+    [item.title, item.description, item.fee]
+      .join(" ").toLocaleLowerCase().includes(query)
+  );
+
+  if (!filtered.length) {
+    $("serviceRecords").textContent = serviceCache.length
+      ? "આ શોધ માટે કોઈ સર્વિસ મળી નથી."
+      : "હજી સર્વિસ ઉમેરાઈ નથી.";
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item";
+
+    addText(card, "span", item.published ? "Published" : "Draft",
+      "badge " + (item.published ? "published" : "draft"));
+    addText(card, "h3", (item.icon || "📄") + " " + (item.title || ""));
+    addText(card, "p", item.description || "");
+    addText(card, "p", "ફી: " + (item.fee || "નક્કી નથી"));
+
+    if (item.link) addText(card, "p", "લિંક: " + item.link);
+    if (Array.isArray(item.docs) && item.docs.length) {
+      addText(card, "p", "દસ્તાવેજો:\n" + item.docs.join("\n"));
+    }
+    if (item.note) addText(card, "p", "નોંધ: " + item.note);
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    actions.append(
+      makeButton("✏️ Edit", "edit", () => startServiceEdit(item)),
+      makeButton(item.published ? "Draft કરો" : "Publish કરો",
+        item.published ? "orange" : "green", () => toggleService(item)),
+      makeButton("🗑️ Delete", "red", () => deleteService(item))
+    );
+
+    card.appendChild(actions);
+    $("serviceRecords").appendChild(card);
+  });
+}
+
+function startServiceEdit(item) {
+  editingServiceId = item.id;
+  $("serviceTitle").value = item.title || "";
+  $("serviceIcon").value = item.icon || "📄";
+  $("serviceDescription").value = item.description || "";
+  $("serviceFee").value = item.fee || "";
+  $("serviceLink").value = item.link || "";
+  $("serviceDocs").value = Array.isArray(item.docs) ? item.docs.join("\n") : "";
+  $("serviceNote").value = item.note || "";
+  $("servicePublished").checked = item.published === true;
+
+  $("serviceFormHeading").textContent = "✏️ સર્વિસમાં ફેરફાર કરો";
+  $("serviceSaveBtn").textContent = "ફેરફાર સેવ કરો";
+  $("serviceCancelBtn").style.display = "block";
+
+  showTab("services");
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+async function toggleService(item) {
+  if (!isAdmin()) return setServiceStatus("Admin Login જરૂરી છે.");
+
+  const value = !item.published;
+  if (!confirm(value ? "સર્વિસ Publish કરવી છે?" : "સર્વિસ Draft કરવી છે?")) return;
+
+  try {
+    await db.collection("services").doc(item.id).update({
+      published: value,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    setServiceStatus(value ? "સર્વિસ Publish થઈ ગઈ." : "સર્વિસ Draft થઈ ગઈ.");
+    await loadServices();
+  } catch (error) {
+    setServiceStatus("સ્થિતિ બદલવામાં સમસ્યા: " + error.message);
+  }
+}
+
+async function deleteService(item) {
+  if (!isAdmin()) return setServiceStatus("Admin Login જરૂરી છે.");
+  if (!confirm('શું "' + item.title + '" સર્વિસ કાયમ માટે Delete કરવી છે?')) return;
+
+  try {
+    await db.collection("services").doc(item.id).delete();
+    if (editingServiceId === item.id) resetServiceForm();
+    setServiceStatus("સર્વિસ Delete થઈ ગઈ.");
+    await loadServices();
+  } catch (error) {
+    setServiceStatus("Delete કરવામાં સમસ્યા: " + error.message);
   }
 }
 </script>
