@@ -4,74 +4,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ARVI ONLINE & CSC Admin</title>
+<title>ARVI ONLINE & CSC - Admin Panel</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#eef3f9;margin:0;padding:15px;color:#172033}
-.container{max-width:700px;margin:20px auto;background:white;padding:20px;border-radius:14px;box-shadow:0 3px 15px #0001}
-h2{color:#123b70;text-align:center}
-input,textarea,select,button{width:100%;box-sizing:border-box;padding:12px;margin:7px 0;border:1px solid #ccd3df;border-radius:8px;font-size:16px}
-textarea{min-height:100px}
-button{background:#123b70;color:white;border:0;cursor:pointer}
+*{box-sizing:border-box}
+body{
+  font-family:Arial,sans-serif;
+  background:#eef3f9;
+  margin:0;
+  padding:14px;
+  color:#172033;
+}
+.container{
+  max-width:760px;
+  margin:15px auto;
+  background:white;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 4px 18px #0001;
+}
+h2{color:#123b70;text-align:center;margin-top:5px}
+h3{color:#123b70}
+.subtitle{text-align:center;color:#5b6576}
+input,textarea,select,button{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ccd3df;
+  border-radius:8px;
+  font-size:16px;
+}
+textarea{min-height:110px;resize:vertical}
+button{
+  background:#123b70;
+  color:white;
+  border:0;
+  cursor:pointer;
+  font-weight:600;
+}
+button:disabled{opacity:.6;cursor:not-allowed}
 .secondary{background:#586579}
-.item{border:1px solid #ddd;padding:12px;margin:12px 0;border-radius:9px;overflow-wrap:anywhere}
-.item h3{margin-top:0}
-.status{overflow-wrap:anywhere}
-#dashboard{display:none}
-.checkrow{display:flex;align-items:center;gap:8px;margin:12px 0}
+.green{background:#12804a}
+.orange{background:#b86b08}
+.red{background:#b42318}
+.edit{background:#245fc7}
+.checkrow{display:flex;align-items:center;gap:10px;margin:12px 0}
 .checkrow input{width:auto;margin:0}
+.checkrow label{font-weight:600}
+#dashboard{display:none}
+.item{
+  border:1px solid #dbe2ec;
+  padding:14px;
+  margin:13px 0;
+  border-radius:12px;
+  overflow-wrap:anywhere;
+  background:#fff;
+}
+.item h3{margin-top:0}
+.item p{white-space:pre-wrap;line-height:1.5}
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.actions button{margin:0}
+.status{
+  padding:10px;
+  border-radius:8px;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+.searchbox{background:#f5f8fc}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:13px;
+  background:#e7edf7;
+  margin-bottom:8px;
+}
+.published{background:#d9fbe7;color:#116334}
+.draft{background:#fff0cc;color:#855300}
+.small{font-size:13px;color:#5b6576}
+hr{border:0;border-top:1px solid #e0e5ed;margin:22px 0}
+@media(max-width:480px){
+  .container{padding:15px}
+  .actions{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
 <div class="container">
+
 <h2>આર્વી ઓનલાઈન & CSC</h2>
-<p style="text-align:center">Admin Panel — યોજના અને ભરતી વ્યવસ્થાપન</p>
+<p class="subtitle">Admin Panel — યોજના અને ભરતી વ્યવસ્થાપન</p>
 
 <section id="loginSection">
-<h3>Admin Login</h3>
-<form id="loginForm">
-<input id="email" type="email" placeholder="Admin Email" required>
-<input id="password" type="password" placeholder="Password" required>
-<button type="submit">Login કરો</button>
-</form>
+  <h3>🔐 Admin Login</h3>
+  <form id="loginForm">
+    <label for="email">Admin Email</label>
+    <input id="email" type="email" placeholder="Admin Email" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Password" required>
+
+    <button id="loginBtn" type="submit">Login કરો</button>
+  </form>
 </section>
 
 <section id="dashboard">
-<button id="logoutBtn" class="secondary" type="button">Logout</button>
-<h3>નવી યોજના / ભરતી ઉમેરો</h3>
 
-<form id="announcementForm">
-<label>પ્રકાર પસંદ કરો</label>
-<select id="type" required>
-<option value="યોજના">સરકારી યોજના</option>
-<option value="ભરતી">સરકારી ભરતી</option>
-<option value="અન્ય">અન્ય માહિતી</option>
-</select>
+  <button id="logoutBtn" class="secondary" type="button">Logout</button>
 
-<label>શીર્ષક</label>
-<input id="title" placeholder="દા.ત. વ્હાલી દીકરી યોજના" required>
+  <hr>
+  <h3 id="formHeading">➕ નવી યોજના / ભરતી ઉમેરો</h3>
 
-<label>વિગતો</label>
-<textarea id="description" placeholder="યોજનાની માહિતી, પાત્રતા અને જરૂરી દસ્તાવેજો..." required></textarea>
+  <form id="announcementForm">
 
-<label>છેલ્લી તારીખ (વૈકલ્પિક)</label>
-<input id="lastDate" type="date">
+    <label for="type">પ્રકાર પસંદ કરો</label>
+    <select id="type" required>
+      <option value="યોજના">સરકારી યોજના</option>
+      <option value="ભરતી">સરકારી ભરતી</option>
+      <option value="અન્ય">અન્ય માહિતી</option>
+    </select>
 
-<label>અરજીની વેબસાઇટ લિંક (વૈકલ્પિક)</label>
-<input id="link" type="url" placeholder="https://...">
+    <label for="title">શીર્ષક</label>
+    <input id="title" maxlength="200"
+      placeholder="દા.ત. વ્હાલી દીકરી યોજના" required>
 
-<div class="checkrow">
-<input id="published" type="checkbox">
-<label for="published">વેબસાઇટ પર Publish કરો</label>
-</div>
+    <label for="description">વિગતો</label>
+    <textarea id="description" maxlength="10000"
+      placeholder="યોજનાની માહિતી, પાત્રતા અને જરૂરી દસ્તાવેજો..."
+      required></textarea>
 
-<button id="saveBtn" type="submit">માહિતી સેવ કરો</button>
-</form>
+    <label for="lastDate">છેલ્લી તારીખ (વૈકલ્પિક)</label>
+    <input id="lastDate" type="date">
 
-<p id="status" class="status" role="status"></p>
-<hr>
-<h3>ઉમેરેલી માહિતી</h3>
-<div id="records">માહિતી લોડ થઈ રહી છે...</div>
+    <div class="checkrow">
+      <input id="published" type="checkbox">
+      <label for="published">વેબસાઇટ પર Publish કરો</label>
+    </div>
+
+    <button id="saveBtn" type="submit">માહિતી સેવ કરો</button>
+    <button id="cancelEditBtn" class="secondary"
+      type="button" style="display:none">Edit રદ કરો</button>
+  </form>
+
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+
+  <hr>
+  <h3>📋 ઉમેરેલી માહિતી</h3>
+
+  <input id="searchInput" class="searchbox"
+    type="search" placeholder="યોજના અથવા ભરતી શોધો...">
+
+  <div id="records">માહિતી લોડ થઈ રહી છે...</div>
 </section>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
@@ -91,7 +182,9 @@ const firebaseConfig = {
 
 const ADMIN_UID = "nIreaPMvujbR9IrdilWpSyz3o623";
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -101,11 +194,43 @@ const dashboard = document.getElementById("dashboard");
 const statusBox = document.getElementById("status");
 const recordsBox = document.getElementById("records");
 const form = document.getElementById("announcementForm");
+const saveBtn = document.getElementById("saveBtn");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
+const searchInput = document.getElementById("searchInput");
+
+let editingId = null;
+let announcementCache = [];
 
 function setStatus(message) {
   statusBox.textContent = message;
 }
 
+function setBusy(busy) {
+  saveBtn.disabled = busy;
+  saveBtn.textContent = busy
+    ? "સેવ થઈ રહ્યું છે..."
+    : (editingId ? "ફેરફાર સેવ કરો" : "માહિતી સેવ કરો");
+}
+
+function resetForm() {
+  editingId = null;
+  form.reset();
+  document.getElementById("formHeading").textContent =
+    "➕ નવી યોજના / ભરતી ઉમેરો";
+  cancelEditBtn.style.display = "none";
+  setBusy(false);
+}
+
+function formatDate(dateValue) {
+  if (!dateValue) return "નક્કી નથી";
+
+  const parts = dateValue.split("-");
+  if (parts.length !== 3) return dateValue;
+
+  return parts[2] + "-" + parts[1] + "-" + parts[0];
+}
+
+/* Login session તપાસો */
 auth.onAuthStateChanged(user => {
   if (user && user.uid === ADMIN_UID) {
     loginSection.style.display = "none";
@@ -114,6 +239,8 @@ auth.onAuthStateChanged(user => {
   } else {
     dashboard.style.display = "none";
     loginSection.style.display = "block";
+    announcementCache = [];
+    recordsBox.textContent = "Admin Login કરો.";
     if (user) {
       auth.signOut();
       setStatus("આ યુઝરને Admin પરવાનગી નથી.");
@@ -121,14 +248,21 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+/* Admin Login */
 document.getElementById("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
-  setStatus("Login થઈ રહ્યું છે...");
+
+  const loginBtn = document.getElementById("loginBtn");
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Login થઈ રહ્યું છે...";
+  setStatus("");
+
   try {
     const result = await auth.signInWithEmailAndPassword(
       document.getElementById("email").value.trim(),
       document.getElementById("password").value
     );
+
     if (result.user.uid !== ADMIN_UID) {
       await auth.signOut();
       setStatus("આ યુઝરને Admin પરવાનગી નથી.");
@@ -136,15 +270,25 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
       setStatus("Login સફળ થયું.");
     }
   } catch (error) {
-    setStatus("Login Error: " + error.message);
+    setStatus("Login કરવામાં સમસ્યા: " + error.message);
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login કરો";
   }
 });
 
+/* Logout */
 document.getElementById("logoutBtn").addEventListener("click", async () => {
-  await auth.signOut();
-  setStatus("Logout થઈ ગયું.");
+  try {
+    await auth.signOut();
+    resetForm();
+    setStatus("Logout થઈ ગયું.");
+  } catch (error) {
+    setStatus("Logout કરવામાં સમસ્યા: " + error.message);
+  }
 });
 
+/* નવી માહિતી સેવ કરવી અથવા Edit કરવી */
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
@@ -156,10 +300,10 @@ form.addEventListener("submit", async e => {
 
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
-  const link = document.getElementById("link").value.trim();
+  const lastDate = document.getElementById("lastDate").value;
 
-  if (link && !/^https?:\/\//i.test(link)) {
-    setStatus("યોગ્ય https:// અથવા http:// લિંક દાખલ કરો.");
+  if (!title || !description) {
+    setStatus("શીર્ષક અને વિગતો ભરવી જરૂરી છે.");
     return;
   }
 
@@ -167,30 +311,48 @@ form.addEventListener("submit", async e => {
     type: document.getElementById("type").value,
     title: title,
     description: description,
-    lastDate: document.getElementById("lastDate").value,
-    link: link,
+    lastDate: lastDate,
     published: document.getElementById("published").checked,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  const saveBtn = document.getElementById("saveBtn");
-  saveBtn.disabled = true;
-  saveBtn.textContent = "સેવ થઈ રહ્યું છે...";
+  setBusy(true);
   setStatus("");
 
   try {
-    await db.collection("announcements").add(data);
-    form.reset();
-    setStatus("માહિતી સફળતાપૂર્વક સેવ થઈ ગઈ.");
-    loadRecords();
+    if (editingId) {
+      await db.collection("announcements")
+        .doc(editingId)
+        .update(data);
+
+      setStatus("ફેરફાર સફળતાપૂર્વક સેવ થઈ ગયા.");
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+      await db.collection("announcements").add(data);
+      setStatus("નવી માહિતી સફળતાપૂર્વક સેવ થઈ ગઈ.");
+    }
+
+    resetForm();
+    await loadRecords();
+
   } catch (error) {
-    setStatus("સેવ કરવામાં Error: " + error.message);
+    setStatus("સેવ કરવામાં સમસ્યા: " + error.message);
   } finally {
-    saveBtn.disabled = false;
-    saveBtn.textContent = "માહિતી સેવ કરો";
+    setBusy(false);
   }
 });
 
+/* Edit રદ કરો */
+cancelEditBtn.addEventListener("click", () => {
+  resetForm();
+  setStatus("Edit રદ કરવામાં આવ્યું.");
+});
+
+/* Search */
+searchInput.addEventListener("input", renderRecords);
+
+/* Firestore માંથી માહિતી લોડ કરો */
 async function loadRecords() {
   if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
 
@@ -198,63 +360,170 @@ async function loadRecords() {
 
   try {
     const snapshot = await db.collection("announcements")
-      .orderBy("createdAt", "desc").get();
+      .orderBy("createdAt", "desc")
+      .get();
 
-    recordsBox.replaceChildren();
+    announcementCache = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
-    if (snapshot.empty) {
-      recordsBox.textContent = "હજી કોઈ માહિતી ઉમેરાઈ નથી.";
-      return;
-    }
+    renderRecords();
 
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const card = document.createElement("div");
-      card.className = "item";
-
-      const heading = document.createElement("h3");
-      heading.textContent = (d.type || "માહિતી") + ": " + (d.title || "");
-
-      const description = document.createElement("p");
-      description.textContent = d.description || "";
-
-      const date = document.createElement("p");
-      date.textContent = "છેલ્લી તારીખ: " + (d.lastDate || "નક્કી નથી");
-
-      const publish = document.createElement("p");
-      publish.textContent = d.published ? "સ્થિતિ: Published" : "સ્થિતિ: Draft";
-
-      card.append(heading, description, date, publish);
-
-      if (d.link) {
-        const link = document.createElement("a");
-        link.href = d.link;
-        link.textContent = "અરજીની લિંક ખોલો";
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        card.appendChild(link);
-      }
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.textContent = "આ માહિતી કાઢી નાખો";
-      deleteBtn.className = "secondary";
-      deleteBtn.addEventListener("click", async () => {
-        if (!confirm("શું આ માહિતી કાઢી નાખવી છે?")) return;
-        try {
-          await db.collection("announcements").doc(doc.id).delete();
-          setStatus("માહિતી કાઢી નાખવામાં આવી.");
-          loadRecords();
-        } catch (error) {
-          setStatus("કાઢી નાખવામાં Error: " + error.message);
-        }
-      });
-
-      card.appendChild(deleteBtn);
-      recordsBox.appendChild(card);
-    });
   } catch (error) {
-    recordsBox.textContent = "માહિતી લોડ કરવામાં Error: " + error.message;
+    recordsBox.textContent = "માહિતી લોડ કરવામાં સમસ્યા: " + error.message;
+  }
+}
+
+/* યાદી દર્શાવો */
+function renderRecords() {
+  recordsBox.replaceChildren();
+
+  const query = searchInput.value.trim().toLocaleLowerCase();
+
+  const filtered = announcementCache.filter(d => {
+    const text = [
+      d.title || "",
+      d.description || "",
+      d.type || ""
+    ].join(" ").toLocaleLowerCase();
+
+    return text.includes(query);
+  });
+
+  if (!filtered.length) {
+    recordsBox.textContent = announcementCache.length
+      ? "આ શોધ માટે કોઈ માહિતી મળી નથી."
+      : "હજી કોઈ માહિતી ઉમેરાઈ નથી.";
+    return;
+  }
+
+  filtered.forEach(d => {
+    const card = document.createElement("div");
+    card.className = "item";
+
+    const badge = document.createElement("span");
+    badge.className = "badge " + (d.published ? "published" : "draft");
+    badge.textContent = d.published ? "Published" : "Draft";
+
+    const heading = document.createElement("h3");
+    heading.textContent = (d.type || "માહિતી") + ": " + (d.title || "");
+
+    const description = document.createElement("p");
+    description.textContent = d.description || "";
+
+    const date = document.createElement("p");
+    date.textContent = "છેલ્લી તારીખ: " + formatDate(d.lastDate);
+
+    card.append(badge, heading, description, date);
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "edit";
+    editBtn.textContent = "✏️ Edit / સુધારો";
+    editBtn.addEventListener("click", () => startEdit(d));
+
+    const publishBtn = document.createElement("button");
+    publishBtn.type = "button";
+    publishBtn.className = d.published ? "orange" : "green";
+    publishBtn.textContent = d.published
+      ? "Unpublish / Draft કરો"
+      : "Publish કરો";
+
+    publishBtn.addEventListener("click", () => togglePublish(d));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "red";
+    deleteBtn.textContent = "🗑️ Delete કરો";
+    deleteBtn.addEventListener("click", () => deleteRecord(d));
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    actions.append(editBtn, publishBtn, deleteBtn);
+    card.appendChild(actions);
+
+    recordsBox.appendChild(card);
+  });
+}
+
+/* Edit ફોર્મમાં માહિતી ભરો */
+function startEdit(d) {
+  editingId = d.id;
+
+  document.getElementById("type").value = d.type || "યોજના";
+  document.getElementById("title").value = d.title || "";
+  document.getElementById("description").value = d.description || "";
+  document.getElementById("lastDate").value = d.lastDate || "";
+  document.getElementById("published").checked = d.published === true;
+
+  document.getElementById("formHeading").textContent =
+    "✏️ માહિતીમાં ફેરફાર કરો";
+
+  cancelEditBtn.style.display = "block";
+  setBusy(false);
+  setStatus("માહિતી સુધારો અને 'ફેરફાર સેવ કરો' દબાવો.");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* Publish અને Draft બદલો */
+async function togglePublish(d) {
+  const user = auth.currentUser;
+
+  if (!user || user.uid !== ADMIN_UID) {
+    setStatus("Admin Login જરૂરી છે.");
+    return;
+  }
+
+  const newValue = !d.published;
+
+  if (!confirm(newValue
+    ? "આ માહિતી વેબસાઇટ પર Publish કરવી છે?"
+    : "આ માહિતી વેબસાઇટ પરથી Draft કરવી છે?")) {
+    return;
+  }
+
+  try {
+    await db.collection("announcements").doc(d.id).update({
+      published: newValue,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    setStatus(newValue
+      ? "માહિતી Publish થઈ ગઈ."
+      : "માહિતી Draft થઈ ગઈ.");
+
+    await loadRecords();
+
+  } catch (error) {
+    setStatus("સ્થિતિ બદલવામાં સમસ્યા: " + error.message);
+  }
+}
+
+/* માહિતી Delete કરો */
+async function deleteRecord(d) {
+  const user = auth.currentUser;
+
+  if (!user || user.uid !== ADMIN_UID) {
+    setStatus("Admin Login જરૂરી છે.");
+    return;
+  }
+
+  if (!confirm('શું "' + d.title + '" માહિતી કાયમ માટે Delete કરવી છે?')) {
+    return;
+  }
+
+  try {
+    await db.collection("announcements").doc(d.id).delete();
+
+    if (editingId === d.id) resetForm();
+
+    setStatus("માહિતી Delete થઈ ગઈ.");
+    await loadRecords();
+
+  } catch (error) {
+    setStatus("Delete કરવામાં સમસ્યા: " + error.message);
   }
 }
 </script>
