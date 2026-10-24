@@ -1,162 +1,310 @@
+
 <!doctype html>
 <html lang="gu">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="આર્વી ઓનલાઈન & CSC – જન સુવિધા કેન્દ્ર, ખોડાણા, પાટણ, ગુજરાત. ઓનલાઈન સરકારી સેવાઓ માટે સંપર્ક કરો.">
+  <meta name="description" content="આર્વી ઓનલાઈન & CSC – જન સુવિધા કેન્દ્ર, ખોડાણા, પાટણ, ગુજરાત.">
   <title>આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર</title>
   <link rel="stylesheet" href="./style.css">
+  <style>
+    .service { cursor:pointer; }
+    .service .text-link { display:inline-block; margin-top:12px; }
+    .service-dialog {
+      width:min(92%,560px); max-height:85vh; overflow:auto;
+      border:0; border-radius:18px; padding:24px;
+      box-shadow:0 15px 55px #0004;
+    }
+    .service-dialog::backdrop { background:#08152bd9; }
+    .dialog-head { display:flex; justify-content:space-between; gap:12px; align-items:start; }
+    .dialog-close { border:0; border-radius:50%; width:38px; height:38px; font-size:22px; cursor:pointer; }
+    .doc-list { padding-left:22px; line-height:1.9; }
+    .doc-list li { margin-bottom:3px; }
+    .dialog-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+    .dialog-actions .btn { text-decoration:none; }
+    .note-box { padding:14px; border-radius:12px; background:#eef5ff; margin-top:15px; }
+    .service:focus { outline:3px solid #4b91ff; outline-offset:3px; }
+    @media(max-width:480px) {
+      .service-dialog { padding:18px; }
+      .dialog-actions .btn { width:100%; text-align:center; }
+    }
+  </style>
 </head>
 <body>
-  <header class="hero">
-    <nav class="nav wrap">
-      <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
-      <button id="langBtn" class="lang" type="button">English</button>
-    </nav>
-    <div class="hero-content wrap">
-      <p class="eyebrow" data-gu="વિશ્વાસપાત્ર ઓનલાઈન સેવા" data-en="Trusted Online Services">વિશ્વાસપાત્ર ઓનલાઈન સેવા</p>
-      <h1 data-gu="આર્વી ઓનલાઈન & CSC" data-en="ARVI ONLINE & CSC">આર્વી ઓનલાઈન & CSC</h1>
-      <p class="lead" data-gu="તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય" data-en="One place for assistance with government and online services">તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય</p>
-      <div class="actions">
-        <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener" data-gu="WhatsApp પર સંપર્ક કરો" data-en="Contact on WhatsApp">WhatsApp પર સંપર્ક કરો</a>
-        <a class="btn ghost" href="#services" data-gu="સેવાઓ જુઓ" data-en="View Services">સેવાઓ જુઓ</a>
-      </div>
-      <div class="quick-info">
-        <span>📍 <span data-gu="ખોડાણા, પાટણ, ગુજરાત" data-en="Khodana, Patan, Gujarat">ખોડાણા, પાટણ, ગુજરાત</span></span>
-        <span>📞 7265013972</span>
-      </div>
+<header class="hero">
+  <nav class="nav wrap">
+    <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
+    <button id="langBtn" class="lang" type="button">English</button>
+  </nav>
+  <div class="hero-content wrap">
+    <p class="eyebrow" data-gu="વિશ્વાસપાત્ર ઓનલાઈન સેવા" data-en="Trusted Online Services">વિશ્વાસપાત્ર ઓનલાઈન સેવા</p>
+    <h1 data-gu="આર્વી ઓનલાઈન & CSC" data-en="ARVI ONLINE & CSC">આર્વી ઓનલાઈન & CSC</h1>
+    <p class="lead" data-gu="તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય" data-en="One place for government and online service assistance">તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય</p>
+    <div class="actions">
+      <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener">WhatsApp પર સંપર્ક કરો</a>
+      <a class="btn ghost" href="#services">સેવાઓ જુઓ</a>
     </div>
-  </header>
+    <div class="quick-info">
+      <span>📍 ખોડાણા, પાટણ, ગુજરાત</span>
+      <span>📞 7265013972</span>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <section class="wrap section" id="services">
-      <div class="section-head">
-        <p class="eyebrow" data-gu="અમારી સેવાઓ" data-en="Our Services">અમારી સેવાઓ</p>
-        <h2 data-gu="તમારી જરૂરિયાત મુજબની સેવા પસંદ કરો" data-en="Choose the service you need">તમારી જરૂરિયાત મુજબની સેવા પસંદ કરો</h2>
-        <p class="muted" data-gu="નીચે દર્શાવેલી ફી ઉદાહરણરૂપ છે. અરજી કરતાં પહેલાં ચોક્કસ ફી WhatsApp પર પુછી લેશો." data-en="Prices below are examples only. Please confirm the exact fee on WhatsApp before applying.">નીચે દર્શાવેલી ફી ઉદાહરણરૂપ છે. અરજી કરતાં પહેલાં ચોક્કસ ફી WhatsApp પર પુછી લેશો.</p>
-      </div>
-      
+<main>
+<section class="wrap section" id="services">
+  <div class="section-head">
+    <p class="eyebrow">અમારી સેવાઓ</p>
+    <h2>તમારી જરૂરિયાત મુજબની સેવા પસંદ કરો</h2>
+    <p class="muted">સેવા પર ક્લિક કરીને જરૂરી ડોક્યુમેન્ટની યાદી, ફી અને અરજીની માહિતી જુઓ.</p>
+  </div>
 
-<div class="cards">
+  <div class="cards">
+    <article class="service" tabindex="0" role="button" data-service="pan">
+      <div class="service-icon">🪪</div><h3>PAN કાર્ડ સેવા</h3>
+      <p>નવું PAN કાર્ડ અને સુધારા માટે સહાય</p>
+      <div class="fee">ફી: ₹250</div><a class="text-link" href="#pan" data-open="pan">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-<article class="service">
-    <div class="service-icon">🪪</div>
-    <h3 data-gu="PAN કાર્ડ સેવા" data-en="PAN Card Service">PAN કાર્ડ સેવા</h3>
-    <p data-gu="નવું PAN કાર્ડ અને સુધારા માટે સહાય" data-en="Help with new PAN applications and corrections">નવું PAN કાર્ડ અને સુધારા માટે સહાય</p>
-    <div class="fee" data-gu="ફી: ₹250" data-en="Fee: ₹250">ફી: ₹250</div>
-   <a class="text-link" href="https://wa.me/917265013972?text=Gazette%20service" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-</article>
-  <article class="service">
-    <div class="service-icon">📜</div>
-    <h3 data-gu="ગેઝેટ / નામમાં ફેરફાર" data-en="Gazette / Name Change">ગેઝેટ / નામમાં ફેરફાર</h3>
-    <p data-gu="નામ, અટક અથવા અન્ય જરૂરી સુધારા અંગે માર્ગદર્શન" data-en="Guidance for name or surname changes">નામ, અટક અથવા અન્ય જરૂરી સુધારા અંગે માર્ગદર્શન</p>
-    <div class="fee" data-gu="ફી: ₹3,000" data-en="Fee: ₹3,000">ફી: ₹3,000</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Gazette%20service" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="gazette">
+      <div class="service-icon">📜</div><h3>ગેઝેટ / નામમાં ફેરફાર</h3>
+      <p>નામ, અટક અથવા અન્ય જરૂરી સુધારા અંગે માર્ગદર્શન</p>
+      <div class="fee">ફી: ₹3,000</div><a class="text-link" href="#gazette" data-open="gazette">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">💍</div>
-    <h3 data-gu="લગ્ન નોંધણી પ્રમાણપત્ર" data-en="Marriage Registration Certificate">લગ્ન નોંધણી પ્રમાણપત્ર</h3>
-    <p data-gu="દસ્તાવેજો અને ઓનલાઈન અરજી માટે માર્ગદર્શન" data-en="Guidance with documents and online application">દસ્તાવેજો અને ઓનલાઈન અરજી માટે માર્ગદર્શન</p>
-    <div class="fee" data-gu="ફી: ₹3,000" data-en="Fee: ₹3,000">ફી: ₹3,000</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Marriage%20Registration%20Certificate%20Application" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="marriage">
+      <div class="service-icon">💍</div><h3>લગ્ન નોંધણી પ્રમાણપત્ર</h3>
+      <p>ડોક્યુમેન્ટ, ફાઇલ તૈયાર કરવાની અને કુરિયર સુવિધા</p>
+      <div class="fee">ફી: ₹3,000</div><a class="text-link" href="#marriage" data-open="marriage">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">🌾</div>
-    <h3 data-gu="7/12 અને 8-A ઉતારા" data-en="7/12 & 8-A Land Records">7/12 અને 8-A ઉતારા</h3>
-    <p data-gu="જમીનના રેકોર્ડ મેળવવા માટે સહાય" data-en="Help accessing land records">જમીનના રેકોર્ડ મેળવવા માટે સહાય</p>
-    <div class="fee" data-gu="ફી: ₹30" data-en="Fee: ₹30">ફી: ₹30</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Land%20record%20service" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="land">
+      <div class="service-icon">🌾</div><h3>7/12 અને 8-A ઉતારા</h3>
+      <p>જમીનના રેકોર્ડ મેળવવા માટે સહાય</p>
+      <div class="fee">ફી: ₹30</div><a class="text-link" href="#land" data-open="land">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">🚗</div>
-    <h3 data-gu="ખોવાયેલી RC બુક" data-en="Lost RC Book">ખોવાયેલી RC બુક</h3>
-    <p data-gu="ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી સહાય" data-en="Application assistance for vehicles from any Gujarat district">ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી સહાય</p>
-    <div class="fee" data-gu="ફી: ₹200" data-en="Fee: ₹200">ફી: ₹200</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Lost%20RC%20book" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="rc">
+      <div class="service-icon">🚗</div><h3>ખોવાયેલી RC બુક</h3>
+      <p>ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી સહાય</p>
+      <div class="fee">ફી: ₹200</div><a class="text-link" href="#rc" data-open="rc">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">🪪</div>
-    <h3 data-gu="ડ્રાઇવિંગ લાઇસન્સ" data-en="Driving Licence">ડ્રાઇવિંગ લાઇસન્સ</h3>
-    <p data-gu="ખોવાયેલ લાઇસન્સ માટે અરજી સહાય" data-en="Application assistance for a lost licence">ખોવાયેલ લાઇસન્સ માટે અરજી સહાય</p>
-    <div class="fee" data-gu="ફી: WhatsApp પર પૂછો" data-en="Fee: Ask on WhatsApp">ફી: WhatsApp પર પૂછો</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Lost%20Driving%20Licence" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="dl">
+      <div class="service-icon">🪪</div><h3>ડ્રાઇવિંગ લાઇસન્સ</h3>
+      <p>ખોવાયેલ લાઇસન્સ માટે અરજી સહાય</p>
+      <div class="fee">ફી: WhatsApp પર પૂછો</div><a class="text-link" href="#dl" data-open="dl">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">🏥</div>
-    <h3 data-gu="આયુષ્માન કાર્ડ" data-en="Ayushman Card">આયુષ્માન કાર્ડ</h3>
-    <p data-gu="પાત્રતા અને e-KYC અંગે સહાય" data-en="Help with eligibility and e-KYC">પાત્રતા અને e-KYC અંગે સહાય</p>
-    <div class="fee" data-gu="ફી: ₹200" data-en="Fee: ₹200">ફી: ₹200</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Ayushman%20card" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
+    <article class="service" tabindex="0" role="button" data-service="ayushman">
+      <div class="service-icon">🏥</div><h3>આયુષ્માન કાર્ડ</h3>
+      <p>પાત્રતા અને e-KYC અંગે સહાય</p>
+      <div class="fee">ફી: ₹200</div><a class="text-link" href="#ayushman" data-open="ayushman">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
 
-  <article class="service">
-    <div class="service-icon">🧾</div>
-    <h3 data-gu="સરકારી યોજનાઓ અને ફોર્મ" data-en="Government Schemes & Forms">સરકારી યોજનાઓ અને ફોર્મ</h3>
-    <p data-gu="યોજનાની માહિતી અને ઓનલાઈન ફોર્મ ભરવા સહાય" data-en="Scheme information and online form assistance">યોજનાની માહિતી અને ઓનલાઈન ફોર્મ ભરવા સહાય</p>
-    <div class="fee" data-gu="ફી: ₹200" data-en="Fee: ₹200">ફી: ₹200</div>
-    <a class="text-link" href="https://wa.me/917265013972?text=Government%20scheme%20form" target="_blank" rel="noopener">અરજી માટે સંપર્ક →</a>
-  </article>
-</div>
+    <article class="service" tabindex="0" role="button" data-service="scheme">
+      <div class="service-icon">🧾</div><h3>સરકારી યોજનાઓ અને ફોર્મ</h3>
+      <p>યોજનાની માહિતી અને ઓનલાઈન ફોર્મ ભરવા સહાય</p>
+      <div class="fee">ફી: ₹200</div><a class="text-link" href="#scheme" data-open="scheme">ડોક્યુમેન્ટ જુઓ →</a>
+    </article>
+  </div>
+</section>
 
+<section class="payment-band">
+  <div class="wrap payment-grid">
+    <div>
+      <p class="eyebrow">પેમેન્ટ સુવિધા</p>
+      <h2>UPI / QR દ્વારા પેમેન્ટ</h2>
+      <p>પેમેન્ટ કરતાં પહેલાં પસંદ કરેલી સેવાની ચોક્કસ ફી WhatsApp પર પુષ્ટિ કરી લેશો. પેમેન્ટ કર્યા પછી સ્ક્રીનશૉટ મોકલો.</p>
+      <p class="upi"><strong>UPI ID:</strong> <span>7265013972sonu@ybl</span></p>
+      <button class="btn" type="button" id="copyUpi">UPI ID કોપી કરો</button>
+      <a class="btn primary" href="https://wa.me/917265013972?text=Payment%20confirmation" target="_blank" rel="noopener">પેમેન્ટ કન્ફર્મેશન મોકલો</a>
+    </div>
+    <div class="qr-box">
+      <p><strong>તમારો UPI QR કોડ</strong></p>
+      <img src="./upi-qr.jpg" alt="ARVI ONLINE & CSC UPI Payment QR Code" style="width:100%;max-width:300px;height:auto;display:block;margin:15px auto;">
+      <p>QR સ્કેન કરીને પેમેન્ટ કરો.</p>
+      <p><strong>UPI ID:</strong> 7265013972sonu@ybl</p>
+    </div>
+  </div>
+</section>
 
-    </section>
+<section class="wrap section">
+  <div class="contact">
+    <div>
+      <p class="eyebrow">સંપર્ક કરો</p><h2>આર્વી ઓનલાઈન & CSC</h2>
+      <p>સંચાલક: રાહુલ ઠાકોર</p>
+      <p>📍 જન સુવિધા કેન્દ્ર – ખોડાણા, પાટણ, ગુજરાત</p>
+      <p>📞 <strong>7265013972</strong></p>
+    </div>
+    <div class="contact-actions">
+      <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn light" href="tel:+917265013972">કૉલ કરો</a>
+    </div>
+  </div>
+</section>
+</main>
 
-    <section class="payment-band">
-      <div class="wrap payment-grid">
-        
-<div>
-  <p class="eyebrow" data-gu="પેમેન્ટ સુવિધા" data-en="Payment Options">પેમેન્ટ સુવિધા</p>
+<footer><div class="wrap">© <span id="year"></span> ARVI ONLINE & CSC · તમારી સેવા માટે હંમેશા તૈયાર</div></footer>
 
-  <h2 data-gu="UPI / QR દ્વારા પેમેન્ટ" data-en="Pay by UPI / QR">UPI / QR દ્વારા પેમેન્ટ</h2>
+<dialog class="service-dialog" id="serviceDialog" aria-labelledby="dialogTitle">
+  <div class="dialog-head">
+    <div><p class="eyebrow">ARVI ONLINE & CSC</p><h2 id="dialogTitle">સેવાની માહિતી</h2></div>
+    <button class="dialog-close" id="closeDialog" type="button" aria-label="બંધ કરો">×</button>
+  </div>
+  <div id="dialogBody"></div>
+  <div class="dialog-actions">
+    <a class="btn primary" id="whatsappApply" href="https://wa.me/917265013972" target="_blank" rel="noopener">WhatsApp પર સંપર્ક કરો</a>
+    <button class="btn" id="closeDialogBottom" type="button">બંધ કરો</button>
+  </div>
+</dialog>
 
-  <p data-gu="તમારી પસંદગીની સેવાની ફી પ્રમાણે પેમેન્ટ કરો. પેમેન્ટ કર્યા પછી WhatsApp પર સ્ક્રીનશૉટ મોકલો." data-en="Pay the fee for your selected service. After payment, send a screenshot on WhatsApp.">તમારી પસંદગીની સેવાની ફી પ્રમાણે પેમેન્ટ કરો. પેમેન્ટ કર્યા પછી WhatsApp પર સ્ક્રીનશૉટ મોકલો.</p>
+<script>
+const phone = "917265013972";
+const serviceInfo = {
+  pan: {
+    title:"PAN કાર્ડ સેવા",
+    fee:"₹250",
+    docs:["આધાર કાર્ડ","મોબાઇલ નંબર","પાસપોર્ટ સાઇઝ ફોટો (જરૂર મુજબ)","સહી અથવા જરૂરી વિગતો (અરજીના પ્રકાર મુજબ)"],
+    note:"નવું PAN અથવા સુધારા માટે અરજી પહેલાં જરૂરી માહિતી WhatsApp પર પુષ્ટિ કરશો."
+  },
+  gazette: {
+    title:"ગેઝેટ / નામમાં ફેરફાર",
+    fee:"₹3,000",
+    docs:["આધાર કાર્ડ","જૂના નામનો પુરાવો","નવા નામ અથવા સુધારાનો પુરાવો","ફેરફાર મુજબ અન્ય જરૂરી દસ્તાવેજો"],
+    note:"કયા પ્રકારનો નામ ફેરફાર છે તે મુજબ વધારાના દસ્તાવેજો જરૂરી થઈ શકે છે."
+  },
+  marriage: {
+    title:"લગ્ન નોંધણી પ્રમાણપત્ર",
+    fee:"₹3,000",
+    docs:[
+      "પતિ: આધાર કાર્ડ",
+      "પતિ: રેશન કાર્ડ",
+      "પતિ: LC અથવા જન્મ દાખલો",
+      "પતિ: પિતાનું આધાર કાર્ડ",
+      "પત્ની: આધાર કાર્ડ",
+      "પત્ની: રેશન કાર્ડ",
+      "પત્ની: LC અથવા જન્મ દાખલો",
+      "પત્ની: પિતાનું આધાર કાર્ડ",
+      "પતિ-પત્નીનો જોઈન્ટ ફોટો",
+      "લગ્નની કંકોત્રી",
+      "બે સાક્ષી: દરેકનું આધાર કાર્ડ અને પાસપોર્ટ સાઇઝ ફોટો",
+      "મહારાજ: આધાર કાર્ડ અને પાસપોર્ટ સાઇઝ ફોટો"
+    ],
+    note:"ઉપર જણાવેલા ડોક્યુમેન્ટ WhatsApp પર મોકલી આપવાના રહેશે. અમે ફાઇલ તૈયાર કરીને તમને કુરિયર દ્વારા મોકલી આપીશું."
+  },
+  land: {
+    title:"7/12 અને 8-A ઉતારા",
+    fee:"₹30",
+    docs:["ગામનું નામ","સર્વે નંબર અથવા ખાતા નંબર","જમીનના માલિકનું નામ","જરૂર મુજબ ઓળખની વિગતો"],
+    note:"ઉતારા માટે જરૂરી માહિતી મોકલતાં પહેલાં WhatsApp પર પુષ્ટિ કરશો."
+  },
+  rc: {
+    title:"ખોવાયેલી RC બુક",
+    fee:"₹200",
+    docs:["વાહનનો રજિસ્ટ્રેશન નંબર","વાહન માલિકનું આધાર કાર્ડ અથવા ઓળખની વિગતો","RCની ઉપલબ્ધ વિગતો","જરૂર મુજબ અન્ય દસ્તાવેજો"],
+    note:"ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી અંગે માર્ગદર્શન મળશે. જરૂરી દસ્તાવેજો અને ફી પહેલાં પુષ્ટિ કરશો."
+  },
+  dl: {
+    title:"ખોવાયેલ ડ્રાઇવિંગ લાઇસન્સ",
+    fee:"WhatsApp પર પૂછો",
+    docs:["ડ્રાઇવિંગ લાઇસન્સ નંબર (જો ઉપલબ્ધ હોય)","જન્મ તારીખ","આધાર કાર્ડ અથવા ઓળખની વિગતો","મોબાઇલ નંબર"],
+    note:"લાઇસન્સની ઉપલબ્ધ વિગતો મોકલો; ચોક્કસ ફી અને જરૂરી દસ્તાવેજો WhatsApp પર જાણી લો."
+  },
+  ayushman: {
+    title:"આયુષ્માન કાર્ડ",
+    fee:"₹200",
+    docs:["આધાર કાર્ડ","રેશન કાર્ડ અથવા પાત્રતા સંબંધિત વિગતો","મોબાઇલ નંબર"],
+    note:"કાર્ડ માટેની પાત્રતા અને જરૂરી દસ્તાવેજો યોજના મુજબ ચકાસવામાં આવશે."
+  },
+  scheme: {
+    title:"સરકારી યોજનાઓ અને ફોર્મ",
+    fee:"₹200",
+    docs:["કઈ યોજનામાં અરજી કરવી છે તેની માહિતી","આધાર કાર્ડ","મોબાઇલ નંબર","યોજનાની શરતો મુજબ જરૂરી દસ્તાવેજો"],
+    note:"દરેક યોજનાની પાત્રતા અને દસ્તાવેજો અલગ હોઈ શકે છે. અરજી પહેલાં પુષ્ટિ કરશો."
+  }
+};
 
-  <p class="upi">
-    <strong>UPI ID:</strong>
-    <span>7265013972sonu@ybl</span>
-  </p>
+const dialog = document.getElementById("serviceDialog");
+const dialogTitle = document.getElementById("dialogTitle");
+const dialogBody = document.getElementById("dialogBody");
+const whatsappApply = document.getElementById("whatsappApply");
 
-  <button class="btn" type="button"
-    onclick="navigator.clipboard.writeText('7265013972sonu@ybl').then(()=>alert('UPI ID કોપી થઈ ગઈ')).catch(()=>alert('UPI ID: 7265013972sonu@ybl'))">
-    UPI ID કોપી કરો
-  </button>
+function openService(key) {
+  const item = serviceInfo[key];
+  if (!item) return;
+  dialogTitle.textContent = item.title;
+  dialogBody.replaceChildren();
 
-  <a class="btn primary"
-     href="https://wa.me/917265013972?text=Payment%20confirmation"
-     target="_blank" rel="noopener">
-    પેમેન્ટ કન્ફર્મેશન મોકલો
-  </a>
-</div>
+  const fee = document.createElement("p");
+  fee.innerHTML = "<strong>સેવાની ફી:</strong> ";
+  fee.append(document.createTextNode(item.fee));
+  dialogBody.append(fee);
 
+  const heading = document.createElement("h3");
+  heading.textContent = "જરૂરી ડોક્યુમેન્ટ";
+  dialogBody.append(heading);
 
-<div class="qr-box">
-  <p><strong>તમારો UPI QR કોડ</strong></p>
-  <img
-    src="./upi-qr.jpg"
-    alt="ARVI ONLINE & CSC UPI Payment QR Code"
-    style="width:100%;max-width:300px;height:auto;display:block;margin:15px auto;"
-  />
-  <p>QR સ્કેન કરીને પેમેન્ટ કરો.</p>
-  <p><strong>UPI ID:</strong> 7265013972sonu@ybl</p>
-</div>
+  const list = document.createElement("ul");
+  list.className = "doc-list";
+  item.docs.forEach(doc => {
+    const li = document.createElement("li");
+    li.textContent = doc;
+    list.append(li);
+  });
+  dialogBody.append(list);
 
+  const note = document.createElement("div");
+  note.className = "note-box";
+  note.textContent = item.note;
+  dialogBody.append(note);
 
-      </div>
-    </section>
+  const message = "નમસ્તે, મને " + item.title + " માટે અરજી કરાવવી છે. દર્શાવેલી ફી: " + item.fee + ". કૃપા કરીને પ્રક્રિયા અને ડોક્યુમેન્ટની પુષ્ટિ કરશો.";
+  whatsappApply.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+  dialog.showModal();
+}
 
-    <section class="wrap section">
-      <div class="contact">
-        <div><p class="eyebrow" data-gu="સંપર્ક કરો" data-en="Get in touch">સંપર્ક કરો</p><h2 data-gu="આર્વી ઓનલાઈન & CSC" data-en="ARVI ONLINE & CSC">આર્વી ઓનલાઈન & CSC</h2><p data-gu="સંચાલક: રાહુલ ઠાકોર" data-en="Operator: Rahul Thakor">સંચાલક: રાહુલ ઠાકોર</p><p>📍 <span data-gu="જન સુવિધા કેન્દ્ર – ખોડાણા, પાટણ, ગુજરાત" data-en="Jan Suvidha Kendra – Khodana, Patan, Gujarat">જન સુવિધા કેન્દ્ર – ખોડાણા, પાટણ, ગુજરાત</span></p><p>📞 <strong>7265013972</strong></p></div>
-        <div class="contact-actions"><a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener">WhatsApp</a><a class="btn light" href="tel:+917265013972" data-gu="કૉલ કરો" data-en="Call Now">કૉલ કરો</a></div>
-      </div>
-    </section>
-  </main>
-  <footer><div class="wrap">© <span id="year"></span> ARVI ONLINE & CSC · <span data-gu="તમારી સેવા માટે હંમેશા તૈયાર" data-en="Here to assist you">તમારી સેવા માટે હંમેશા તૈયાર</span></div></footer>
-  <script src="./script.js"></script>
+document.querySelectorAll("[data-service]").forEach(card => {
+  card.addEventListener("click", event => {
+    if (event.target.closest("a")) event.preventDefault();
+    openService(card.dataset.service);
+  });
+  card.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openService(card.dataset.service);
+    }
+  });
+});
+
+document.getElementById("closeDialog").addEventListener("click", () => dialog.close());
+document.getElementById("closeDialogBottom").addEventListener("click", () => dialog.close());
+dialog.addEventListener("click", event => {
+  if (event.target === dialog) dialog.close();
+});
+
+document.getElementById("copyUpi").addEventListener("click", async () => {
+  const upi = "7265013972sonu@ybl";
+  try {
+    await navigator.clipboard.writeText(upi);
+    alert("UPI ID કોપી થઈ ગઈ.");
+  } catch {
+    alert("તમારો UPI ID: " + upi);
+  }
+});
+
+const langBtn = document.getElementById("langBtn");
+let lang = "gu";
+langBtn.addEventListener("click", () => {
+  lang = lang === "gu" ? "en" : "gu";
+  document.documentElement.lang = lang;
+  langBtn.textContent = lang === "gu" ? "English" : "ગુજરાતી";
+  alert(lang === "en"
+    ? "English mode is being prepared. Service document lists are currently shown in Gujarati."
+    : "ગુજરાતી ભાષા પસંદ કરી.");
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
