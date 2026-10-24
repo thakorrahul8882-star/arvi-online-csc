@@ -1,20 +1,42 @@
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyABMSiPr8QoRaNSMdWDL-Y_cjrrqcfsb_c",
-  authDomain: "arvi-online-csc.firebaseapp.com",
-  projectId: "arvi-online-csc",
-  storageBucket: "arvi-online-csc.firebasestorage.app",
-  messagingSenderId: "57206587457",
-  appId: "1:57206587457:web:3723726ba2f2ecbd6d86c0",
-  measurementId: "G-JJX8CE0TE9"
-};
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ARVI ONLINE & CSC - Admin</title>
+</head>
+<body>
+  <h1>આર્વી ઓનલાઈન & CSC</h1>
+  <h2>Admin Panel</h2>
+  <p id="status">Firebase જોડાઈ રહ્યું છે...</p>
 
-firebase.initializeApp(firebaseConfig);
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-</script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyABMSiPr8QoRaNSMdWDL-Y_cjrrqcfsb_c",
+      authDomain: "arvi-online-csc.firebaseapp.com",
+      projectId: "arvi-online-csc",
+      storageBucket: "arvi-online-csc.firebasestorage.app",
+      messagingSenderId: "57206587457",
+      appId: "1:57206587457:web:3723726ba2f2ecbd6d86c0",
+      measurementId: "G-JJX8CE0TE9"
+    };
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      document.getElementById("status").textContent =
+        "Firebase જોડાણ તૈયાર છે. હવે Admin Login સેટ કરવો બાકી છે.";
+    } catch (error) {
+      document.getElementById("status").textContent =
+        "Firebase સેટિંગ્સ તપાસો.";
+    }
+  </script>
+</body>
+</html>
