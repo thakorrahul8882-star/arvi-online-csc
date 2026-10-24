@@ -295,15 +295,25 @@ document.getElementById("copyUpi").addEventListener("click", async () => {
 
 const langBtn = document.getElementById("langBtn");
 let lang = "gu";
-langBtn.addEventListener("click", () => {
-  lang = lang === "gu" ? "en" : "gu";
-  document.documentElement.lang = lang;
-  langBtn.textContent = lang === "gu" ? "English" : "ગુજરાતી";
-  alert(lang === "en"
-    ? "English mode is being prepared. Service document lists are currently shown in Gujarati."
-    : "ગુજરાતી ભાષા પસંદ કરી.");
-});
 
+function setLang(next) {
+  lang = next;
+  document.documentElement.lang = next;
+
+  document.querySelectorAll("[data-gu][data-en]").forEach(el => {
+    el.textContent = el.dataset[next];
+  });
+
+  if (langBtn) {
+    langBtn.textContent = next === "gu" ? "English" : "ગુજરાતી";
+  }
+}
+
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    setLang(lang === "gu" ? "en" : "gu");
+  });
+}
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
