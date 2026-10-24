@@ -1,6 +1,8 @@
+
 const langBtn = document.getElementById("langBtn");
 let lang = "gu";
 
+// Gujarati and English language switching
 function setLang(next) {
   lang = next;
   document.documentElement.lang = next;
@@ -9,15 +11,22 @@ function setLang(next) {
     el.textContent = el.dataset[next];
   });
 
-  langBtn.textContent = next === "gu" ? "English" : "ગુજરાતી";
+  if (langBtn) {
+    langBtn.textContent = next === "gu" ? "English" : "ગુજરાતી";
+  }
 }
 
-langBtn.addEventListener("click", () => {
-  setLang(lang === "gu" ? "en" : "gu");
-});
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    setLang(lang === "gu" ? "en" : "gu");
+  });
+}
 
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+// Automatically update copyright year
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
 
 // ARVI ONLINE & CSC UPI payment settings
 const UPI_ID = "7265013972sonu@ybl";
@@ -33,8 +42,7 @@ const serviceFees = {
   scheme: 200
 };
 
-// Call this function when a customer clicks Pay Now.
-// Example: startUPIPayment("pan")
+// Start UPI payment
 function startUPIPayment(serviceKey) {
   const amount = serviceFees[serviceKey];
 
