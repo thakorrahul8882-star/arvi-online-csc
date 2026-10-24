@@ -108,18 +108,36 @@
 
     <section class="payment-band">
       <div class="wrap payment-grid">
-        <div>
-          <p class="eyebrow" data-gu="પેમેન્ટ સુવિધા" data-en="Payment Options">પેમેન્ટ સુવિધા</p>
-          <h2 data-gu="UPI / QR દ્વારા પેમેન્ટ" data-en="Pay by UPI / QR">UPI / QR દ્વારા પેમેન્ટ</h2>
-          <p data-gu="તમારી સાચી UPI ID અને QR કોડ ઉમેર્યા પછી જ આ વિભાગનો ઉપયોગ કરો. પેમેન્ટ કર્યા બાદ WhatsApp પર સ્ક્રીનશોટ મોકલીને ખાતરી કરાવો." data-en="Add your real UPI ID and QR code before using this section. After payment, send the screenshot on WhatsApp for confirmation.">તમારી સાચી UPI ID અને QR કોડ ઉમેર્યા પછી જ આ વિભાગનો ઉપયોગ કરો. પેમેન્ટ કર્યા બાદ WhatsApp પર સ્ક્રીનશોટ મોકલીને ખાતરી કરાવો.</p>
-          <p class="upi"><strong>UPI ID:</strong> <span data-gu="અહીં તમારી UPI ID ઉમેરો" data-en="Add your UPI ID here">અહીં તમારી UPI ID ઉમેરો</span></p>
-          <a class="btn primary" href="https://wa.me/917265013972?text=Payment%20confirmation" target="_blank" rel="noopener" data-gu="પેમેન્ટ કન્ફર્મેશન મોકલો" data-en="Send Payment Confirmation">પેમેન્ટ કન્ફર્મેશન મોકલો</a>
-        </div>
-        <div class="qr-box">
-          <div class="qr-placeholder">QR</div>
-          <strong data-gu="તમારો UPI QR અહીં ઉમેરવો" data-en="Add your UPI QR here">તમારો UPI QR અહીં ઉમેરવો</strong>
-          <small data-gu="હાલમાં આ માત્ર પ્લેસહોલ્ડર છે, વાસ્તવિક QR નથી." data-en="This is only a placeholder, not a real QR code.">હાલમાં આ માત્ર પ્લેસહોલ્ડર છે, વાસ્તવિક QR નથી.</small>
-        </div>
+        
+<div>
+  <p class="eyebrow" data-gu="પેમેન્ટ સુવિધા" data-en="Payment Options">પેમેન્ટ સુવિધા</p>
+
+  <h2 data-gu="UPI / QR દ્વારા પેમેન્ટ" data-en="Pay by UPI / QR">UPI / QR દ્વારા પેમેન્ટ</h2>
+
+  <p data-gu="તમારી પસંદગીની સેવાની ફી પ્રમાણે પેમેન્ટ કરો. પેમેન્ટ કર્યા પછી WhatsApp પર સ્ક્રીનશૉટ મોકલો." data-en="Pay the fee for your selected service. After payment, send a screenshot on WhatsApp.">તમારી પસંદગીની સેવાની ફી પ્રમાણે પેમેન્ટ કરો. પેમેન્ટ કર્યા પછી WhatsApp પર સ્ક્રીનશૉટ મોકલો.</p>
+
+  <p class="upi">
+    <strong>UPI ID:</strong>
+    <span>7265013972sonu@ybl</span>
+  </p>
+
+  <button class="btn" type="button"
+    onclick="navigator.clipboard.writeText('7265013972sonu@ybl').then(()=>alert('UPI ID કોપી થઈ ગઈ')).catch(()=>alert('UPI ID: 7265013972sonu@ybl'))">
+    UPI ID કોપી કરો
+  </button>
+
+  <a class="btn primary"
+     href="https://wa.me/917265013972?text=Payment%20confirmation"
+     target="_blank" rel="noopener">
+    પેમેન્ટ કન્ફર્મેશન મોકલો
+  </a>
+</div>
+
+<div class="qr-box">
+  <p><strong>તમારો UPI QR કોડ</strong></p>
+  <p>હવે તમારો સાચો QR કોડનો ફોટો અહીં ઉમેરવાનો છે.</p>
+</div>
+
       </div>
     </section>
 
