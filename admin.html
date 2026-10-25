@@ -12,7 +12,6 @@
       --blue: #123b80;
       --blue2: #1769aa;
       --bg: #f3f6fb;
-      --white: #fff;
       --text: #1c2738;
       --muted: #667085;
       --green: #16834a;
@@ -133,6 +132,7 @@
 
     .item h3 { margin-bottom: 8px; }
     .muted { color: var(--muted); font-size: 13px; }
+
     .pill {
       display: inline-block;
       padding: 4px 8px;
@@ -154,6 +154,7 @@
     .checkrow label { margin: 0; }
 
     .hidden { display: none !important; }
+
     .topline {
       display: flex;
       justify-content: space-between;
@@ -175,7 +176,12 @@
       background: #edf4ff;
     }
 
-    .stat strong { display: block; font-size: 23px; color: var(--blue); }
+    .stat strong {
+      display: block;
+      font-size: 23px;
+      color: var(--blue);
+    }
+
     .stat span { font-size: 13px; }
 
     footer {
@@ -203,10 +209,8 @@
 </header>
 
 <main class="container">
-
   <div id="globalMessage" class="notice hidden"></div>
 
-  <!-- LOGIN -->
   <section id="loginSection" class="card">
     <h2>🔐 Admin Login</h2>
     <p class="muted">ફક્ત અધિકૃત Admin જ લૉગિન કરી શકે છે.</p>
@@ -227,9 +231,7 @@
     <div id="loginMessage" class="notice hidden"></div>
   </section>
 
-  <!-- DASHBOARD -->
   <section id="dashboard" class="hidden">
-
     <div class="card topline">
       <div>
         <h2 style="margin-bottom:5px">Admin Dashboard</h2>
@@ -244,7 +246,7 @@
       <button data-tab="requestsPanel">ગ્રાહકની અરજીઓ</button>
     </div>
 
-    <!-- ANNOUNCEMENTS -->
+    <!-- યોજનાઓ અને ભરતી -->
     <section id="announcementsPanel" class="tabPanel">
       <div class="card">
         <h2>📢 યોજના અને ભરતી મેનેજમેન્ટ</h2>
@@ -303,7 +305,7 @@
       </div>
     </section>
 
-    <!-- SERVICES -->
+    <!-- CSC સેવાઓ -->
     <section id="servicesPanel" class="tabPanel hidden">
       <div class="card">
         <h2>🧾 CSC સેવાઓ મેનેજમેન્ટ</h2>
@@ -344,7 +346,7 @@
       </div>
     </section>
 
-    <!-- CUSTOMER REQUESTS -->
+    <!-- ગ્રાહક અરજીઓ -->
     <section id="requestsPanel" class="tabPanel hidden">
       <div class="card">
         <div class="topline">
@@ -380,7 +382,6 @@
         <div id="requestList">અરજીઓ લોડ થઈ રહી છે...</div>
       </div>
     </section>
-
   </section>
 </main>
 
@@ -389,7 +390,6 @@
   સંપર્ક: 7265013972
 </footer>
 
-<!-- Firebase compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
@@ -397,9 +397,6 @@
 <script>
 "use strict";
 
-// --------------------------------------------------
-// Firebase configuration: existing project
-// --------------------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyABMSiPr8QoRaNSMdWDL-Y_cjrrqcfsb_c",
   authDomain: "arvi-online-csc.firebaseapp.com",
@@ -410,24 +407,18 @@ const firebaseConfig = {
   measurementId: "G-JJX8CE0TE9"
 };
 
-// તમારા હાલના Admin UID ને જ રાખ્યો છે
 const ADMIN_UID = "nIreaPMvujbR9IrdilWpSyz3o623";
-const WHATSAPP_NUMBER = "917265013972";
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 let currentRequests = [];
-let announcementsLoaded = false;
-let servicesLoaded = false;
-let requestsLoaded = false;
 let loginBusy = false;
 
-// --------------------------------------------------
-// Helpers
-// --------------------------------------------------
 function byId(id) {
   return document.getElementById(id);
 }
@@ -459,12 +450,7 @@ function clearMessage(id) {
 function formatDate(value) {
   if (!value) return "તારીખ ઉપલબ્ધ નથી";
 
-  let date;
-  if (value.toDate) {
-    date = value.toDate();
-  } else {
-    date = new Date(value);
-  }
+  const date = value.toDate ? value.toDate() : new Date(value);
 
   if (Number.isNaN(date.getTime())) return "તારીખ ઉપલબ્ધ નથી";
 
@@ -479,33 +465,30 @@ function safeHttpUrl(value) {
 
   try {
     const url = new URL(value);
-    if (url.protocol === "https:" || url.protocol === "http:") {
-      return url.href;
-    }
+    return url.protocol === "https:" || url.protocol === "http:"
+      ? url.href
+      : "";
   } catch (error) {
     return "";
   }
-
-  return "";
 }
 
 function errorText(error) {
   console.error(error);
 
-  const messages = {
-    "permission-denied": "પરવાનગી મળી નથી. Firestore Rules અને Admin Login તપાસો.",
-    "unauthenticated": "કૃપા કરીને ફરીથી Admin Login કરો.",
-    "unavailable": "સેવા હાલમાં ઉપલબ્ધ નથી. ઇન્ટરનેટ તપાસીને ફરી પ્રયાસ કરો.",
-    "network-request-failed": "નેટવર્ક સમસ્યા છે. ઇન્ટરનેટ તપાસો.",
-    "invalid-login-credentials": "Email અથવા Password ખોટો છે.",
-    "invalid-credential": "Email અથવા Password ખોટો છે.",
-    "email-already-in-use": "આ Email પહેલેથી વપરાય છે.",
-    "operation-not-allowed": "Firebase Authentication માં Email/Password Login ચાલુ કરો."
-  };
-
   const code = error && error.code
     ? error.code.replace("auth/", "").replace("firestore/", "")
     : "";
+
+  const messages = {
+    "permission-denied": "પરવાનગી મળી નથી. Firestore Rules તપાસો.",
+    "unauthenticated": "કૃપા કરીને ફરીથી Admin Login કરો.",
+    "unavailable": "સેવા ઉપલબ્ધ નથી. ઇન્ટરનેટ તપાસીને ફરી પ્રયાસ કરો.",
+    "network-request-failed": "નેટવર્ક સમસ્યા છે. ઇન્ટરનેટ તપાસો.",
+    "invalid-login-credentials": "Email અથવા Password ખોટો છે.",
+    "invalid-credential": "Email અથવા Password ખોટો છે.",
+    "operation-not-allowed": "Firebase Authentication માં Email/Password Login ચાલુ કરો."
+  };
 
   return messages[code] ||
     (error && error.message ? error.message : "અજાણી ભૂલ આવી છે.");
@@ -525,7 +508,9 @@ function setButtonLoading(buttonId, loading, loadingText) {
   const button = byId(buttonId);
 
   if (loading) {
-    button.dataset.originalText = button.textContent;
+    if (!button.dataset.originalText) {
+      button.dataset.originalText = button.textContent;
+    }
     button.textContent = loadingText || "કૃપા કરીને રાહ જુઓ...";
     button.disabled = true;
   } else {
@@ -534,22 +519,21 @@ function setButtonLoading(buttonId, loading, loadingText) {
   }
 }
 
-// --------------------------------------------------
-// Login / logout
-// --------------------------------------------------
+// LOGIN
 byId("loginForm").addEventListener("submit", async function(event) {
   event.preventDefault();
 
   if (loginBusy) return;
   loginBusy = true;
+
   setButtonLoading("loginBtn", true, "લૉગિન થઈ રહ્યું છે...");
   clearMessage("loginMessage");
 
-  const email = byId("email").value.trim();
-  const password = byId("password").value;
-
   try {
-    const credential = await auth.signInWithEmailAndPassword(email, password);
+    const credential = await auth.signInWithEmailAndPassword(
+      byId("email").value.trim(),
+      byId("password").value
+    );
 
     if (credential.user.uid !== ADMIN_UID) {
       await auth.signOut();
@@ -591,9 +575,7 @@ auth.onAuthStateChanged(async function(user) {
   }
 });
 
-// --------------------------------------------------
-// Tabs
-// --------------------------------------------------
+// TABS
 document.querySelectorAll("[data-tab]").forEach(function(button) {
   button.addEventListener("click", function() {
     document.querySelectorAll("[data-tab]").forEach(function(btn) {
@@ -609,10 +591,7 @@ document.querySelectorAll("[data-tab]").forEach(function(button) {
   });
 });
 
-// --------------------------------------------------
-// Announcements: create / update / list / delete
-// Collection: announcements
-// --------------------------------------------------
+// ANNOUNCEMENTS
 function resetAnnouncementForm() {
   byId("announcementForm").reset();
   byId("announcementId").value = "";
@@ -620,7 +599,6 @@ function resetAnnouncementForm() {
   byId("announcementSaveBtn").textContent = "માહિતી સેવ કરો";
   clearMessage("announcementMessage");
 }
-
 window.resetAnnouncementForm = resetAnnouncementForm;
 
 byId("announcementForm").addEventListener("submit", async function(event) {
@@ -637,7 +615,7 @@ byId("announcementForm").addEventListener("submit", async function(event) {
     const link = safeHttpUrl(linkInput);
 
     if (linkInput && !link) {
-      throw new Error("કૃપા કરીને યોગ્ય http અથવા https લિંક લખો.");
+      throw new Error("યોગ્ય http અથવા https લિંક લખો.");
     }
 
     if (!title || !description) {
@@ -645,10 +623,10 @@ byId("announcementForm").addEventListener("submit", async function(event) {
     }
 
     const data = {
-      title: title,
-      category: category,
-      description: description,
-      link: link,
+      title,
+      category,
+      description,
+      link,
       published: byId("announcementPublished").checked,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
@@ -657,7 +635,7 @@ byId("announcementForm").addEventListener("submit", async function(event) {
 
     if (id) {
       await db.collection("announcements").doc(id).update(data);
-      showMessage("announcementMessage", "માહિતી સફળતાપૂર્વક અપડેટ થઈ.", "success");
+      showMessage("announcementMessage", "માહિતી અપડેટ થઈ.", "success");
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       await db.collection("announcements").add(data);
@@ -666,7 +644,6 @@ byId("announcementForm").addEventListener("submit", async function(event) {
 
     resetAnnouncementForm();
     await loadAnnouncements();
-
   } catch (error) {
     showMessage("announcementMessage", errorText(error), "error");
   } finally {
@@ -681,13 +658,11 @@ async function loadAnnouncements() {
 
   try {
     const snapshot = await db.collection("announcements")
-      .orderBy("createdAt", "desc")
-      .get();
-
-    announcementsLoaded = true;
+      .orderBy("createdAt", "desc").get();
 
     if (snapshot.empty) {
-      byId("announcementList").textContent = "હજુ કોઈ યોજના અથવા ભરતી ઉમેરાઈ નથી.";
+      byId("announcementList").textContent =
+        "હજુ કોઈ યોજના અથવા ભરતી ઉમેરાઈ નથી.";
       return;
     }
 
@@ -703,24 +678,14 @@ async function loadAnnouncements() {
           <p>${escapeHTML(item.description || "").replace(/\n/g, "<br>")}</p>
           ${link ? `<p><a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">અરજી / વધુ માહિતીની લિંક</a></p>` : ""}
           <div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(item.createdAt))}</div>
-          <div>
-            <button type="button" class="editAnnouncement btn-light"
-                    data-id="${escapeHTML(doc.id)}">Edit</button>
-            <button type="button" class="toggleAnnouncement btn-gray"
-                    data-id="${escapeHTML(doc.id)}"
-                    data-published="${item.published ? "true" : "false"}">
-              ${item.published ? "Unpublish" : "Publish"}
-            </button>
-            <button type="button" class="deleteAnnouncement btn-red"
-                    data-id="${escapeHTML(doc.id)}">Delete</button>
-          </div>
-        </article>
-      `;
+          <button type="button" class="editAnnouncement btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
+          <button type="button" class="toggleAnnouncement btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${item.published ? "true" : "false"}">${item.published ? "Unpublish" : "Publish"}</button>
+          <button type="button" class="deleteAnnouncement btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+        </article>`;
     }).join("");
-
   } catch (error) {
-    announcementsLoaded = false;
-    byId("announcementList").textContent = "માહિતી લોડ થઈ શકી નથી: " + errorText(error);
+    byId("announcementList").textContent =
+      "માહિતી લોડ થઈ શકી નથી: " + errorText(error);
   }
 }
 
@@ -729,15 +694,14 @@ byId("announcementList").addEventListener("click", async function(event) {
   const toggle = event.target.closest(".toggleAnnouncement");
   const remove = event.target.closest(".deleteAnnouncement");
 
-  if (edit) {
-    try {
-      ensureAdmin();
+  try {
+    ensureAdmin();
 
+    if (edit) {
       const doc = await db.collection("announcements").doc(edit.dataset.id).get();
       if (!doc.exists) throw new Error("માહિતી મળી નથી.");
 
       const data = doc.data();
-
       byId("announcementId").value = doc.id;
       byId("announcementTitle").value = data.title || "";
       byId("announcementCategory").value = data.category || "યોજના";
@@ -748,52 +712,32 @@ byId("announcementList").addEventListener("click", async function(event) {
 
       document.querySelector('[data-tab="announcementsPanel"]').click();
       byId("announcementForm").scrollIntoView({ behavior: "smooth" });
-
-    } catch (error) {
-      showMessage("announcementMessage", errorText(error), "error");
     }
-  }
 
-  if (toggle) {
-    try {
-      ensureAdmin();
-
+    if (toggle) {
       const next = toggle.dataset.published !== "true";
-
       await db.collection("announcements").doc(toggle.dataset.id).update({
         published: next,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-
       await loadAnnouncements();
       showMessage("announcementMessage", "પ્રકાશન સ્થિતિ અપડેટ થઈ.", "success");
-
-    } catch (error) {
-      showMessage("announcementMessage", errorText(error), "error");
     }
-  }
 
-  if (remove) {
-    if (!confirm("આ માહિતી કાયમી રીતે ડિલીટ કરવી છે?")) return;
-
-    try {
-      ensureAdmin();
+    if (remove) {
+      if (!confirm("આ માહિતી કાયમી રીતે ડિલીટ કરવી છે?")) return;
       await db.collection("announcements").doc(remove.dataset.id).delete();
       await loadAnnouncements();
       showMessage("announcementMessage", "માહિતી ડિલીટ થઈ.", "success");
-
-    } catch (error) {
-      showMessage("announcementMessage", errorText(error), "error");
     }
+  } catch (error) {
+    showMessage("announcementMessage", errorText(error), "error");
   }
 });
 
 byId("refreshAnnouncements").addEventListener("click", loadAnnouncements);
 
-// --------------------------------------------------
-// Services: create / update / list / delete
-// Collection: services
-// --------------------------------------------------
+// SERVICES
 function resetServiceForm() {
   byId("serviceForm").reset();
   byId("serviceId").value = "";
@@ -801,7 +745,6 @@ function resetServiceForm() {
   byId("serviceSaveBtn").textContent = "સેવા સેવ કરો";
   clearMessage("serviceMessage");
 }
-
 window.resetServiceForm = resetServiceForm;
 
 byId("serviceForm").addEventListener("submit", async function(event) {
@@ -820,9 +763,9 @@ byId("serviceForm").addEventListener("submit", async function(event) {
     }
 
     const data = {
-      title: title,
-      description: description,
-      price: price,
+      title,
+      description,
+      price,
       published: byId("servicePublished").checked,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
@@ -840,7 +783,6 @@ byId("serviceForm").addEventListener("submit", async function(event) {
 
     resetServiceForm();
     await loadServices();
-
   } catch (error) {
     showMessage("serviceMessage", errorText(error), "error");
   } finally {
@@ -855,10 +797,7 @@ async function loadServices() {
 
   try {
     const snapshot = await db.collection("services")
-      .orderBy("createdAt", "desc")
-      .get();
-
-    servicesLoaded = true;
+      .orderBy("createdAt", "desc").get();
 
     if (snapshot.empty) {
       byId("serviceList").textContent = "હજુ કોઈ CSC સેવા ઉમેરાઈ નથી.";
@@ -875,23 +814,12 @@ async function loadServices() {
           ${item.price ? `<p><strong>ફી / ભાવ:</strong> ${escapeHTML(item.price)}</p>` : ""}
           <p>${escapeHTML(item.description || "").replace(/\n/g, "<br>")}</p>
           <div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(item.createdAt))}</div>
-          <div>
-            <button type="button" class="editService btn-light"
-                    data-id="${escapeHTML(doc.id)}">Edit</button>
-            <button type="button" class="toggleService btn-gray"
-                    data-id="${escapeHTML(doc.id)}"
-                    data-published="${item.published ? "true" : "false"}">
-              ${item.published ? "Unpublish" : "Publish"}
-            </button>
-            <button type="button" class="deleteService btn-red"
-                    data-id="${escapeHTML(doc.id)}">Delete</button>
-          </div>
-        </article>
-      `;
+          <button type="button" class="editService btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
+          <button type="button" class="toggleService btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${item.published ? "true" : "false"}">${item.published ? "Unpublish" : "Publish"}</button>
+          <button type="button" class="deleteService btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+        </article>`;
     }).join("");
-
   } catch (error) {
-    servicesLoaded = false;
     byId("serviceList").textContent = "સેવાઓ લોડ થઈ શકી નથી: " + errorText(error);
   }
 }
@@ -901,15 +829,14 @@ byId("serviceList").addEventListener("click", async function(event) {
   const toggle = event.target.closest(".toggleService");
   const remove = event.target.closest(".deleteService");
 
-  if (edit) {
-    try {
-      ensureAdmin();
+  try {
+    ensureAdmin();
 
+    if (edit) {
       const doc = await db.collection("services").doc(edit.dataset.id).get();
       if (!doc.exists) throw new Error("સેવા મળી નથી.");
 
       const data = doc.data();
-
       byId("serviceId").value = doc.id;
       byId("serviceTitle").value = data.title || "";
       byId("serviceDescription").value = data.description || "";
@@ -919,54 +846,32 @@ byId("serviceList").addEventListener("click", async function(event) {
 
       document.querySelector('[data-tab="servicesPanel"]').click();
       byId("serviceForm").scrollIntoView({ behavior: "smooth" });
-
-    } catch (error) {
-      showMessage("serviceMessage", errorText(error), "error");
     }
-  }
 
-  if (toggle) {
-    try {
-      ensureAdmin();
-
+    if (toggle) {
       const next = toggle.dataset.published !== "true";
-
       await db.collection("services").doc(toggle.dataset.id).update({
         published: next,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-
       await loadServices();
-      showMessage("serviceMessage", "સેવાની પ્રકાશન સ્થિતિ અપડેટ થઈ.", "success");
-
-    } catch (error) {
-      showMessage("serviceMessage", errorText(error), "error");
+      showMessage("serviceMessage", "સેવાની સ્થિતિ અપડેટ થઈ.", "success");
     }
-  }
 
-  if (remove) {
-    if (!confirm("આ સેવા કાયમી રીતે ડિલીટ કરવી છે?")) return;
-
-    try {
-      ensureAdmin();
+    if (remove) {
+      if (!confirm("આ સેવા કાયમી રીતે ડિલીટ કરવી છે?")) return;
       await db.collection("services").doc(remove.dataset.id).delete();
       await loadServices();
       showMessage("serviceMessage", "સેવા ડિલીટ થઈ.", "success");
-
-    } catch (error) {
-      showMessage("serviceMessage", errorText(error), "error");
     }
+  } catch (error) {
+    showMessage("serviceMessage", errorText(error), "error");
   }
 });
 
 byId("refreshServices").addEventListener("click", loadServices);
 
-// --------------------------------------------------
-// Customer requests
-// Collection: customerRequests
-// Expected fields:
-// name, phone, service, note, status, createdAt
-// --------------------------------------------------
+// CUSTOMER REQUESTS
 const statusLabels = {
   new: "નવી",
   contacted: "સંપર્ક કર્યો",
@@ -981,18 +886,14 @@ async function loadRequests() {
 
   try {
     const snapshot = await db.collection("customerRequests")
-      .orderBy("createdAt", "desc")
-      .get();
+      .orderBy("createdAt", "desc").get();
 
     currentRequests = snapshot.docs.map(function(doc) {
       return { id: doc.id, ...doc.data() };
     });
 
-    requestsLoaded = true;
     renderRequests();
-
   } catch (error) {
-    requestsLoaded = false;
     byId("requestList").textContent =
       "અરજીઓ લોડ થઈ શકી નથી: " + errorText(error);
   }
@@ -1000,27 +901,25 @@ async function loadRequests() {
 
 function renderRequests() {
   const filter = byId("requestFilter").value;
-
   const total = currentRequests.length;
-  const fresh = currentRequests.filter(r => r.status === "new").length;
-  const completed = currentRequests.filter(r => r.status === "completed").length;
 
   byId("totalRequests").textContent = total;
-  byId("newRequests").textContent = fresh;
-  byId("completedRequests").textContent = completed;
+  byId("newRequests").textContent =
+    currentRequests.filter(r => r.status === "new").length;
+  byId("completedRequests").textContent =
+    currentRequests.filter(r => r.status === "completed").length;
 
   const visible = filter === "all"
     ? currentRequests
     : currentRequests.filter(r => r.status === filter);
 
-  if (visible.length === 0) {
+  if (!visible.length) {
     byId("requestList").textContent = "આ પસંદગીમાં કોઈ અરજી મળી નથી.";
     return;
   }
 
   byId("requestList").innerHTML = visible.map(function(item) {
     const status = statusLabels[item.status] || "અન્ય";
-
     const phoneDigits = String(item.phone || "").replace(/\D/g, "");
     const waLink = /^[6-9][0-9]{9}$/.test(phoneDigits)
       ? "https://wa.me/91" + phoneDigits
@@ -1033,6 +932,7 @@ function renderRequests() {
           <span class="pill">${escapeHTML(status)}</span>
         </div>
 
+        <p><strong>અરજી નંબર:</strong> ${escapeHTML(item.id)}</p>
         <p><strong>મોબાઇલ:</strong> ${escapeHTML(item.phone || "ઉપલબ્ધ નથી")}</p>
         <p><strong>સેવા:</strong> ${escapeHTML(item.service || "ઉપલબ્ધ નથી")}</p>
         <p><strong>નોંધ:</strong><br>${escapeHTML(item.note || "નોંધ નથી").replace(/\n/g, "<br>")}</p>
@@ -1046,16 +946,12 @@ function renderRequests() {
           <option value="completed" ${item.status === "completed" ? "selected" : ""}>પૂર્ણ</option>
         </select>
 
-        <button type="button" class="saveRequestStatus"
-                data-id="${escapeHTML(item.id)}">સ્ટેટસ સેવ કરો</button>
+        <button type="button" class="saveRequestStatus" data-id="${escapeHTML(item.id)}">સ્ટેટસ સેવ કરો</button>
 
-        ${waLink ? `<button type="button" class="btn-green openWhatsApp"
-                  data-url="${escapeHTML(waLink)}">WhatsApp સંપર્ક</button>` : ""}
+        ${waLink ? `<button type="button" class="btn-green openWhatsApp" data-url="${escapeHTML(waLink)}">WhatsApp સંપર્ક</button>` : ""}
 
-        <button type="button" class="btn-red deleteRequest"
-                data-id="${escapeHTML(item.id)}">અરજી ડિલીટ કરો</button>
-      </article>
-    `;
+        <button type="button" class="btn-red deleteRequest" data-id="${escapeHTML(item.id)}">અરજી ડિલીટ કરો</button>
+      </article>`;
   }).join("");
 }
 
@@ -1078,16 +974,34 @@ byId("requestList").addEventListener("click", async function(event) {
         throw new Error("સ્ટેટસ યોગ્ય નથી.");
       }
 
+      const request = currentRequests.find(function(item) {
+        return item.id === id;
+      });
+
+      if (!request) throw new Error("અરજી મળી નથી. ફરી Refresh કરો.");
+
       save.disabled = true;
 
-      await db.collection("customerRequests").doc(id).update({
+      const serverTime = firebase.firestore.FieldValue.serverTimestamp();
+      const batch = db.batch();
+
+      batch.update(db.collection("customerRequests").doc(id), {
         status: status,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        updatedAt: serverTime
       });
+
+      batch.set(db.collection("publicRequestStatus").doc(id), {
+        service: request.service || "CSC સેવા",
+        status: status,
+        createdAt: request.createdAt ||
+          firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: serverTime
+      }, { merge: true });
+
+      await batch.commit();
 
       showMessage("requestMessage", "અરજીનો સ્ટેટસ અપડેટ થયો.", "success");
       await loadRequests();
-
     } catch (error) {
       showMessage("requestMessage", errorText(error), "error");
     } finally {
@@ -1101,13 +1015,16 @@ byId("requestList").addEventListener("click", async function(event) {
     try {
       ensureAdmin();
 
-      await db.collection("customerRequests")
-        .doc(remove.dataset.id)
-        .delete();
+      const id = remove.dataset.id;
+      const batch = db.batch();
+
+      batch.delete(db.collection("customerRequests").doc(id));
+      batch.delete(db.collection("publicRequestStatus").doc(id));
+
+      await batch.commit();
 
       showMessage("requestMessage", "અરજી ડિલીટ થઈ.", "success");
       await loadRequests();
-
     } catch (error) {
       showMessage("requestMessage", errorText(error), "error");
     }
@@ -1119,13 +1036,12 @@ byId("requestList").addEventListener("click", async function(event) {
   }
 });
 
-// શરૂઆતમાં તમામ મેસેજ છુપાવો
+// શરૂઆતમાં મેસેજ છુપાવો
 clearMessage("globalMessage");
 clearMessage("loginMessage");
 clearMessage("announcementMessage");
 clearMessage("serviceMessage");
 clearMessage("requestMessage");
-
 </script>
 </body>
 </html>
