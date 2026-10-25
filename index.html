@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="gu">
 <head>
@@ -47,11 +47,10 @@ gtag('config', 'G-XZX6WJH2QM');
 .form-box input:not([type=checkbox]),.form-box select,.form-box textarea{display:block;width:100%;box-sizing:border-box;padding:12px;margin:7px 0 16px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
 .form-box textarea{resize:vertical}
 .form-box label{line-height:1.5}
-.status-shortcut{margin-top:18px;text-align:center}
-.status-shortcut a{display:inline-block;padding:12px 18px;border-radius:10px;background:#fff;color:#123b70;font-weight:bold;text-decoration:none}
 .service-card{background:#fff;border:1px solid #dce4ef;border-radius:14px;padding:18px;box-shadow:0 4px 14px #10294b0b}
 .service-card h3{color:#123b70}
 .service-fee{font-weight:bold}
+#requestStatusLink{display:block;box-sizing:border-box;width:100%;margin-top:12px;text-align:center;text-decoration:none}
 @media(max-width:480px){
 .service-dialog{padding:18px}
 .dialog-actions .btn,.news-link{width:100%;box-sizing:border-box;text-align:center}
@@ -81,10 +80,6 @@ gtag('config', 'G-XZX6WJH2QM');
     <div class="quick-info">
       <span>📍 ખોડાણા, પાટણ, ગુજરાત</span>
       <span>📞 7265013972</span>
-    </div>
-
-    <div class="status-shortcut">
-      <a href="./status.html">📄 અરજીનું સ્ટેટસ ચેક કરો / પ્રિન્ટ કાઢો</a>
     </div>
   </div>
 </header>
@@ -217,9 +212,19 @@ gtag('config', 'G-XZX6WJH2QM');
       </label>
 
       <button id="submitRequestBtn" class="btn primary" type="submit" style="width:100%;justify-content:center">અરજી સબમિટ કરો</button>
+
       <p id="requestMessage" role="status" aria-live="polite" style="margin-top:14px;white-space:pre-wrap;overflow-wrap:anywhere"></p>
 
-      <a id="requestWhatsApp" class="btn primary" href="#" target="_blank" rel="noopener noreferrer" hidden style="margin-top:10px">
+      <!-- અરજી સફળતાપૂર્વક સેવ થયા પછી જ સ્ટેટસ બટન દેખાશે -->
+      <a
+        id="requestStatusLink"
+        class="btn primary"
+        href="./status.html"
+        hidden
+        style="display:none;width:100%;margin-top:12px;text-align:center;text-decoration:none;box-sizing:border-box;justify-content:center"
+      >📄 અરજીનું સ્ટેટસ ચેક કરો / પ્રિન્ટ કાઢો</a>
+
+      <a id="requestWhatsApp" class="btn primary" href="#" target="_blank" rel="noopener noreferrer" hidden style="margin-top:10px;width:100%;box-sizing:border-box;justify-content:center">
         WhatsApp પર અરજીની વિગતો મોકલો
       </a>
     </form>
@@ -606,7 +611,7 @@ db.collection("services")
     updateServiceDropdown();
   });
 
-/* યોજનાઓ અને ભરતી: HTML ના વાસ્તવિક IDs અને filter buttons વાપરો */
+/* યોજનાઓ અને ભરતી */
 let announcementsData = [];
 let currentNewsFilter = "all";
 const newsList = document.getElementById("newsList");
@@ -693,6 +698,7 @@ const requestForm = document.getElementById("customerRequestForm");
 const requestMessage = document.getElementById("requestMessage");
 const requestWhatsApp = document.getElementById("requestWhatsApp");
 const submitRequestBtn = document.getElementById("submitRequestBtn");
+const requestStatusLink = document.getElementById("requestStatusLink");
 
 function setRequestMessage(message) {
   requestMessage.textContent = message;
@@ -737,7 +743,11 @@ requestForm.addEventListener("submit", async event => {
 
   submitRequestBtn.disabled = true;
   submitRequestBtn.textContent = "અરજી મોકલાઈ રહી છે...";
+
   requestWhatsApp.hidden = true;
+  requestStatusLink.hidden = true;
+  requestStatusLink.style.display = "none";
+
   setRequestMessage("તમારી અરજી સેવ થઈ રહી છે...");
 
   try {
@@ -772,6 +782,11 @@ requestForm.addEventListener("submit", async event => {
     const statusUrl = new URL("./status.html", window.location.href);
     statusUrl.searchParams.set("id", requestRef.id);
 
+    // અરજી સફળતાપૂર્વક સેવ થયા પછી સ્ટેટસ બટન બતાવો.
+    requestStatusLink.href = statusUrl.href;
+    requestStatusLink.hidden = false;
+    requestStatusLink.style.display = "flex";
+
     const message =
       "નમસ્તે ARVI ONLINE & CSC!\n\n" +
       "મારી અરજીની વિગતો:\n" +
@@ -785,7 +800,7 @@ requestForm.addEventListener("submit", async event => {
     setRequestMessage(
       "તમારી અરજી સફળતાપૂર્વક નોંધાઈ ગઈ છે!\n\n" +
       "અરજી નંબર: " + requestRef.id + "\n\n" +
-      "અરજી નંબર સાચવી રાખો. આ નંબરથી સ્ટેટસ ચેક કરી શકશો."
+      "અરજી નંબર સાચવી રાખો. નીચેના બટનથી સ્ટેટસ ચેક કરી પ્રિન્ટ કાઢી શકશો."
     );
 
     requestWhatsApp.href = makeWhatsAppUrl(message);
@@ -810,4 +825,3 @@ updateServiceDropdown();
 </script>
 </body>
 </html>
-```
