@@ -29,7 +29,7 @@
       font-size: 25px;
     }
 
-    header p { margin: 0; }
+    header p { margin: 7px 0; }
 
     .container {
       width: min(92%, 620px);
@@ -160,14 +160,35 @@
       font-size: 14px;
     }
 
+    @media (max-width: 480px) {
+      .card { padding: 18px; }
+      header h1 { font-size: 22px; }
+      .actions button { width: 100%; }
+    }
+
     @media print {
       body { background: white; color: black; }
-      header { background: white !important; color: black; padding: 10px; }
-      .no-print, #searchCard, footer { display: none !important; }
-      .container { width: 100%; margin: 0; }
-      .card { box-shadow: none; border: 1px solid #bbb; }
+      header {
+        background: white !important;
+        color: black;
+        padding: 10px;
+      }
+      .no-print, #searchCard, footer {
+        display: none !important;
+      }
+      .container {
+        width: 100%;
+        margin: 0;
+      }
+      .card {
+        box-shadow: none;
+        border: 1px solid #bbb;
+      }
       #result { display: block !important; }
-      .status-line { background: white; border: 1px solid #ddd; }
+      .status-line {
+        background: white;
+        border: 1px solid #ddd;
+      }
     }
   </style>
 </head>
@@ -180,12 +201,16 @@
   </header>
 
   <main class="container">
+
     <section class="card" id="searchCard">
       <h2>અરજીનું સ્ટેટસ તપાસો</h2>
-      <p>તમારી અરજીની રસીદ અથવા અરજી નોંધાયા પછી મળેલો અરજી નંબર અહીં દાખલ કરો.</p>
+      <p>
+        તમારી અરજી નોંધાયા પછી મળેલો અરજી નંબર અહીં દાખલ કરો.
+      </p>
 
       <form id="statusForm">
         <label for="applicationId">અરજી નંબર</label>
+
         <input
           id="applicationId"
           type="text"
@@ -193,6 +218,7 @@
           autocomplete="off"
           required
         >
+
         <button class="primary" id="searchButton" type="submit">
           સ્ટેટસ ચેક કરો
         </button>
@@ -244,6 +270,7 @@
         <button class="print" id="printButton" type="button">
           પ્રિન્ટ / PDF મેળવો
         </button>
+
         <button class="home" id="resetButton" type="button">
           બીજી અરજી ચેક કરો
         </button>
@@ -251,8 +278,11 @@
     </section>
 
     <div class="no-print" style="text-align:center">
-      <a class="link-button home" href="./index.html">મુખ્ય પેજ પર પાછા જાઓ</a>
+      <a class="link-button home" href="./index.html">
+        મુખ્ય પેજ પર પાછા જાઓ
+      </a>
     </div>
+
   </main>
 
   <footer>
@@ -265,22 +295,22 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
-    /*
-      અગત્યનું:
-      નીચે firebaseConfig માં તમારી હાલની index.html માંથી
-      સંપૂર્ણ Firebase configuration કોપી કરો.
-      Placeholder values ને એમ જ રાખશો નહીં.
-    */
+    // ARVI ONLINE & CSC Firebase Configuration
     const firebaseConfig = {
-      apiKey: "તમારી_ACTUAL_API_KEY",
-      authDomain: "તમારો_PROJECT_ID.firebaseapp.com",
-      projectId: "તમારો_PROJECT_ID",
-      storageBucket: "તમારો_STORAGE_BUCKET",
-      messagingSenderId: "તમારો_MESSAGING_SENDER_ID",
-      appId: "તમારો_APP_ID"
+      apiKey: "AIzaSyABSiPr8QoRaNSMdWDL-Y_cjrrqcfsb_c",
+      authDomain: "arvi-online-csc.firebaseapp.com",
+      projectId: "arvi-online-csc",
+      storageBucket: "arvi-online-csc.firebasestorage.app",
+      messagingSenderId: "57206587457",
+      appId: "1:57206587457:web:3723726ba2f2ecbd6d86c0",
+      measurementId: "G-JJX8CE0TE9"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    // Firebase Initialize
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
     const db = firebase.firestore();
 
     const statusNames = {
@@ -299,21 +329,25 @@
     function showMessage(text, type) {
       message.textContent = text;
       message.className = type;
+      message.style.display = "block";
     }
 
     function formatDate(value) {
       if (!value) return "હાલ ઉપલબ્ધ નથી";
 
       let date;
+
       if (typeof value.toDate === "function") {
         date = value.toDate();
-      } else if (value.seconds) {
+      } else if (typeof value.seconds === "number") {
         date = new Date(value.seconds * 1000);
       } else {
         date = new Date(value);
       }
 
-      if (Number.isNaN(date.getTime())) return "હાલ ઉપલબ્ધ નથી";
+      if (Number.isNaN(date.getTime())) {
+        return "હાલ ઉપલબ્ધ નથી";
+      }
 
       return date.toLocaleString("gu-IN", {
         day: "2-digit",
@@ -337,15 +371,19 @@
       searchButton.disabled = true;
       searchButton.textContent = "ચેક થઈ રહ્યું છે...";
       result.style.display = "none";
-      message.className = "";
       message.style.display = "none";
+      message.className = "";
 
       try {
-        const doc = await db.collection("publicRequestStatus").doc(id).get();
+        // Application ID એ Firestore document ID હોવો જોઈએ
+        const doc = await db
+          .collection("publicRequestStatus")
+          .doc(id)
+          .get();
 
         if (!doc.exists) {
           showMessage(
-            "આ અરજી નંબર મળ્યો નથી. નંબર તપાસીને ફરી પ્રયાસ કરો. જૂની અરજી હોય તો CSC કેન્દ્રનો સંપર્ક કરો.",
+            "આ અરજી નંબર મળ્યો નથી. અરજી નંબર તપાસીને ફરી પ્રયાસ કરો.",
             "error"
           );
           return;
@@ -353,15 +391,19 @@
 
         const data = doc.data();
 
-        document.getElementById("outId").textContent = id;
+        document.getElementById("outId").textContent = doc.id;
+
         document.getElementById("outService").textContent =
           data.service || "ઉપલબ્ધ નથી";
+
         document.getElementById("outStatus").textContent =
           statusNames[data.status] || "સ્થિતિની માહિતી ઉપલબ્ધ નથી";
+
         document.getElementById("outCreated").textContent =
           formatDate(data.createdAt);
 
         const updatedRow = document.getElementById("updatedRow");
+
         if (data.updatedAt) {
           document.getElementById("outUpdated").textContent =
             formatDate(data.updatedAt);
@@ -371,15 +413,36 @@
         }
 
         result.style.display = "block";
+
         showMessage("અરજીનું સ્ટેટસ મળી ગયું છે.", "success");
-        result.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        result.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
       } catch (error) {
         console.error("Status lookup error:", error);
-        showMessage(
-          "સ્ટેટસ ચેક થઈ શક્યું નથી. Firebase configuration અને Firestore Rules તપાસો.",
-          "error"
-        );
+
+        if (error.code === "permission-denied") {
+          showMessage(
+            "Firestore Rules માં સ્ટેટસ વાંચવાની પરવાનગી નથી. publicRequestStatus માટે allow get નિયમ તપાસો.",
+            "error"
+          );
+        } else if (
+          error.code === "unavailable" ||
+          error.code === "deadline-exceeded"
+        ) {
+          showMessage(
+            "Firebase સાથે કનેક્શન થઈ શક્યું નથી. ઇન્ટરનેટ કનેક્શન તપાસીને ફરી પ્રયાસ કરો.",
+            "error"
+          );
+        } else {
+          showMessage(
+            "સ્ટેટસ ચેક થઈ શક્યું નથી. Firebase Configuration અને Firestore Rules તપાસો.",
+            "error"
+          );
+        }
       } finally {
         searchButton.disabled = false;
         searchButton.textContent = "સ્ટેટસ ચેક કરો";
@@ -393,8 +456,9 @@
     document.getElementById("resetButton").addEventListener("click", function() {
       form.reset();
       result.style.display = "none";
-      message.className = "";
       message.style.display = "none";
+      message.className = "";
+
       document.getElementById("searchCard").scrollIntoView({
         behavior: "smooth",
         block: "start"
