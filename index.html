@@ -456,7 +456,13 @@ if (enableBtn) {
         statusText.textContent =
           "✅ મંજૂરી મળી ગઈ! નોટિફિકેશન ટોકન તૈયાર છે.";
       }
+const popup = document.getElementById("notificationPopup");
 
+if (popup) {
+  popup.style.display = "none";
+}
+
+sessionStorage.setItem("arviPopupClosed", "yes");
       console.log("FCM token:", token);
 
     } catch (error) {
