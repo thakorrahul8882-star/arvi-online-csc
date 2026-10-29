@@ -127,12 +127,13 @@ gtag('config', 'G-XZX6WJH2QM');
   fill: #ffffff;
 }
 
-/* Google Translate ને સંપૂર્ણ છુપાવવા માટેનો કોડ */
-.goog-te-banner-frame.skiptranslate { display: none !important; }
+/* Google Translate Hidden Styles */
+.goog-te-banner-frame.skiptranslate, .skiptranslate > iframe.skiptranslate { display: none !important; }
 body { top: 0px !important; }
 #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
 .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
-.goog-te-gadget { display:none !important; }
+.goog-te-gadget { display: none !important; }
+#google_translate_element { display: none !important; }
 </style>
 </head>
 
@@ -141,26 +142,25 @@ body { top: 0px !important; }
   <nav class="nav wrap">
     <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
     
-        <!-- Google Translate છુપાવેલું છે -->
-    <div id="google_translate_element" style="position: absolute; top: -9999px; left: -9999px; opacity: 0; z-index: -9999;"></div>
-
-    <!-- તમારું જૂનું બટન -->
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element"></div>
+    <!-- Custom Language Button -->
     <button id="langBtn" class="lang" type="button">English</button>
   </nav>
 
   <div class="hero-content wrap">
-    <p class="eyebrow" data-gu="વિશ્વાસપાત્ર ઓનલાઈન સેવા" data-en="Trusted Online Services">વિશ્વાસપાત્ર ઓનલાઈન સેવા</p>
-    <h1 data-gu="આર્વી ઓનલાઈન & CSC" data-en="ARVI ONLINE & CSC">આર્વી ઓનલાઈન & CSC</h1>
-    <p class="lead" data-gu="તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય" data-en="One place for government and online service assistance">તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય</p>
+    <p class="eyebrow">વિશ્વાસપાત્ર ઓનલાઈન સેવા</p>
+    <h1>આર્વી ઓનલાઈન & CSC</h1>
+    <p class="lead">તમારી સરકારી અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય</p>
     <div class="actions">
-      <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener noreferrer" data-gu="WhatsApp પર સંપર્ક કરો" data-en="Contact on WhatsApp">WhatsApp પર સંપર્ક કરો</a>
-      <a class="btn ghost" href="#services" data-gu="સેવાઓ જુઓ" data-en="View Services">સેવાઓ જુઓ</a>
-      <a class="btn ghost" href="#updates" data-gu="યોજના / ભરતી જુઓ" data-en="Schemes / Recruitment">યોજના / ભરતી જુઓ</a>
+      <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener noreferrer">WhatsApp પર સંપર્ક કરો</a>
+      <a class="btn ghost" href="#services">સેવાઓ જુઓ</a>
+      <a class="btn ghost" href="#updates">યોજના / ભરતી જુઓ</a>
       <!-- શેર બટન -->
       <button id="shareWebBtn" class="btn primary" style="background:#123b70; border:none;" type="button">મિત્રોને શેર કરો ↗️</button>
     </div>
     <div class="quick-info">
-      <span data-gu="📍 ખોડાણા, પાટણ, ગુજરાત" data-en="📍 Khodana, Patan, Gujarat">📍 ખોડાણા, પાટણ, ગુજરાત</span>
+      <span>📍 ખોડાણા, પાટણ, ગુજરાત</span>
       <span>📞 7265013972</span>
     </div>
   </div>
@@ -874,26 +874,35 @@ topBtn.addEventListener('click', () => {
   window.scrollTo({top: 0, behavior: 'smooth'});
 });
 
-/* 5. Custom Language Button (તમારું જૂનું બટન + Google Translate) */
-let isEnglish = false;
+/* 5. Direct Cookie Language Switcher (વિના એરરે ચાલતું બટન) */
 const langBtn = document.getElementById('langBtn');
+
+function setTranslateCookie(lang) {
+  document.cookie = "googtrans=" + (lang === 'en' ? '/gu/en' : '/gu/gu') + "; path=/";
+  document.cookie = "googtrans=" + (lang === 'en' ? '/gu/en' : '/gu/gu') + "; domain=" + window.location.hostname + "; path=/";
+}
+
+if (document.cookie.indexOf('/gu/en') !== -1) {
+  if (langBtn) langBtn.textContent = 'ગુજરાતી';
+} else {
+  if (langBtn) langBtn.textContent = 'English';
+}
 
 if (langBtn) {
   langBtn.addEventListener('click', function() {
-    const select = document.querySelector('.goog-te-combo');
-    if (select) {
-      isEnglish = !isEnglish;
-      select.value = isEnglish ? 'en' : 'gu';
-      select.dispatchEvent(new Event('change'));
-      this.textContent = isEnglish ? 'ગુજરાતી' : 'English';
+    if (document.cookie.indexOf('/gu/en') !== -1) {
+      setTranslateCookie('gu');
+      langBtn.textContent = 'English';
     } else {
-      alert("ભાષા લોડ થઈ રહી છે, કૃપા કરીને થોડી સેકન્ડ રાહ જુઓ...");
+      setTranslateCookie('en');
+      langBtn.textContent = 'ગુજરાતી';
     }
+    window.location.reload();
   });
 }
 </script>
 
-<!-- Google Translate Script (For Auto-Translation) -->
+<!-- Google Translate Script -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
