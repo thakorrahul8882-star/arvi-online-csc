@@ -430,7 +430,12 @@ if (enableBtn) {
       }
 
       const permission = await Notification.requestPermission();
-
+if (permission === "granted") {
+  const popup = document.getElementById("notificationPopup");
+  if (popup) popup.style.display = "none";
+  sessionStorage.setItem("arviPopupClosed", "yes");
+}
+      
       if (permission !== "granted") {
         throw new Error("નોટિફિકેશન માટે Allow કરો.");
       }
