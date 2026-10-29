@@ -160,7 +160,7 @@ header h1{font-size:20px}
 </div>
 </section>
 
-<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે) -->
+<!-- ગ્રાહકની અરજીઓ -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
@@ -168,7 +168,7 @@ header h1{font-size:20px}
 <button id="refreshRequests" class="btn-light">Refresh</button>
 </div>
 
-<!-- સ્માર્ટ ડેશબોર્ડ (Smart Analytics Dashboard) -->
+<!-- સ્માર્ટ ડેશબોર્ડ -->
 <div class="stats">
 <div class="stat"><strong id="totalRequests">0</strong><span>કુલ અરજીઓ</span></div>
 <div class="stat"><strong id="newRequests" style="color:#d32f2f;">0</strong><span>નવી (New)</span></div>
@@ -211,8 +211,6 @@ appId:"1:57206587457:web:3723726ba2f2ecbd6d86c0",
 measurementId:"G-JJX8CE0TE9"
 };
 
-const ADMIN_UID="nIreaPMvujbR9IrdilWpSyz3o623";
-
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.firestore();
@@ -247,7 +245,7 @@ return msgs[code]||(error&&error.message?error.message:"અજાણી ભૂ�
 }
 function ensureAdmin(){
 const user=auth.currentUser;
-if(!user||user.uid!==ADMIN_UID)throw new Error("Admin ઓળખ ચકાસી શકાઈ નથી.");
+if(!user)throw new Error("Admin લૉગિન ચકાસી શકાઈ નથી.");
 return user;
 }
 function setButtonLoading(id,loading,text){
@@ -261,8 +259,7 @@ e.preventDefault();
 if(loginBusy)return;
 loginBusy=true; setButtonLoading("loginBtn",true,"લૉગિન થઈ રહ્યું છે..."); clearMessage("loginMessage");
 try{
-const c=await auth.signInWithEmailAndPassword(byId("email").value.trim(),byId("password").value);
-if(c.user.uid!==ADMIN_UID){await auth.signOut();throw new Error("અધિકાર નથી.");}
+await auth.signInWithEmailAndPassword(byId("email").value.trim(),byId("password").value);
 showMessage("globalMessage","Admin Login સફળ.","success");
 }catch(err){showMessage("loginMessage",errorText(err),"error");}
 finally{loginBusy=false;setButtonLoading("loginBtn",false);}
@@ -271,12 +268,11 @@ finally{loginBusy=false;setButtonLoading("loginBtn",false);}
 byId("logoutBtn").addEventListener("click",async()=>{try{await auth.signOut()}catch(e){showMessage("globalMessage",errorText(e),"error")}});
 
 auth.onAuthStateChanged(async user=>{
-if(user&&user.uid===ADMIN_UID){
+if(user){
 byId("loginSection").classList.add("hidden");byId("dashboard").classList.remove("hidden");
 byId("adminIdentity").textContent="લૉગિન: "+(user.email||"Admin");
 await loadAnnouncements();await loadServices();await loadRequests();
 }else{
-if(user)await auth.signOut();
 byId("dashboard").classList.add("hidden");byId("loginSection").classList.remove("hidden");
 }
 });
@@ -310,7 +306,7 @@ finally{setButtonLoading("announcementSaveBtn",false);}
 });
 
 async function loadAnnouncements(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+if(!auth.currentUser)return;
 try{
 const snap=await db.collection("announcements").orderBy("createdAt","desc").get();
 byId("announcementList").innerHTML=snap.empty?"કોઈ જાહેરાત નથી.":snap.docs.map(doc=>{
@@ -354,7 +350,7 @@ finally{setButtonLoading("serviceSaveBtn",false);}
 });
 
 async function loadServices(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+if(!auth.currentUser)return;
 try{
 const snap=await db.collection("services").orderBy("createdAt","desc").get();
 byId("serviceList").innerHTML=snap.empty?"કોઈ સેવા નથી.":snap.docs.map(doc=>{
@@ -378,11 +374,11 @@ if(rm&&confirm("ડિલીટ કરવું છે?")){await db.collection("
 });
 byId("refreshServices").addEventListener("click",loadServices);
 
-// --- Requests (Dashboard & Smart WhatsApp) ---
+// --- Requests ---
 const statusLabels={new:"નવી",contacted:"સંપર્ક કર્યો",in_progress:"કામ ચાલુ",completed:"પૂર્ણ"};
 
 async function loadRequests(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+if(!auth.currentUser)return;
 byId("requestList").textContent="અરજીઓ લોડ થઈ રહી છે...";
 try{
 const snap=await db.collection("customerRequests").orderBy("createdAt","desc").get();
@@ -405,7 +401,6 @@ function renderRequests(){
 const filter=byId("requestFilter").value;
 const total=currentRequests.length;
 
-// ડેશબોર્ડના આંકડા અપડેટ
 byId("totalRequests").textContent=total;
 byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
 byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
