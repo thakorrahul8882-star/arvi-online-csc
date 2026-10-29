@@ -73,7 +73,7 @@ header h1{font-size:20px}
 
 <section id="loginSection" class="card">
 <h2>🔐 Admin Login</h2>
-<p class="muted">ફક્ત અધિકૃત Admin જ લૉગિન કરી શકે છે.</p>
+<p class="muted">તમારું ઈમેલ અને પાસવર્ડ નાખીને લોગીન કરો.</p>
 <form id="loginForm">
 <label for="email">Admin Email</label>
 <input id="email" type="email" autocomplete="username" required placeholder="તમારું Admin Email">
@@ -99,170 +99,72 @@ header h1{font-size:20px}
 <button data-tab="requestsPanel">ગ્રાહકની અરજીઓ</button>
 </div>
 
+<!-- યોજના અને ભરતી વિભાગ -->
 <section id="announcementsPanel" class="tabPanel">
 <div class="card">
 <h2>📢 યોજના અને ભરતી મેનેજમેન્ટ</h2>
 <div id="announcementMessage" class="notice hidden"></div>
-
 <form id="announcementForm">
 <input type="hidden" id="announcementId">
-
 <div class="grid">
-<div>
-<label for="announcementTitle">યોજના / ભરતીનું નામ *</label>
-<input id="announcementTitle" required maxlength="180" placeholder="ઉદાહરણ: નવી સરકારી ભરતી">
+<div><label for="announcementTitle">યોજના / ભરતીનું નામ *</label><input id="announcementTitle" required maxlength="180" placeholder="ઉદાહરણ: નવી સરકારી ભરતી"></div>
+<div><label for="announcementCategory">પ્રકાર *</label><select id="announcementCategory" required><option value="યોજના">સરકારી યોજના</option><option value="ભરતી">સરકારી ભરતી</option><option value="જાહેરાત">અન્ય જાહેરાત</option></select></div>
+<div class="full"><label for="announcementDescription">સંપૂર્ણ માહિતી *</label><textarea id="announcementDescription" required maxlength="12000" placeholder="યોજનાની અથવા ભરતીની માહિતી લખો"></textarea></div>
+<div><label for="announcementPost">પોસ્ટનું નામ</label><input id="announcementPost" maxlength="180"></div>
+<div><label for="announcementVacancies">કુલ જગ્યાઓ</label><input id="announcementVacancies" maxlength="100"></div>
+<div><label for="announcementQualification">શૈક્ષણિક લાયકાત</label><textarea id="announcementQualification" maxlength="3000"></textarea></div>
+<div><label for="announcementAge">વયમર્યાદા</label><input id="announcementAge" maxlength="200"></div>
+<div><label for="announcementFee">અરજી ફી</label><input id="announcementFee" maxlength="200"></div>
+<div><label for="announcementStartDate">અરજી શરૂ થવાની તારીખ</label><input id="announcementStartDate" type="date"></div>
+<div><label for="announcementLastDate">અરજી કરવાની છેલ્લી તારીખ</label><input id="announcementLastDate" type="date"></div>
+<div class="full"><label for="announcementDocuments">જરૂરી દસ્તાવેજો</label><textarea id="announcementDocuments" maxlength="5000" placeholder="દરેક દસ્તાવેજ નવી લાઇનમાં લખો"></textarea></div>
+<div class="full"><label for="announcementLink">અરજી / સત્તાવાર લિંક (વૈકલ્પિક)</label><input id="announcementLink" type="url" placeholder="https://example.gov.in"></div>
 </div>
-
-<div>
-<label for="announcementCategory">પ્રકાર *</label>
-<select id="announcementCategory" required>
-<option value="યોજના">સરકારી યોજના</option>
-<option value="ભરતી">સરકારી ભરતી</option>
-<option value="જાહેરાત">અન્ય જાહેરાત</option>
-</select>
-</div>
-
-<div class="full">
-<label for="announcementDescription">સંપૂર્ણ માહિતી *</label>
-<textarea id="announcementDescription" required maxlength="12000" placeholder="યોજનાની અથવા ભરતીની માહિતી લખો"></textarea>
-</div>
-
-<div>
-<label for="announcementPost">પોસ્ટનું નામ</label>
-<input id="announcementPost" maxlength="180" placeholder="ઉદાહરણ: Food Safety Officer">
-</div>
-
-<div>
-<label for="announcementVacancies">કુલ જગ્યાઓ</label>
-<input id="announcementVacancies" maxlength="100" placeholder="ઉદાહરણ: 150">
-</div>
-
-<div>
-<label for="announcementQualification">શૈક્ષણિક લાયકાત</label>
-<textarea id="announcementQualification" maxlength="3000" placeholder="જરૂરી શૈક્ષણિક લાયકાત"></textarea>
-</div>
-
-<div>
-<label for="announcementAge">વયમર્યાદા</label>
-<input id="announcementAge" maxlength="200" placeholder="ઉંમર અને છૂટછાટ">
-</div>
-
-<div>
-<label for="announcementFee">અરજી ફી</label>
-<input id="announcementFee" maxlength="200" placeholder="ઉદાહરણ: કેટેગરી પ્રમાણે ફી">
-</div>
-
-<div>
-<label for="announcementStartDate">અરજી શરૂ થવાની તારીખ</label>
-<input id="announcementStartDate" type="date">
-</div>
-
-<div>
-<label for="announcementLastDate">અરજી કરવાની છેલ્લી તારીખ</label>
-<input id="announcementLastDate" type="date">
-</div>
-
-<div class="full">
-<label for="announcementDocuments">જરૂરી દસ્તાવેજો</label>
-<textarea id="announcementDocuments" maxlength="5000" placeholder="દરેક દસ્તાવેજ નવી લાઇનમાં લખો"></textarea>
-</div>
-
-<div class="full">
-<label for="announcementLink">અરજી / સત્તાવાર લિંક (વૈકલ્પિક)</label>
-<input id="announcementLink" type="url" placeholder="https://example.gov.in">
-</div>
-</div>
-
-<div class="checkrow">
-<input id="announcementPublished" type="checkbox" checked>
-<label for="announcementPublished">વેબસાઇટ પર પ્રકાશિત કરો</label>
-</div>
-
+<div class="checkrow"><input id="announcementPublished" type="checkbox" checked><label for="announcementPublished">વેબસાઇટ પર પ્રકાશિત કરો</label></div>
 <button id="announcementSaveBtn" type="submit">માહિતી સેવ કરો</button>
 <button type="button" class="btn-gray" id="resetAnnouncementBtn">ફોર્મ સાફ કરો</button>
 </form>
 </div>
-
 <div class="card">
-<div class="topline">
-<h2>ઉમેરેલી યોજનાઓ અને ભરતી</h2>
-<button id="refreshAnnouncements" class="btn-light">Refresh</button>
-</div>
+<div class="topline"><h2>ઉમેરેલી યોજનાઓ અને ભરતી</h2><button id="refreshAnnouncements" class="btn-light">Refresh</button></div>
 <div id="announcementList">માહિતી લોડ થઈ રહી છે...</div>
 </div>
 </section>
 
+<!-- CSC સેવાઓ વિભાગ -->
 <section id="servicesPanel" class="tabPanel hidden">
 <div class="card">
 <h2>🧾 CSC સેવાઓ મેનેજમેન્ટ</h2>
 <div id="serviceMessage" class="notice hidden"></div>
-
 <form id="serviceForm">
 <input type="hidden" id="serviceId">
-
-<label for="serviceTitle">સેવાનું નામ *</label>
-<input id="serviceTitle" required maxlength="180" placeholder="ઉદાહરણ: લગ્ન નોંધણી પ્રમાણપત્ર">
-
+<label for="serviceTitle">સેવાનું નામ *</label><input id="serviceTitle" required maxlength="180">
 <label for="serviceIcon">સેવાનું આઇકન પસંદ કરો *</label>
 <select id="serviceIcon" required>
-<option value="🛠️">🛠️ અન્ય સેવા</option>
-<option value="💳">💳 PAN કાર્ડ</option>
-<option value="💍">💍 લગ્ન નોંધણી</option>
-<option value="🌾">🌾 ખેડૂત સેવા</option>
-<option value="🏥">🏥 આયુષ્માન કાર્ડ</option>
-<option value="📋">📋 સરકારી ભરતી</option>
-<option value="📄">📄 પ્રમાણપત્ર</option>
-<option value="🏠">🏠 રેશન કાર્ડ</option>
-<option value="🚗">🚗 વાહન સેવા</option>
-<option value="🎓">🎓 શિષ્યવૃત્તિ</option>
-<option value="🐄">🐄 પશુપાલન સેવા</option>
-<option value="🔥">🔥 ગેસ સેવા</option>
-<option value="🏦">🏦 બેંકિંગ સેવા</option>
-<option value="🌾">🌾 ખેતી સેવા</option>
-<option value="🎓">🎓 શિષ્યવૃત્તિ</option>
-<option value="🛡️">🛡️ વીમા સેવા</option>
-<option value="🪪">🪪 ડ્રાઇવિંગ લાઇસન્સ</option>
-<option value="🧾">🧾 બિલ ચુકવણી</option>
-<option value="🖨️">🖨️ ફોટો અને પ્રિન્ટ</option>
-<option value="🏠">🏠 રેશન કાર્ડ</option>
-<option value="🪪">🪪 આધાર સેવા</option>
-<option value="🛠️">🛠️ અન્ય સેવા</option>
-<option value="🏛️">🏛️ સરકારી યોજના</option>
-<option value="🖨️">🖨️ પ્રિન્ટ અને ઝેરોક્સ</option>
-<option value="🪪">🪪 ઓળખપત્ર સેવા</option>
-<option value="💻">💻 ઓનલાઇન ફોર્મ</option>
+<option value="🛠️">🛠️ અન્ય સેવા</option><option value="💳">💳 PAN કાર્ડ</option><option value="💍">💍 લગ્ન નોંધણી</option>
+<option value="🌾">🌾 ખેડૂત સેવા</option><option value="🏥">🏥 આયુષ્માન કાર્ડ</option><option value="📋">📋 સરકારી ભરતી</option>
+<option value="📄">📄 પ્રમાણપત્ર</option><option value="🏠">🏠 રેશન કાર્ડ</option><option value="🚗">🚗 વાહન સેવા</option>
+<option value="🎓">🎓 શિષ્યવૃત્તિ</option><option value="🐄">🐄 પશુપાલન સેવા</option><option value="🔥">🔥 ગેસ સેવા</option>
+<option value="🏦">🏦 બેંકિંગ સેવા</option><option value="🛡️">🛡️ વીમા સેવા</option>
+<option value="🪪">🪪 ડ્રાઇવિંગ લાઇસન્સ</option><option value="🧾">🧾 બિલ ચુકવણી</option>
+<option value="🖨️">🖨️ ફોટો અને પ્રિન્ટ</option><option value="🪪">🪪 આધાર સેવા</option>
+<option value="🏛️">🏛️ સરકારી યોજના</option><option value="💻">💻 ઓનલાઇન ફોર્મ</option>
 </select>
-<div class="muted">પસંદ કરેલું આઇકન સેવા નામની આગળ દેખાશે.</div>
-
-<label for="serviceDescription">સેવાની વિગતો *</label>
-<textarea id="serviceDescription" required maxlength="8000" placeholder="સેવા વિશેની માહિતી લખો"></textarea>
-
-<label for="serviceDocuments">જરૂરી દસ્તાવેજો</label>
-<textarea id="serviceDocuments" maxlength="8000" placeholder="દરેક દસ્તાવેજ નવી લાઇનમાં લખો"></textarea>
-
-<label for="servicePrice">ફી / ભાવ (વૈકલ્પિક)</label>
-<input id="servicePrice" maxlength="100" placeholder="ઉદાહરણ: ₹200">
-
-<div class="checkrow">
-<input id="servicePublished" type="checkbox" checked>
-<label for="servicePublished">વેબસાઇટ પર પ્રકાશિત કરો</label>
-</div>
-
+<label for="serviceDescription">સેવાની વિગતો *</label><textarea id="serviceDescription" required maxlength="8000"></textarea>
+<label for="serviceDocuments">જરૂરી દસ્તાવેજો</label><textarea id="serviceDocuments" maxlength="8000"></textarea>
+<label for="servicePrice">ફી / ભાવ (વૈકલ્પિક)</label><input id="servicePrice" maxlength="100">
+<div class="checkrow"><input id="servicePublished" type="checkbox" checked><label for="servicePublished">વેબસાઇટ પર પ્રકાશિત કરો</label></div>
 <button id="serviceSaveBtn" type="submit">સેવા સેવ કરો</button>
 <button type="button" class="btn-gray" id="resetServiceBtn">ફોર્મ સાફ કરો</button>
 </form>
 </div>
-
 <div class="card">
-<div class="topline">
-<h2>તમારી CSC સેવાઓ</h2>
-<button id="refreshServices" class="btn-light">Refresh</button>
-</div>
+<div class="topline"><h2>તમારી CSC સેવાઓ</h2><button id="refreshServices" class="btn-light">Refresh</button></div>
 <div id="serviceList">સેવાઓ લોડ થઈ રહી છે...</div>
 </div>
 </section>
 
-<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ સાથે) -->
+<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે) -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
@@ -313,12 +215,12 @@ appId:"1:57206587457:web:3723726ba2f2ecbd6d86c0",
 measurementId:"G-JJX8CE0TE9"
 };
 
-// તમારું જૂનું સિક્યોરિટી લોક જેમ હતું તેમ જ રાખ્યું છે
-const ADMIN_UID="nIreaPMvujbR9IrdilWpSyz3o623";
-
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.firestore();
+
+// ઓટોમેટિક UID સેટઅપ (હવે જૂના UID ની ઝંઝટ નહિ)
+let ADMIN_UID = "";
 
 let currentRequests=[];
 let loginBusy=false;
@@ -382,7 +284,7 @@ return messages[code]||(error&&error.message?error.message:"અજાણી ભ�
 
 function ensureAdmin(){
 const user=auth.currentUser;
-if(!user||user.uid!==ADMIN_UID)throw new Error("Admin ઓળખ ચકાસી શકાઈ નથી. ફરીથી Login કરો.");
+if(!user || !ADMIN_UID || user.uid !== ADMIN_UID) throw new Error("Admin ઓળખ ચકાસી શકાઈ નથી. ફરીથી Login કરો.");
 return user;
 }
 
@@ -406,10 +308,7 @@ setButtonLoading("loginBtn",true,"લૉગિન થઈ રહ્યું છ�
 clearMessage("loginMessage");
 try{
 const c=await auth.signInWithEmailAndPassword(byId("email").value.trim(),byId("password").value);
-if(c.user.uid!==ADMIN_UID){
-await auth.signOut();
-throw new Error("આ એકાઉન્ટને Admin Panel નો અધિકાર નથી.");
-}
+ADMIN_UID = c.user.uid; // ઓટોમેટિક પાસકોડ સેટ
 showMessage("globalMessage","Admin Login સફળ થયું.","success");
 }catch(err){
 showMessage("loginMessage",errorText(err),"error");
@@ -425,7 +324,8 @@ catch(e){showMessage("globalMessage",errorText(e),"error")}
 });
 
 auth.onAuthStateChanged(async user=>{
-if(user&&user.uid===ADMIN_UID){
+if(user){
+ADMIN_UID = user.uid; // ઓટોમેટિક પાસકોડ સેટ
 byId("loginSection").classList.add("hidden");
 byId("dashboard").classList.remove("hidden");
 byId("adminIdentity").textContent="લૉગિન: "+(user.email||"Admin");
@@ -433,7 +333,7 @@ await loadAnnouncements();
 await loadServices();
 await loadRequests();
 }else{
-if(user)await auth.signOut();
+ADMIN_UID = "";
 byId("dashboard").classList.add("hidden");
 byId("loginSection").classList.remove("hidden");
 byId("adminIdentity").textContent="";
@@ -510,7 +410,7 @@ setButtonLoading("announcementSaveBtn",false);
 });
 
 async function loadAnnouncements(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+if(!auth.currentUser)return;
 byId("announcementList").textContent="માહિતી લોડ થઈ રહી છે...";
 try{
 const snap=await db.collection("announcements").orderBy("createdAt","desc").get();
@@ -662,7 +562,7 @@ setButtonLoading("serviceSaveBtn",false);
 });
 
 async function loadServices(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+if(!auth.currentUser)return;
 byId("serviceList").textContent="સેવાઓ લોડ થઈ રહી છે...";
 try{
 const snap=await db.collection("services").orderBy("createdAt","desc").get();
@@ -678,9 +578,7 @@ const icon=x.icon||"🛠️";
 return `<article class="item">
 <h3><span class="service-icon-preview">${escapeHTML(icon)}</span>${escapeHTML(x.title||"નામ વગરની સેવા")}</h3>
 <span class="pill">${x.published?"પ્રકાશિત":"પ્રકાશિત નથી"}</span>
-${x.price?`<p><strong>ફી / ભાવ:</strong> ${escapeHTML(x.price)}</p>`:""}
-<p><strong>સેવાની વિગતો:</strong><br>${escapeHTML(x.description||"").replace(/\n/g,"<br>")}</p>
-${x.documents?`<p><strong>જરૂરી દસ્તાવેજો:</strong><br>${escapeHTML(x.documents).replace(/\n/g,"<br>")}</p>`:""}
+${x.price?`<p><strong>ફી / ભાવ:</strong> ${escapeHTML(x.price)}</p>`:""} <p><strong>સેવાની વિગતો:</strong><br>${escapeHTML(x.description\vert{}\vert{}"").replace(/\n/g,"<br>")}</p> ${x.documents?`<p><strong>જરૂરી દસ્તાવેજો:</strong><br>${escapeHTML(x.documents).replace(/\n/g,"<br>")}</p>`:""}
 <div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(x.createdAt))}</div>
 <button class="editService btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
 <button class="toggleService btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${x.published?"true":"false"}">${x.published?"Unpublish":"Publish"}</button>
@@ -688,7 +586,7 @@ ${x.documents?`<p><strong>જરૂરી દસ્તાવેજો:</strong><
 </article>`;
 }).join("");
 }catch(e){
-byId("serviceList").textContent="સેવાઓ લોડ થઈ શકી નથી: "+errorText(e);
+byId("serviceList").textContent="સેવાઓ લોડ થઈ શકી পক্ষের: "+errorText(e);
 }
 }
 
@@ -712,180 +610,4 @@ byId("serviceDescription").value=x.description||"";
 byId("serviceDocuments").value=x.documents||"";
 byId("servicePrice").value=x.price||"";
 byId("servicePublished").checked=x.published===true;
-byId("serviceSaveBtn").textContent="ફેરફાર સેવ કરો";
-
-document.querySelector('[data-tab="servicesPanel"]').click();
-byId("serviceForm").scrollIntoView({behavior:"smooth"});
-}
-
-if(toggle){
-await db.collection("services").doc(toggle.dataset.id).update({
-published:toggle.dataset.published!=="true",
-updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-});
-await loadServices();
-showMessage("serviceMessage","સેવાની સ્થિતિ અપડેટ થઈ.","success");
-}
-
-if(remove){
-if(!confirm("આ સેવા કાયમી રીતે ડિલીટ કરવી છે?"))return;
-await db.collection("services").doc(remove.dataset.id).delete();
-await loadServices();
-showMessage("serviceMessage","સેવા ડિલીટ થઈ.","success");
-}
-}catch(err){
-showMessage("serviceMessage",errorText(err),"error");
-}
-});
-
-byId("refreshServices").addEventListener("click",loadServices);
-
-// ગ્રાહક અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે)
-const statusLabels={
-new:"નવી",
-contacted:"સંપર્ક કર્યો",
-in_progress:"કામ ચાલુ",
-completed:"પૂર્ણ"
-};
-
-async function loadRequests(){
-if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
-byId("requestList").textContent="અરજીઓ લોડ થઈ રહી છે...";
-try{
-const snap=await db.collection("customerRequests").orderBy("createdAt","desc").get();
-currentRequests=snap.docs.map(d=>({id:d.id,...d.data()}));
-renderRequests();
-}catch(e){
-byId("requestList").textContent="અરજીઓ લોડ થઈ શકી નથી: "+errorText(e);
-}
-}
-
-function generateWhatsAppMsg(name, service, status, id) {
-  let msg = `નમસ્તે ${name}ભાઈ,\nઆર્વી ઓનલાઈન & CSC માંથી મેસેજ છે.\n\nતમારી "${service}" ની અરજી (નંબર: ${id})`;
-  if(status === 'new') msg += ` અમને મળી ગઈ છે. અમે ટૂંક સમયમાં તમારું કામ શરૂ કરીશું.`;
-  else if(status === 'in_progress') msg += ` નું કામ અત્યારે ચાલુ છે.`;
-  else if(status === 'completed') msg += ` નું કામ સફળતાપૂર્વક પૂર્ણ થઈ ગયું છે!`;
-  else msg += ` બાબતે તમારો સંપર્ક કરવામાં આવ્યો છે.`;
-  msg += `\n\n- રાહુલ ઠાકોર\n(જન સુવિધા કેન્દ્ર, ખોડાણા)`;
-  return encodeURIComponent(msg);
-}
-
-function renderRequests(){
-const filter=byId("requestFilter").value;
-const total=currentRequests.length;
-
-// ડેશબોર્ડ અપડેટ
-byId("totalRequests").textContent=total;
-byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
-byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
-byId("completedRequests").textContent=currentRequests.filter(r=>r.status==="completed").length;
-
-const visible=filter==="all"?currentRequests:currentRequests.filter(r=>r.status===filter);
-if(!visible.length){
-byId("requestList").textContent="આ પસંદગીમાં કોઈ અરજી મળી નથી.";
-return;
-}
-
-byId("requestList").innerHTML=visible.map(x=>{
-const status=statusLabels[x.status]||"અન્ય";
-const digits=String(x.phone||"").replace(/\D/g,"");
-const isWa = /^[6-9][0-9]{9}$/.test(digits);
-const waMsg = isWa ? generateWhatsAppMsg(x.name, x.service, x.status, x.id) : '';
-const waLink = isWa ? `https://wa.me/91${digits}?text=${waMsg}` : '';
-
-return `<article class="item" style="border-left: 5px solid ${x.status==='completed'?'#388e3c':x.status==='new'?'#d32f2f':'#1769aa'}">
-<div class="topline"><h3>${escapeHTML(x.name||"નામ નથી")}</h3><span class="pill" style="font-size:14px">${escapeHTML(status)}</span></div>
-<p><strong>અરજી નંબર:</strong> ${escapeHTML(x.id)}</p>
-<p><strong>મોબાઇલ:</strong> ${escapeHTML(x.phone||"ઉપલબ્ધ નથી")}</p>
-<p><strong>સેવા:</strong> ${escapeHTML(x.service||"ઉપલબ્ધ નથી")}</p>
-<p><strong>નોંધ:</strong><br>${escapeHTML(x.note||"નોંધ નથી").replace(/\n/g,"<br>")}</p>
-<p class="muted">અરજી તારીખ: ${escapeHTML(formatDate(x.createdAt))}</p>
-
-<hr style="border-top:1px solid #dce3ee; margin:15px 0;">
-<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-<label for="status-${escapeHTML(x.id)}" style="margin:0;">સ્ટેટસ:</label>
-<select id="status-${escapeHTML(x.id)}" class="requestStatus" style="width:auto; min-width:130px;">
-<option value="new" ${x.status==="new"?"selected":""}>નવી</option>
-<option value="contacted" ${x.status==="contacted"?"selected":""}>સંપર્ક કર્યો</option>
-<option value="in_progress" ${x.status==="in_progress"?"selected":""}>કામ ચાલુ</option>
-<option value="completed" ${x.status==="completed"?"selected":""}>પૂર્ણ</option>
-</select>
-<button class="saveRequestStatus" data-id="${escapeHTML(x.id)}">સેવ કરો</button>
-</div>
-<div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-${waLink?`<button class="btn-green openWhatsApp" data-url="${waLink}">💬 WhatsApp મેસેજ</button>`:""}
-<button class="btn-red deleteRequest" data-id="${escapeHTML(x.id)}">ડિલીટ કરો</button>
-</div>
-</article>`;
-}).join("");
-}
-
-byId("requestFilter").addEventListener("change",renderRequests);
-byId("refreshRequests").addEventListener("click",loadRequests);
-
-byId("requestList").addEventListener("click",async e=>{
-const save=e.target.closest(".saveRequestStatus");
-const remove=e.target.closest(".deleteRequest");
-const whatsapp=e.target.closest(".openWhatsApp");
-
-if(save){
-try{
-ensureAdmin();
-const id=save.dataset.id;
-const status=byId("status-"+id).value;
-if(!Object.prototype.hasOwnProperty.call(statusLabels,status))throw new Error("સ્ટેટસ યોગ્ય નથી.");
-const request=currentRequests.find(x=>x.id===id);
-if(!request)throw new Error("અરજી મળી નથી. ફરી Refresh કરો.");
-
-save.textContent="સેવ થાય છે...";
-save.disabled=true;
-const serverTime=firebase.firestore.FieldValue.serverTimestamp();
-const batch=db.batch();
-
-batch.update(db.collection("customerRequests").doc(id),{
-status,updatedAt:serverTime
-});
-
-batch.set(db.collection("publicRequestStatus").doc(id),{
-service:request.service||"CSC સેવા",
-status,
-createdAt:request.createdAt||firebase.firestore.FieldValue.serverTimestamp(),
-updatedAt:serverTime
-},{merge:true});
-
-await batch.commit();
-showMessage("requestMessage","સ્ટેટસ અપડેટ થઈ ગયું!","success");
-await loadRequests();
-}catch(err){
-showMessage("requestMessage",errorText(err),"error");
-}finally{
-if(save) save.disabled=false;
-}
-}
-
-if(remove){
-if(!confirm("આ ગ્રાહકની અરજી કાયમી રીતે ડિલીટ કરવી છે?"))return;
-try{
-ensureAdmin();
-const id=remove.dataset.id;
-const batch=db.batch();
-batch.delete(db.collection("customerRequests").doc(id));
-batch.delete(db.collection("publicRequestStatus").doc(id));
-await batch.commit();
-showMessage("requestMessage","અરજી ડિલીટ થઈ.","success");
-await loadRequests();
-}catch(err){
-showMessage("requestMessage",errorText(err),"error");
-}
-}
-
-if(whatsapp){
-const url=whatsapp.dataset.url;
-if(url)window.open(url,"_blank","noopener,noreferrer");
-}
-});
-
-["globalMessage","loginMessage","announcementMessage","serviceMessage","requestMessage"].forEach(clearMessage);
-</script>
-</body>
-</html>
+byId("serviceSaveBtn
