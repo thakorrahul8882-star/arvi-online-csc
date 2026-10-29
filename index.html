@@ -126,6 +126,22 @@ gtag('config', 'G-XZX6WJH2QM');
   height: 32px;
   fill: #ffffff;
 }
+
+/* Google Translate Button CSS */
+#google_translate_element select {
+  background: #123b70;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+.goog-te-gadget { color: transparent !important; font-size: 0px !important; }
+.goog-logo-link, .goog-te-gadget span { display: none !important; }
+body { top: 0px !important; }
+.skiptranslate > iframe.skiptranslate { display: none !important; }
 </style>
 </head>
 
@@ -133,7 +149,8 @@ gtag('config', 'G-XZX6WJH2QM');
 <header class="hero">
   <nav class="nav wrap">
     <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
-    <button id="langBtn" class="lang" type="button">English</button>
+    <!-- Google Translate Dropdown -->
+    <div id="google_translate_element"></div>
   </nav>
 
   <div class="hero-content wrap">
@@ -177,6 +194,11 @@ gtag('config', 'G-XZX6WJH2QM');
     <p class="eyebrow">અમારી સેવાઓ</p>
     <h2>તમારી જરૂરિયાત મુજબની સેવા પસંદ કરો</h2>
     <p class="muted">સેવા પર ક્લિક કરીને જરૂરી ડોક્યુમેન્ટ, ફી અને માહિતી જુઓ.</p>
+  </div>
+
+  <!-- Service Search Bar -->
+  <div style="text-align: center; margin-bottom: 25px;">
+    <input type="text" id="serviceSearch" placeholder="🔍 સેવા શોધો (દા.ત. PAN, આધાર, 7/12)..." style="width: 100%; max-width: 400px; padding: 12px 20px; border-radius: 25px; border: 2px solid #cbd5e1; font-size: 16px; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
   </div>
 
   <h3>અમારી સેવાઓ</h3>
@@ -401,16 +423,6 @@ function getText(...values){
 
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
-
-let currentLanguage="gu";
-document.getElementById("langBtn").addEventListener("click",()=>{
-  currentLanguage=currentLanguage==="gu"?"en":"gu";
-  document.documentElement.lang=currentLanguage;
-  document.querySelectorAll("[data-gu][data-en]").forEach(el=>{
-    el.textContent=el.dataset[currentLanguage];
-  });
-  document.getElementById("langBtn").textContent=currentLanguage==="gu"?"English":"ગુજરાતી";
-});
 
 const dialog=document.getElementById("serviceDialog");
 const dialogTitle=document.getElementById("dialogTitle");
@@ -836,6 +848,49 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('Service Worker Error', err));
   });
 }
+
+/* 3. સેવાઓ શોધવા માટે (Search Bar Logic) */
+const searchInput = document.getElementById('serviceSearch');
+if (searchInput) {
+  searchInput.addEventListener('input', function(e) {
+    const text = e.target.value.toLowerCase();
+    document.querySelectorAll('#services .service, #dynamicServices .service-card').forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      card.style.display = title.includes(text) ? '' : 'none';
+    });
+  });
+}
+
+/* 4. Scroll to Top બટન */
+const topBtn = document.createElement('button');
+topBtn.innerHTML = '⬆️';
+topBtn.title = 'ઉપર જાઓ';
+topBtn.style.cssText = 'display:none; position:fixed; bottom:95px; right:25px; z-index:99; background:#123b70; color:#fff; border:none; padding:15px; border-radius:50%; font-size:18px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.2); transition:0.3s;';
+document.body.appendChild(topBtn);
+
+window.addEventListener('scroll', () => {
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    topBtn.style.display = 'block';
+  } else {
+    topBtn.style.display = 'none';
+  }
+});
+topBtn.addEventListener('click', () => {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
 </script>
+
+<!-- Google Translate Script (For Auto-Translation) -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'gu', 
+    includedLanguages: 'en,gu',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
