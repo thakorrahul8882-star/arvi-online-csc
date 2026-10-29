@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 
 <style>
-:root{--blue:#123b80;--blue2:#1769aa;--bg:#f3f6fb;--text:#1c2738;--muted:#667085;--green:#16834a;--red:#c62828;--border:#dce3ee}
+:root{--blue:#123b80;--blue2:#1769aa;--bg:#f3f6fb;--text:#1c2738;--muted:#667085;--green:#25d366;--red:#c62828;--border:#dce3ee}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,"Noto Sans Gujarati",sans-serif;background:var(--bg);color:var(--text)}
 header{background:linear-gradient(120deg,#102e68,#1769aa);color:white;padding:22px 16px}
@@ -22,7 +22,8 @@ input,textarea,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-ra
 textarea{min-height:105px;resize:vertical}
 button{border:0;border-radius:8px;padding:11px 15px;color:white;background:var(--blue2);cursor:pointer;font-size:14px;font-weight:bold;margin:5px 4px 5px 0}
 button:disabled{opacity:.55;cursor:not-allowed}
-.btn-green{background:var(--green)}
+.btn-green{background:var(--green);color:white;}
+.btn-green:hover{background:#128c7e;}
 .btn-red{background:var(--red)}
 .btn-gray{background:#596579}
 .btn-light{background:#e5efff;color:#123b80}
@@ -38,22 +39,22 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .item{border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;background:white;overflow-wrap:anywhere}
 .item h3{margin-bottom:8px}
 .muted{color:var(--muted);font-size:13px}
-.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f2ff;color:#164b83;font-size:12px;margin:3px 0}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f2ff;color:#164b83;font-size:12px;margin:3px 0;font-weight:bold;}
 .checkrow{display:flex;align-items:center;gap:9px;margin:12px 0}
 .checkrow input{width:auto}
 .checkrow label{margin:0}
 .hidden{display:none!important}
 .topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.stat{padding:14px;border-radius:10px;background:#edf4ff}
-.stat strong{display:block;font-size:23px;color:var(--blue)}
-.stat span{font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat{padding:14px;border-radius:10px;background:#edf4ff; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.05);}
+.stat strong{display:block;font-size:26px;color:var(--blue); margin-bottom:5px;}
+.stat span{font-size:14px; font-weight:bold;}
 .service-icon-preview{font-size:30px;margin-right:8px;vertical-align:middle}
 footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
 @media(max-width:650px){
 .grid{grid-template-columns:1fr}
 .full{grid-column:auto}
-.stats{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}
 header h1{font-size:20px}
 .container{padding:12px}
 .card{padding:14px}
@@ -261,6 +262,7 @@ header h1{font-size:20px}
 </div>
 </section>
 
+<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ સાથે) -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
@@ -268,19 +270,21 @@ header h1{font-size:20px}
 <button id="refreshRequests" class="btn-light">Refresh</button>
 </div>
 
+<!-- સ્માર્ટ ડેશબોર્ડ -->
 <div class="stats">
 <div class="stat"><strong id="totalRequests">0</strong><span>કુલ અરજીઓ</span></div>
-<div class="stat"><strong id="newRequests">0</strong><span>નવી અરજીઓ</span></div>
-<div class="stat"><strong id="completedRequests">0</strong><span>પૂર્ણ અરજીઓ</span></div>
+<div class="stat"><strong id="newRequests" style="color:#d32f2f;">0</strong><span>નવી (New)</span></div>
+<div class="stat"><strong id="progressRequests" style="color:#f57c00;">0</strong><span>ચાલુ (Process)</span></div>
+<div class="stat"><strong id="completedRequests" style="color:#388e3c;">0</strong><span>પૂર્ણ (Completed)</span></div>
 </div>
 
-<label for="requestFilter">સ્ટેટસ પ્રમાણે જુઓ</label>
-<select id="requestFilter">
-<option value="all">બધી અરજીઓ</option>
-<option value="new">નવી</option>
-<option value="contacted">સંપર્ક કર્યો</option>
-<option value="in_progress">કામ ચાલુ</option>
-<option value="completed">પૂર્ણ</option>
+<label for="requestFilter">સ્ટેટસ પ્રમાણે ફિલ્ટર કરો:</label>
+<select id="requestFilter" style="margin-bottom:20px; font-weight:bold;">
+<option value="all">બધી અરજીઓ બતાવો</option>
+<option value="new">ફક્ત નવી અરજીઓ</option>
+<option value="contacted">જેનો સંપર્ક કર્યો છે</option>
+<option value="in_progress">જેનું કામ ચાલુ છે</option>
+<option value="completed">જેનું કામ પૂર્ણ થયું છે</option>
 </select>
 
 <div id="requestMessage" class="notice hidden"></div>
@@ -309,6 +313,7 @@ appId:"1:57206587457:web:3723726ba2f2ecbd6d86c0",
 measurementId:"G-JJX8CE0TE9"
 };
 
+// તમારું જૂનું સિક્યોરિટી લોક જેમ હતું તેમ જ રાખ્યું છે
 const ADMIN_UID="nIreaPMvujbR9IrdilWpSyz3o623";
 
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -389,3 +394,498 @@ b.textContent=text||"કૃપા કરીને રાહ જુઓ...";
 b.disabled=true;
 }else{
 b.textContent=b.dataset.originalText||b.textContent;
+b.disabled=false;
+}
+}
+
+byId("loginForm").addEventListener("submit",async e=>{
+e.preventDefault();
+if(loginBusy)return;
+loginBusy=true;
+setButtonLoading("loginBtn",true,"લૉગિન થઈ રહ્યું છે...");
+clearMessage("loginMessage");
+try{
+const c=await auth.signInWithEmailAndPassword(byId("email").value.trim(),byId("password").value);
+if(c.user.uid!==ADMIN_UID){
+await auth.signOut();
+throw new Error("આ એકાઉન્ટને Admin Panel નો અધિકાર નથી.");
+}
+showMessage("globalMessage","Admin Login સફળ થયું.","success");
+}catch(err){
+showMessage("loginMessage",errorText(err),"error");
+}finally{
+loginBusy=false;
+setButtonLoading("loginBtn",false);
+}
+});
+
+byId("logoutBtn").addEventListener("click",async()=>{
+try{await auth.signOut()}
+catch(e){showMessage("globalMessage",errorText(e),"error")}
+});
+
+auth.onAuthStateChanged(async user=>{
+if(user&&user.uid===ADMIN_UID){
+byId("loginSection").classList.add("hidden");
+byId("dashboard").classList.remove("hidden");
+byId("adminIdentity").textContent="લૉગિન: "+(user.email||"Admin");
+await loadAnnouncements();
+await loadServices();
+await loadRequests();
+}else{
+if(user)await auth.signOut();
+byId("dashboard").classList.add("hidden");
+byId("loginSection").classList.remove("hidden");
+byId("adminIdentity").textContent="";
+}
+});
+
+document.querySelectorAll("[data-tab]").forEach(button=>button.addEventListener("click",()=>{
+document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".tabPanel").forEach(p=>p.classList.add("hidden"));
+button.classList.add("active");
+byId(button.dataset.tab).classList.remove("hidden");
+}));
+
+// યોજના અને ભરતી
+function resetAnnouncementForm(){
+byId("announcementForm").reset();
+byId("announcementId").value="";
+byId("announcementPublished").checked=true;
+byId("announcementSaveBtn").textContent="માહિતી સેવ કરો";
+clearMessage("announcementMessage");
+}
+
+byId("resetAnnouncementBtn").addEventListener("click",resetAnnouncementForm);
+
+byId("announcementForm").addEventListener("submit",async e=>{
+e.preventDefault();
+try{
+ensureAdmin();
+const id=byId("announcementId").value;
+const title=byId("announcementTitle").value.trim();
+const category=byId("announcementCategory").value;
+const description=byId("announcementDescription").value.trim();
+const linkInput=byId("announcementLink").value.trim();
+const link=safeHttpUrl(linkInput);
+
+if(linkInput&&!link)throw new Error("યોગ્ય http અથવા https લિંક લખો.");
+if(!title||!description)throw new Error("નામ અને માહિતી ભરવી જરૂરી છે.");
+
+const data={
+title,
+category,
+description,
+link,
+post:byId("announcementPost").value.trim(),
+vacancies:byId("announcementVacancies").value.trim(),
+qualification:byId("announcementQualification").value.trim(),
+age:byId("announcementAge").value.trim(),
+fee:byId("announcementFee").value.trim(),
+startDate:byId("announcementStartDate").value,
+lastDate:byId("announcementLastDate").value,
+documents:byId("announcementDocuments").value.trim(),
+published:byId("announcementPublished").checked,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+};
+
+setButtonLoading("announcementSaveBtn",true,"સેવ થઈ રહ્યું છે...");
+
+if(id){
+await db.collection("announcements").doc(id).update(data);
+showMessage("announcementMessage","માહિતી અપડેટ થઈ.","success");
+}else{
+data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+await db.collection("announcements").add(data);
+showMessage("announcementMessage","નવી માહિતી ઉમેરાઈ ગઈ.","success");
+}
+
+resetAnnouncementForm();
+await loadAnnouncements();
+}catch(err){
+showMessage("announcementMessage",errorText(err),"error");
+}finally{
+setButtonLoading("announcementSaveBtn",false);
+}
+});
+
+async function loadAnnouncements(){
+if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+byId("announcementList").textContent="માહિતી લોડ થઈ રહી છે...";
+try{
+const snap=await db.collection("announcements").orderBy("createdAt","desc").get();
+if(snap.empty){
+byId("announcementList").textContent="હજુ કોઈ યોજના અથવા ભરતી ઉમેરાઈ નથી.";
+return;
+}
+
+byId("announcementList").innerHTML=snap.docs.map(doc=>{
+const x=doc.data();
+const link=safeHttpUrl(x.link);
+const details=[
+["પોસ્ટનું નામ",x.post],
+["કુલ જગ્યાઓ",x.vacancies],
+["શૈક્ષણિક લાયકાત",x.qualification],
+["વયમર્યાદા",x.age],
+["અરજી ફી",x.fee],
+["અરજી શરૂ થવાની તારીખ",formatSimpleDate(x.startDate)],
+["છેલ્લી તારીખ",formatSimpleDate(x.lastDate)],
+["જરૂરી દસ્તાવેજો",x.documents]
+].filter(row=>row[1]);
+
+return `<article class="item">
+<h3>${escapeHTML(x.title||"નામ વગરની માહિતી")}</h3>
+<span class="pill">${escapeHTML(x.category||"જાહેરાત")}</span>
+<span class="pill">${x.published?"પ્રકાશિત":"પ્રકાશિત નથી"}</span>
+<p>${escapeHTML(x.description||"").replace(/\n/g,"<br>")}</p>
+${details.map(row=>`<p><strong>${escapeHTML(row[0])}:</strong><br>${escapeHTML(row[1]).replace(/\n/g,"<br>")}</p>`).join("")}
+${link?`<p><a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">અરજી / વધુ માહિતીની લિંક</a></p>`:""}
+<div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(x.createdAt))}</div>
+<button class="editAnnouncement btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
+<button class="toggleAnnouncement btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${x.published?"true":"false"}">${x.published?"Unpublish":"Publish"}</button>
+<button class="deleteAnnouncement btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+</article>`;
+}).join("");
+}catch(e){
+byId("announcementList").textContent="માહિતી લોડ થઈ શકી નથી: "+errorText(e);
+}
+}
+
+byId("announcementList").addEventListener("click",async e=>{
+const edit=e.target.closest(".editAnnouncement");
+const toggle=e.target.closest(".toggleAnnouncement");
+const remove=e.target.closest(".deleteAnnouncement");
+try{
+ensureAdmin();
+
+if(edit){
+const d=await db.collection("announcements").doc(edit.dataset.id).get();
+if(!d.exists)throw new Error("માહિતી મળી નથી.");
+const x=d.data();
+
+byId("announcementId").value=d.id;
+byId("announcementTitle").value=x.title||"";
+byId("announcementCategory").value=x.category||"યોજના";
+byId("announcementDescription").value=x.description||"";
+byId("announcementPost").value=x.post||"";
+byId("announcementVacancies").value=x.vacancies||"";
+byId("announcementQualification").value=x.qualification||"";
+byId("announcementAge").value=x.age||"";
+byId("announcementFee").value=x.fee||"";
+byId("announcementStartDate").value=x.startDate||"";
+byId("announcementLastDate").value=x.lastDate||"";
+byId("announcementDocuments").value=x.documents||"";
+byId("announcementLink").value=x.link||"";
+byId("announcementPublished").checked=x.published===true;
+byId("announcementSaveBtn").textContent="ફેરફાર સેવ કરો";
+
+document.querySelector('[data-tab="announcementsPanel"]').click();
+byId("announcementForm").scrollIntoView({behavior:"smooth"});
+}
+
+if(toggle){
+await db.collection("announcements").doc(toggle.dataset.id).update({
+published:toggle.dataset.published!=="true",
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+await loadAnnouncements();
+showMessage("announcementMessage","પ્રકાશન સ્થિતિ અપડેટ થઈ.","success");
+}
+
+if(remove){
+if(!confirm("આ માહિતી કાયમી રીતે ડિલીટ કરવી છે?"))return;
+await db.collection("announcements").doc(remove.dataset.id).delete();
+await loadAnnouncements();
+showMessage("announcementMessage","માહિતી ડિલીટ થઈ.","success");
+}
+}catch(err){
+showMessage("announcementMessage",errorText(err),"error");
+}
+});
+
+byId("refreshAnnouncements").addEventListener("click",loadAnnouncements);
+
+// CSC સેવાઓ — આઇકન સાથે
+function resetServiceForm(){
+byId("serviceForm").reset();
+byId("serviceId").value="";
+byId("serviceIcon").value="🛠️";
+byId("servicePublished").checked=true;
+byId("serviceSaveBtn").textContent="સેવા સેવ કરો";
+clearMessage("serviceMessage");
+}
+
+byId("resetServiceBtn").addEventListener("click",resetServiceForm);
+
+byId("serviceForm").addEventListener("submit",async e=>{
+e.preventDefault();
+try{
+ensureAdmin();
+
+const id=byId("serviceId").value;
+const title=byId("serviceTitle").value.trim();
+const description=byId("serviceDescription").value.trim();
+const documents=byId("serviceDocuments").value.trim();
+const price=byId("servicePrice").value.trim();
+const icon=byId("serviceIcon").value||"🛠️";
+
+if(!title||!description)throw new Error("સેવાનું નામ અને વિગતો ભરવી જરૂરી છે.");
+
+const data={
+title,
+description,
+documents,
+price,
+icon,
+published:byId("servicePublished").checked,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+};
+
+setButtonLoading("serviceSaveBtn",true,"સેવ થઈ રહ્યું છે...");
+
+if(id){
+await db.collection("services").doc(id).update(data);
+showMessage("serviceMessage","સેવા અપડેટ થઈ.","success");
+}else{
+data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+await db.collection("services").add(data);
+showMessage("serviceMessage","નવી સેવા ઉમેરાઈ ગઈ.","success");
+}
+
+resetServiceForm();
+await loadServices();
+}catch(err){
+showMessage("serviceMessage",errorText(err),"error");
+}finally{
+setButtonLoading("serviceSaveBtn",false);
+}
+});
+
+async function loadServices(){
+if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+byId("serviceList").textContent="સેવાઓ લોડ થઈ રહી છે...";
+try{
+const snap=await db.collection("services").orderBy("createdAt","desc").get();
+if(snap.empty){
+byId("serviceList").textContent="હજુ કોઈ CSC સેવા ઉમેરાઈ નથી.";
+return;
+}
+
+byId("serviceList").innerHTML=snap.docs.map(doc=>{
+const x=doc.data();
+const icon=x.icon||"🛠️";
+
+return `<article class="item">
+<h3><span class="service-icon-preview">${escapeHTML(icon)}</span>${escapeHTML(x.title||"નામ વગરની સેવા")}</h3>
+<span class="pill">${x.published?"પ્રકાશિત":"પ્રકાશિત નથી"}</span>
+${x.price?`<p><strong>ફી / ભાવ:</strong> ${escapeHTML(x.price)}</p>`:""}
+<p><strong>સેવાની વિગતો:</strong><br>${escapeHTML(x.description||"").replace(/\n/g,"<br>")}</p>
+${x.documents?`<p><strong>જરૂરી દસ્તાવેજો:</strong><br>${escapeHTML(x.documents).replace(/\n/g,"<br>")}</p>`:""}
+<div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(x.createdAt))}</div>
+<button class="editService btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
+<button class="toggleService btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${x.published?"true":"false"}">${x.published?"Unpublish":"Publish"}</button>
+<button class="deleteService btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+</article>`;
+}).join("");
+}catch(e){
+byId("serviceList").textContent="સેવાઓ લોડ થઈ શકી નથી: "+errorText(e);
+}
+}
+
+byId("serviceList").addEventListener("click",async e=>{
+const edit=e.target.closest(".editService");
+const toggle=e.target.closest(".toggleService");
+const remove=e.target.closest(".deleteService");
+
+try{
+ensureAdmin();
+
+if(edit){
+const d=await db.collection("services").doc(edit.dataset.id).get();
+if(!d.exists)throw new Error("સેવા મળી નથી.");
+const x=d.data();
+
+byId("serviceId").value=d.id;
+byId("serviceTitle").value=x.title||"";
+byId("serviceIcon").value=x.icon||"🛠️";
+byId("serviceDescription").value=x.description||"";
+byId("serviceDocuments").value=x.documents||"";
+byId("servicePrice").value=x.price||"";
+byId("servicePublished").checked=x.published===true;
+byId("serviceSaveBtn").textContent="ફેરફાર સેવ કરો";
+
+document.querySelector('[data-tab="servicesPanel"]').click();
+byId("serviceForm").scrollIntoView({behavior:"smooth"});
+}
+
+if(toggle){
+await db.collection("services").doc(toggle.dataset.id).update({
+published:toggle.dataset.published!=="true",
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+await loadServices();
+showMessage("serviceMessage","સેવાની સ્થિતિ અપડેટ થઈ.","success");
+}
+
+if(remove){
+if(!confirm("આ સેવા કાયમી રીતે ડિલીટ કરવી છે?"))return;
+await db.collection("services").doc(remove.dataset.id).delete();
+await loadServices();
+showMessage("serviceMessage","સેવા ડિલીટ થઈ.","success");
+}
+}catch(err){
+showMessage("serviceMessage",errorText(err),"error");
+}
+});
+
+byId("refreshServices").addEventListener("click",loadServices);
+
+// ગ્રાહક અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે)
+const statusLabels={
+new:"નવી",
+contacted:"સંપર્ક કર્યો",
+in_progress:"કામ ચાલુ",
+completed:"પૂર્ણ"
+};
+
+async function loadRequests(){
+if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+byId("requestList").textContent="અરજીઓ લોડ થઈ રહી છે...";
+try{
+const snap=await db.collection("customerRequests").orderBy("createdAt","desc").get();
+currentRequests=snap.docs.map(d=>({id:d.id,...d.data()}));
+renderRequests();
+}catch(e){
+byId("requestList").textContent="અરજીઓ લોડ થઈ શકી નથી: "+errorText(e);
+}
+}
+
+function generateWhatsAppMsg(name, service, status, id) {
+  let msg = `નમસ્તે ${name}ભાઈ,\nઆર્વી ઓનલાઈન & CSC માંથી મેસેજ છે.\n\nતમારી "${service}" ની અરજી (નંબર: ${id})`;
+  if(status === 'new') msg += ` અમને મળી ગઈ છે. અમે ટૂંક સમયમાં તમારું કામ શરૂ કરીશું.`;
+  else if(status === 'in_progress') msg += ` નું કામ અત્યારે ચાલુ છે.`;
+  else if(status === 'completed') msg += ` નું કામ સફળતાપૂર્વક પૂર્ણ થઈ ગયું છે!`;
+  else msg += ` બાબતે તમારો સંપર્ક કરવામાં આવ્યો છે.`;
+  msg += `\n\n- રાહુલ ઠાકોર\n(જન સુવિધા કેન્દ્ર, ખોડાણા)`;
+  return encodeURIComponent(msg);
+}
+
+function renderRequests(){
+const filter=byId("requestFilter").value;
+const total=currentRequests.length;
+
+// ડેશબોર્ડ અપડેટ
+byId("totalRequests").textContent=total;
+byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
+byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
+byId("completedRequests").textContent=currentRequests.filter(r=>r.status==="completed").length;
+
+const visible=filter==="all"?currentRequests:currentRequests.filter(r=>r.status===filter);
+if(!visible.length){
+byId("requestList").textContent="આ પસંદગીમાં કોઈ અરજી મળી નથી.";
+return;
+}
+
+byId("requestList").innerHTML=visible.map(x=>{
+const status=statusLabels[x.status]||"અન્ય";
+const digits=String(x.phone||"").replace(/\D/g,"");
+const isWa = /^[6-9][0-9]{9}$/.test(digits);
+const waMsg = isWa ? generateWhatsAppMsg(x.name, x.service, x.status, x.id) : '';
+const waLink = isWa ? `https://wa.me/91${digits}?text=${waMsg}` : '';
+
+return `<article class="item" style="border-left: 5px solid ${x.status==='completed'?'#388e3c':x.status==='new'?'#d32f2f':'#1769aa'}">
+<div class="topline"><h3>${escapeHTML(x.name||"નામ નથી")}</h3><span class="pill" style="font-size:14px">${escapeHTML(status)}</span></div>
+<p><strong>અરજી નંબર:</strong> ${escapeHTML(x.id)}</p>
+<p><strong>મોબાઇલ:</strong> ${escapeHTML(x.phone||"ઉપલબ્ધ નથી")}</p>
+<p><strong>સેવા:</strong> ${escapeHTML(x.service||"ઉપલબ્ધ નથી")}</p>
+<p><strong>નોંધ:</strong><br>${escapeHTML(x.note||"નોંધ નથી").replace(/\n/g,"<br>")}</p>
+<p class="muted">અરજી તારીખ: ${escapeHTML(formatDate(x.createdAt))}</p>
+
+<hr style="border-top:1px solid #dce3ee; margin:15px 0;">
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+<label for="status-${escapeHTML(x.id)}" style="margin:0;">સ્ટેટસ:</label>
+<select id="status-${escapeHTML(x.id)}" class="requestStatus" style="width:auto; min-width:130px;">
+<option value="new" ${x.status==="new"?"selected":""}>નવી</option>
+<option value="contacted" ${x.status==="contacted"?"selected":""}>સંપર્ક કર્યો</option>
+<option value="in_progress" ${x.status==="in_progress"?"selected":""}>કામ ચાલુ</option>
+<option value="completed" ${x.status==="completed"?"selected":""}>પૂર્ણ</option>
+</select>
+<button class="saveRequestStatus" data-id="${escapeHTML(x.id)}">સેવ કરો</button>
+</div>
+<div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+${waLink?`<button class="btn-green openWhatsApp" data-url="${waLink}">💬 WhatsApp મેસેજ</button>`:""}
+<button class="btn-red deleteRequest" data-id="${escapeHTML(x.id)}">ડિલીટ કરો</button>
+</div>
+</article>`;
+}).join("");
+}
+
+byId("requestFilter").addEventListener("change",renderRequests);
+byId("refreshRequests").addEventListener("click",loadRequests);
+
+byId("requestList").addEventListener("click",async e=>{
+const save=e.target.closest(".saveRequestStatus");
+const remove=e.target.closest(".deleteRequest");
+const whatsapp=e.target.closest(".openWhatsApp");
+
+if(save){
+try{
+ensureAdmin();
+const id=save.dataset.id;
+const status=byId("status-"+id).value;
+if(!Object.prototype.hasOwnProperty.call(statusLabels,status))throw new Error("સ્ટેટસ યોગ્ય નથી.");
+const request=currentRequests.find(x=>x.id===id);
+if(!request)throw new Error("અરજી મળી નથી. ફરી Refresh કરો.");
+
+save.textContent="સેવ થાય છે...";
+save.disabled=true;
+const serverTime=firebase.firestore.FieldValue.serverTimestamp();
+const batch=db.batch();
+
+batch.update(db.collection("customerRequests").doc(id),{
+status,updatedAt:serverTime
+});
+
+batch.set(db.collection("publicRequestStatus").doc(id),{
+service:request.service||"CSC સેવા",
+status,
+createdAt:request.createdAt||firebase.firestore.FieldValue.serverTimestamp(),
+updatedAt:serverTime
+},{merge:true});
+
+await batch.commit();
+showMessage("requestMessage","સ્ટેટસ અપડેટ થઈ ગયું!","success");
+await loadRequests();
+}catch(err){
+showMessage("requestMessage",errorText(err),"error");
+}finally{
+if(save) save.disabled=false;
+}
+}
+
+if(remove){
+if(!confirm("આ ગ્રાહકની અરજી કાયમી રીતે ડિલીટ કરવી છે?"))return;
+try{
+ensureAdmin();
+const id=remove.dataset.id;
+const batch=db.batch();
+batch.delete(db.collection("customerRequests").doc(id));
+batch.delete(db.collection("publicRequestStatus").doc(id));
+await batch.commit();
+showMessage("requestMessage","અરજી ડિલીટ થઈ.","success");
+await loadRequests();
+}catch(err){
+showMessage("requestMessage",errorText(err),"error");
+}
+}
+
+if(whatsapp){
+const url=whatsapp.dataset.url;
+if(url)window.open(url,"_blank","noopener,noreferrer");
+}
+});
+
+["globalMessage","loginMessage","announcementMessage","serviceMessage","requestMessage"].forEach(clearMessage);
+</script>
+</body>
+</html>
