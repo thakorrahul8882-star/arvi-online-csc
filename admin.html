@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="gu">
 <head>
@@ -8,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 
 <style>
-:root{--blue:#123b80;--blue2:#1769aa;--bg:#f3f6fb;--text:#1c2738;--muted:#667085;--green:#16834a;--red:#c62828;--border:#dce3ee}
+:root{--blue:#123b80;--blue2:#1769aa;--bg:#f3f6fb;--text:#1c2738;--muted:#667085;--green:#25d366;--red:#c62828;--border:#dce3ee}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,"Noto Sans Gujarati",sans-serif;background:var(--bg);color:var(--text)}
 header{background:linear-gradient(120deg,#102e68,#1769aa);color:white;padding:22px 16px}
@@ -23,7 +22,8 @@ input,textarea,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-ra
 textarea{min-height:105px;resize:vertical}
 button{border:0;border-radius:8px;padding:11px 15px;color:white;background:var(--blue2);cursor:pointer;font-size:14px;font-weight:bold;margin:5px 4px 5px 0}
 button:disabled{opacity:.55;cursor:not-allowed}
-.btn-green{background:var(--green)}
+.btn-green{background:var(--green);color:white;}
+.btn-green:hover{background:#128c7e;}
 .btn-red{background:var(--red)}
 .btn-gray{background:#596579}
 .btn-light{background:#e5efff;color:#123b80}
@@ -39,22 +39,22 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .item{border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;background:white;overflow-wrap:anywhere}
 .item h3{margin-bottom:8px}
 .muted{color:var(--muted);font-size:13px}
-.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f2ff;color:#164b83;font-size:12px;margin:3px 0}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f2ff;color:#164b83;font-size:12px;margin:3px 0;font-weight:bold;}
 .checkrow{display:flex;align-items:center;gap:9px;margin:12px 0}
 .checkrow input{width:auto}
 .checkrow label{margin:0}
 .hidden{display:none!important}
 .topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.stat{padding:14px;border-radius:10px;background:#edf4ff}
-.stat strong{display:block;font-size:23px;color:var(--blue)}
-.stat span{font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat{padding:14px;border-radius:10px;background:#edf4ff; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.05);}
+.stat strong{display:block;font-size:26px;color:var(--blue); margin-bottom:5px;}
+.stat span{font-size:14px; font-weight:bold;}
 .service-icon-preview{font-size:30px;margin-right:8px;vertical-align:middle}
 footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
 @media(max-width:650px){
 .grid{grid-template-columns:1fr}
 .full{grid-column:auto}
-.stats{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}
 header h1{font-size:20px}
 .container{padding:12px}
 .card{padding:14px}
@@ -262,6 +262,7 @@ header h1{font-size:20px}
 </div>
 </section>
 
+<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ સાથે) -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
@@ -269,19 +270,21 @@ header h1{font-size:20px}
 <button id="refreshRequests" class="btn-light">Refresh</button>
 </div>
 
+<!-- સ્માર્ટ ડેશબોર્ડ -->
 <div class="stats">
 <div class="stat"><strong id="totalRequests">0</strong><span>કુલ અરજીઓ</span></div>
-<div class="stat"><strong id="newRequests">0</strong><span>નવી અરજીઓ</span></div>
-<div class="stat"><strong id="completedRequests">0</strong><span>પૂર્ણ અરજીઓ</span></div>
+<div class="stat"><strong id="newRequests" style="color:#d32f2f;">0</strong><span>નવી (New)</span></div>
+<div class="stat"><strong id="progressRequests" style="color:#f57c00;">0</strong><span>ચાલુ (Process)</span></div>
+<div class="stat"><strong id="completedRequests" style="color:#388e3c;">0</strong><span>પૂર્ણ (Completed)</span></div>
 </div>
 
-<label for="requestFilter">સ્ટેટસ પ્રમાણે જુઓ</label>
-<select id="requestFilter">
-<option value="all">બધી અરજીઓ</option>
-<option value="new">નવી</option>
-<option value="contacted">સંપર્ક કર્યો</option>
-<option value="in_progress">કામ ચાલુ</option>
-<option value="completed">પૂર્ણ</option>
+<label for="requestFilter">સ્ટેટસ પ્રમાણે ફિલ્ટર કરો:</label>
+<select id="requestFilter" style="margin-bottom:20px; font-weight:bold;">
+<option value="all">બધી અરજીઓ બતાવો</option>
+<option value="new">ફક્ત નવી અરજીઓ</option>
+<option value="contacted">જેનો સંપર્ક કર્યો છે</option>
+<option value="in_progress">જેનું કામ ચાલુ છે</option>
+<option value="completed">જેનું કામ પૂર્ણ થયું છે</option>
 </select>
 
 <div id="requestMessage" class="notice hidden"></div>
@@ -310,6 +313,7 @@ appId:"1:57206587457:web:3723726ba2f2ecbd6d86c0",
 measurementId:"G-JJX8CE0TE9"
 };
 
+// તમારું જૂનું સિક્યોરિટી લોક જેમ હતું તેમ જ રાખ્યું છે
 const ADMIN_UID="nIreaPMvujbR9IrdilWpSyz3o623";
 
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -323,7 +327,7 @@ function byId(id){return document.getElementById(id)}
 
 function escapeHTML(value){
 return String(value==null?"":value).replace(/[&<>"']/g,ch=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+"&":"&","<":"<",">":">",'"':""","'":"'"
 }[ch]))
 }
 
@@ -736,7 +740,7 @@ showMessage("serviceMessage",errorText(err),"error");
 
 byId("refreshServices").addEventListener("click",loadServices);
 
-// ગ્રાહક અરજીઓ
+// ગ્રાહક અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે)
 const statusLabels={
 new:"નવી",
 contacted:"સંપર્ક કર્યો",
@@ -756,12 +760,24 @@ byId("requestList").textContent="અરજીઓ લોડ થઈ શકી ન�
 }
 }
 
+function generateWhatsAppMsg(name, service, status, id) {
+  let msg = `નમસ્તે ${name}ભાઈ,\nઆર્વી ઓનલાઈન & CSC માંથી મેસેજ છે.\n\nતમારી "${service}" ની અરજી (નંબર: ${id})`;
+  if(status === 'new') msg += ` અમને મળી ગઈ છે. અમે ટૂંક સમયમાં તમારું કામ શરૂ કરીશું.`;
+  else if(status === 'in_progress') msg += ` નું કામ અત્યારે ચાલુ છે.`;
+  else if(status === 'completed') msg += ` નું કામ સફળતાપૂર્વક પૂર્ણ થઈ ગયું છે!`;
+  else msg += ` બાબતે તમારો સંપર્ક કરવામાં આવ્યો છે.`;
+  msg += `\n\n- રાહુલ ઠાકોર\n(જન સુવિધા કેન્દ્ર, ખોડાણા)`;
+  return encodeURIComponent(msg);
+}
+
 function renderRequests(){
 const filter=byId("requestFilter").value;
 const total=currentRequests.length;
 
+// ડેશબોર્ડ અપડેટ
 byId("totalRequests").textContent=total;
 byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
+byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
 byId("completedRequests").textContent=currentRequests.filter(r=>r.status==="completed").length;
 
 const visible=filter==="all"?currentRequests:currentRequests.filter(r=>r.status===filter);
@@ -773,25 +789,33 @@ return;
 byId("requestList").innerHTML=visible.map(x=>{
 const status=statusLabels[x.status]||"અન્ય";
 const digits=String(x.phone||"").replace(/\D/g,"");
-const wa=/^[6-9][0-9]{9}$/.test(digits)?"https://wa.me/91"+digits:"";
+const isWa = /^[6-9][0-9]{9}$/.test(digits);
+const waMsg = isWa ? generateWhatsAppMsg(x.name, x.service, x.status, x.id) : '';
+const waLink = isWa ? `https://wa.me/91${digits}?text=${waMsg}` : '';
 
-return `<article class="item">
-<div class="topline"><h3>${escapeHTML(x.name||"નામ નથી")}</h3><span class="pill">${escapeHTML(status)}</span></div>
+return `<article class="item" style="border-left: 5px solid ${x.status==='completed'?'#388e3c':x.status==='new'?'#d32f2f':'#1769aa'}">
+<div class="topline"><h3>${escapeHTML(x.name||"નામ નથી")}</h3><span class="pill" style="font-size:14px">${escapeHTML(status)}</span></div>
 <p><strong>અરજી નંબર:</strong> ${escapeHTML(x.id)}</p>
 <p><strong>મોબાઇલ:</strong> ${escapeHTML(x.phone||"ઉપલબ્ધ નથી")}</p>
 <p><strong>સેવા:</strong> ${escapeHTML(x.service||"ઉપલબ્ધ નથી")}</p>
 <p><strong>નોંધ:</strong><br>${escapeHTML(x.note||"નોંધ નથી").replace(/\n/g,"<br>")}</p>
 <p class="muted">અરજી તારીખ: ${escapeHTML(formatDate(x.createdAt))}</p>
-<label for="status-${escapeHTML(x.id)}">અરજીનો સ્ટેટસ</label>
-<select id="status-${escapeHTML(x.id)}" class="requestStatus">
+
+<hr style="border-top:1px solid #dce3ee; margin:15px 0;">
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+<label for="status-${escapeHTML(x.id)}" style="margin:0;">સ્ટેટસ:</label>
+<select id="status-${escapeHTML(x.id)}" class="requestStatus" style="width:auto; min-width:130px;">
 <option value="new" ${x.status==="new"?"selected":""}>નવી</option>
 <option value="contacted" ${x.status==="contacted"?"selected":""}>સંપર્ક કર્યો</option>
 <option value="in_progress" ${x.status==="in_progress"?"selected":""}>કામ ચાલુ</option>
 <option value="completed" ${x.status==="completed"?"selected":""}>પૂર્ણ</option>
 </select>
-<button class="saveRequestStatus" data-id="${escapeHTML(x.id)}">સ્ટેટસ સેવ કરો</button>
-${wa?`<button class="btn-green openWhatsApp" data-url="${escapeHTML(wa)}">WhatsApp સંપર્ક</button>`:""}
-<button class="btn-red deleteRequest" data-id="${escapeHTML(x.id)}">અરજી ડિલીટ કરો</button>
+<button class="saveRequestStatus" data-id="${escapeHTML(x.id)}">સેવ કરો</button>
+</div>
+<div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+${waLink?`<button class="btn-green openWhatsApp" data-url="${waLink}">💬 WhatsApp મેસેજ</button>`:""}
+<button class="btn-red deleteRequest" data-id="${escapeHTML(x.id)}">ડિલીટ કરો</button>
+</div>
 </article>`;
 }).join("");
 }
@@ -813,6 +837,7 @@ if(!Object.prototype.hasOwnProperty.call(statusLabels,status))throw new Error("�
 const request=currentRequests.find(x=>x.id===id);
 if(!request)throw new Error("અરજી મળી નથી. ફરી Refresh કરો.");
 
+save.textContent="સેવ થાય છે...";
 save.disabled=true;
 const serverTime=firebase.firestore.FieldValue.serverTimestamp();
 const batch=db.batch();
@@ -829,12 +854,12 @@ updatedAt:serverTime
 },{merge:true});
 
 await batch.commit();
-showMessage("requestMessage","અરજીનો સ્ટેટસ અપડેટ થયો.","success");
+showMessage("requestMessage","સ્ટેટસ અપડેટ થઈ ગયું!","success");
 await loadRequests();
 }catch(err){
 showMessage("requestMessage",errorText(err),"error");
 }finally{
-save.disabled=false;
+if(save) save.disabled=false;
 }
 }
 
@@ -855,7 +880,7 @@ showMessage("requestMessage",errorText(err),"error");
 }
 
 if(whatsapp){
-const url=safeHttpUrl(whatsapp.dataset.url);
+const url=whatsapp.dataset.url;
 if(url)window.open(url,"_blank","noopener,noreferrer");
 }
 });
