@@ -3,82 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ARVI ONLINE & CSC | Admin Panel</title>
+<title>ARVI ONLINE & CSC | Professional Admin Panel</title>
 <meta name="robots" content="noindex,nofollow">
 
 <style>
-:root{--blue:#123b80;--blue2:#1769aa;--bg:#f3f6fb;--text:#1c2738;--muted:#667085;--green:#16834a;--red:#c62828;--border:#dce3ee}
+:root{
+  --primary: #0f172a;
+  --primary-light: #1e3a8a;
+  --accent: #2563eb;
+  --bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --text: #334155;
+  --muted: #64748b;
+  --green: #10b981;
+  --red: #ef4444;
+  --orange: #f59e0b;
+  --border: #e2e8f0;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,"Noto Sans Gujarati",sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(120deg,#102e68,#1769aa);color:white;padding:22px 16px}
-header h1{margin:0 0 7px;font-size:23px}
-header p{margin:0;font-size:14px}
-.container{max-width:1150px;padding:18px;margin:auto}
-.card{background:white;border-radius:13px;padding:18px;margin-bottom:18px;box-shadow:0 3px 15px #172b4d0b;border:1px solid var(--border)}
-h2{font-size:20px;margin:0 0 15px}
-h3{font-size:17px;margin-top:0}
-label{display:block;font-size:14px;font-weight:bold;margin:12px 0 6px}
-input,textarea,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:white;font-size:15px;font-family:inherit}
-textarea{min-height:105px;resize:vertical}
-button{border:0;border-radius:8px;padding:11px 15px;color:white;background:var(--blue2);cursor:pointer;font-size:14px;font-weight:bold;margin:5px 4px 5px 0}
-button:disabled{opacity:.55;cursor:not-allowed}
-.btn-green{background:var(--green)}
-.btn-red{background:var(--red)}
-.btn-gray{background:#596579}
-.btn-light{background:#e5efff;color:#123b80}
-.tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
-.tabs button{margin:0}
-.tabs button.active{background:#102e68}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body{margin:0;font-family:Arial,"Noto Sans Gujarati",sans-serif;background:var(--bg);color:var(--text); line-height: 1.6;}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  padding: 24px 20px;
+  border-bottom: 4px solid var(--accent);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+header h1{margin:0 0 5px;font-size:24px; font-weight: 800; letter-spacing: 0.5px;}
+header p{margin:0;font-size:14px; opacity: 0.85;}
+
+.container{max-width:1200px;padding:24px 16px;margin:auto}
+
+.card{
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border);
+}
+
+h2{font-size:20px;margin:0 0 18px; color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--border); padding-bottom: 10px;}
+h3{font-size:17px;margin-top:0; color: var(--primary);}
+
+label{display:block;font-size:14px;font-weight:700;margin:14px 0 6px; color: var(--text);}
+
+input, textarea, select{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  background: #ffffff;
+  font-size:15px;
+  font-family:inherit;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+textarea{min-height:110px;resize:vertical}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 20px;
+  color:white;
+  background: var(--accent);
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  margin:6px 4px 6px 0;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s ease;
+}
+button:hover{opacity:0.9; transform: translateY(-1px);}
+button:disabled{opacity:0.5; cursor:not-allowed; transform: none;}
+
+.btn-green{background: var(--green); box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);}
+.btn-red{background: var(--red); box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);}
+.btn-gray{background: var(--muted);}
+.btn-light{background: #e0f2fe; color: #0369a1; box-shadow: none;}
+
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:24px;
+  background: #e2e8f0;
+  padding: 6px;
+  border-radius: 14px;
+}
+.tabs button{
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+  margin: 0;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 600;
+}
+.tabs button.active{
+  background: #ffffff;
+  color: var(--accent);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .full{grid-column:1/-1}
-.notice{padding:12px;border-radius:8px;margin:12px 0;overflow-wrap:anywhere}
-.notice.error{color:#8b1e1e;background:#ffebeb}
-.notice.success{color:#126238;background:#e5f8ed}
-.notice.info{color:#164b83;background:#e8f2ff}
-.item{border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;background:white;overflow-wrap:anywhere}
-.item h3{margin-bottom:8px}
+
+.notice{padding:14px;border-radius:10px;margin:14px 0;overflow-wrap:anywhere; font-weight: 600; font-size: 14px;}
+.notice.error{color:#991b1b;background:#fee2e2; border-left: 4px solid var(--red);}
+.notice.success{color:#065f46;background:#d1fae5; border-left: 4px solid var(--green);}
+.notice.info{color:#1e40af;background:#dbeafe; border-left: 4px solid var(--accent);}
+
+.item{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin:14px 0;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  transition: transform 0.2s;
+}
+.item:hover{border-color: #cbd5e1;}
+.item h3{margin-bottom:8px; color: var(--primary);}
+
 .muted{color:var(--muted);font-size:13px}
-.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f2ff;color:#164b83;font-size:12px;margin:3px 0}
-.checkrow{display:flex;align-items:center;gap:9px;margin:12px 0}
-.checkrow input{width:auto}
-.checkrow label{margin:0}
+.pill{
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:20px;
+  background:#e0f2fe;
+  color:#0369a1;
+  font-size:12px;
+  margin:4px 0;
+  font-weight: 700;
+}
+
+.checkrow{display:flex;align-items:center;gap:10px;margin:14px 0}
+.checkrow input{width:auto; height: 18px; width: 18px; accent-color: var(--accent); cursor: pointer;}
+.checkrow label{margin:0; cursor: pointer;}
+
 .hidden{display:none!important}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.stat{padding:14px;border-radius:10px;background:#edf4ff}
-.stat strong{display:block;font-size:23px;color:var(--blue)}
-.stat span{font-size:13px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+/* પ્રોફેશનલ ડેશબોર્ડ સ્ટેટ્સ બોક્સ */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.stat{
+  padding:18px;
+  border-radius:12px;
+  background:#f8fafc;
+  border: 1px solid var(--border);
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.stat strong{display:block;font-size:28px;color:var(--accent); margin-bottom: 4px; font-weight: 800;}
+.stat span{font-size:13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;}
+
 .service-icon-preview{font-size:30px;margin-right:8px;vertical-align:middle}
-footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
-@media(max-width:650px){
+footer{text-align:center;color:var(--muted);padding:30px;font-size:13px; border-top: 1px solid var(--border); margin-top: 20px;}
+
+@media(max-width:768px){
 .grid{grid-template-columns:1fr}
 .full{grid-column:auto}
-.stats{grid-template-columns:1fr}
+.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 header h1{font-size:20px}
 .container{padding:12px}
-.card{padding:14px}
+.card{padding:16px}
 }
 </style>
 </head>
 
 <body>
 <header>
-<h1>ARVI ONLINE & CSC</h1>
-<p>Admin Panel — યોજનાઓ, ભરતી, CSC સેવાઓ અને ગ્રાહક અરજીઓ</p>
+  <div style="max-width:1200px; margin:auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1>⚡ ARVI ONLINE & CSC</h1>
+      <p>પ્રોફેશનલ એડમિન પેનલ — જન સુવિધા કેન્દ્ર, ખોડાણા</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.12); padding:8px 16px; border-radius:30px; font-size:13px; font-weight:700; border:1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 6px;">
+      <span style="height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span> સિસ્ટમ લાઈવ છે
+    </div>
+  </div>
 </header>
 
 <main class="container">
 <div id="globalMessage" class="notice hidden"></div>
 
-<section id="loginSection" class="card">
-<h2>🔐 Admin Login</h2>
-<p class="muted">ફક્ત અધિકૃત Admin જ લૉગિન કરી શકે છે.</p>
+<section id="loginSection" class="card" style="max-width: 480px; margin: 40px auto; padding: 32px;">
+<h2 style="text-align: center; border: none; margin-bottom: 8px;">🔐 Admin Login</h2>
+<p class="muted" style="text-align: center; margin-bottom: 24px;">સંચાલક ડેશબોર્ડમાં પ્રવેશવા માટે વિગતો ભરો</p>
 <form id="loginForm">
 <label for="email">Admin Email</label>
-<input id="email" type="email" autocomplete="username" required placeholder="તમારું Admin Email">
+<input id="email" type="email" autocomplete="username" required placeholder="admin@arvionline.com">
 <label for="password">Password</label>
-<input id="password" type="password" autocomplete="current-password" required placeholder="તમારો Password">
-<button id="loginBtn" type="submit">લૉગિન કરો</button>
+<input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+<button id="loginBtn" type="submit" style="width: 100%; margin-top: 20px; padding: 14px; font-size: 16px;">લૉગિન કરો</button>
 </form>
 <div id="loginMessage" class="notice hidden"></div>
 </section>
@@ -86,16 +211,16 @@ header h1{font-size:20px}
 <section id="dashboard" class="hidden">
 <div class="card topline">
 <div>
-<h2 style="margin-bottom:5px">Admin Dashboard</h2>
+<h2 style="margin-bottom:4px; border:none; padding:0;">Admin Dashboard</h2>
 <div id="adminIdentity" class="muted"></div>
 </div>
-<button id="logoutBtn" class="btn-red">Logout</button>
+<button id="logoutBtn" class="btn-red">બહાર નીકળો (Logout)</button>
 </div>
 
 <div class="tabs">
-<button class="active" data-tab="announcementsPanel">યોજના અને ભરતી</button>
-<button data-tab="servicesPanel">CSC સેવાઓ</button>
-<button data-tab="requestsPanel">ગ્રાહકની અરજીઓ</button>
+<button class="active" data-tab="announcementsPanel">📢 યોજના અને ભરતી</button>
+<button data-tab="servicesPanel">🧾 CSC સેવાઓ</button>
+<button data-tab="requestsPanel">📩 ગ્રાહકની અરજીઓ</button>
 </div>
 
 <section id="announcementsPanel" class="tabPanel">
@@ -184,10 +309,10 @@ header h1{font-size:20px}
 
 <div class="card">
 <div class="topline">
-<h2>ઉમેરેલી યોજનાઓ અને ભરતી</h2>
-<button id="refreshAnnouncements" class="btn-light">Refresh</button>
+<h2 style="border:none; margin:0; padding:0;">ઉમેરેલી યોજનાઓ અને ભરતી</h2>
+<button id="refreshAnnouncements" class="btn-light">🔄 Refresh</button>
 </div>
-<div id="announcementList">માહિતી લોડ થઈ રહી છે...</div>
+<div id="announcementList" style="margin-top: 15px;">માહિતી લોડ થઈ રહી છે...</div>
 </div>
 </section>
 
@@ -218,17 +343,12 @@ header h1{font-size:20px}
 <option value="🔥">🔥 ગેસ સેવા</option>
 <option value="🏦">🏦 બેંકિંગ સેવા</option>
 <option value="🌾">🌾 ખેતી સેવા</option>
-<option value="🎓">🎓 શિષ્યવૃત્તિ</option>
 <option value="🛡️">🛡️ વીમા સેવા</option>
 <option value="🪪">🪪 ડ્રાઇવિંગ લાઇસન્સ</option>
 <option value="🧾">🧾 બિલ ચુકવણી</option>
 <option value="🖨️">🖨️ ફોટો અને પ્રિન્ટ</option>
-<option value="🏠">🏠 રેશન કાર્ડ</option>
 <option value="🪪">🪪 આધાર સેવા</option>
-<option value="🛠️">🛠️ અન્ય સેવા</option>
 <option value="🏛️">🏛️ સરકારી યોજના</option>
-<option value="🖨️">🖨️ પ્રિન્ટ અને ઝેરોક્સ</option>
-<option value="🪪">🪪 ઓળખપત્ર સેવા</option>
 <option value="💻">💻 ઓનલાઇન ફોર્મ</option>
 </select>
 <div class="muted">પસંદ કરેલું આઇકન સેવા નામની આગળ દેખાશે.</div>
@@ -254,33 +374,36 @@ header h1{font-size:20px}
 
 <div class="card">
 <div class="topline">
-<h2>તમારી CSC સેવાઓ</h2>
-<button id="refreshServices" class="btn-light">Refresh</button>
+<h2 style="border:none; margin:0; padding:0;">તમારી CSC સેવાઓ</h2>
+<button id="refreshServices" class="btn-light">🔄 Refresh</button>
 </div>
-<div id="serviceList">સેવાઓ લોડ થઈ રહી છે...</div>
+<div id="serviceList" style="margin-top: 15px;">સેવાઓ લોડ થઈ રહી છે...</div>
 </div>
 </section>
 
+<!-- ગ્રાહકની અરજીઓ (ડેશબોર્ડ અને WhatsApp સાથે) -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
-<h2>📩 ગ્રાહકોની અરજીઓ</h2>
-<button id="refreshRequests" class="btn-light">Refresh</button>
+<h2 style="border:none; margin:0; padding:0;">📩 ગ્રાહકોની અરજીઓ</h2>
+<button id="refreshRequests" class="btn-light">🔄 Refresh</button>
 </div>
 
-<div class="stats">
+<!-- સ્માર્ટ ડેશબોર્ડ આંકડા -->
+<div class="stats" style="margin-top: 20px;">
 <div class="stat"><strong id="totalRequests">0</strong><span>કુલ અરજીઓ</span></div>
-<div class="stat"><strong id="newRequests">0</strong><span>નવી અરજીઓ</span></div>
-<div class="stat"><strong id="completedRequests">0</strong><span>પૂર્ણ અરજીઓ</span></div>
+<div class="stat"><strong id="newRequests" style="color:#ef4444;">0</strong><span>નવી અરજીઓ</span></div>
+<div class="stat"><strong id="progressRequests" style="color:#f59e0b;">0</strong><span>કામ ચાલુ</span></div>
+<div class="stat"><strong id="completedRequests" style="color:#10b981;">0</strong><span>પૂર્ણ અરજીઓ</span></div>
 </div>
 
-<label for="requestFilter">સ્ટેટસ પ્રમાણે જુઓ</label>
-<select id="requestFilter">
-<option value="all">બધી અરજીઓ</option>
-<option value="new">નવી</option>
-<option value="contacted">સંપર્ક કર્યો</option>
-<option value="in_progress">કામ ચાલુ</option>
-<option value="completed">પૂર્ણ</option>
+<label for="requestFilter">સ્ટેટસ પ્રમાણે ફિલ્ટર કરો</label>
+<select id="requestFilter" style="margin-bottom: 15px;">
+<option value="all">બધી અરજીઓ બતાવો</option>
+<option value="new">ફક્ત નવી અરજીઓ</option>
+<option value="contacted">જેનો સંપર્ક કર્યો છે</option>
+<option value="in_progress">જેનું કામ ચાલુ છે</option>
+<option value="completed">જેનું કામ પૂર્ણ થયું છે</option>
 </select>
 
 <div id="requestMessage" class="notice hidden"></div>
@@ -290,7 +413,7 @@ header h1{font-size:20px}
 </section>
 </main>
 
-<footer>ARVI ONLINE & CSC | Admin Panel<br>સંપર્ક: 7265013972</footer>
+<footer>ARVI ONLINE & CSC | Professional Admin Panel<br>સંચાલક: રાહુલ ઠાકોર · સંપર્ક: 7265013972</footer>
 
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
@@ -322,7 +445,7 @@ function byId(id){return document.getElementById(id)}
 
 function escapeHTML(value){
 return String(value==null?"":value).replace(/[&<>"']/g,ch=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+"&":"&","<":"<",">":">",'"':""","'":"'"
 }[ch]))
 }
 
@@ -536,9 +659,11 @@ return `<article class="item">
 ${details.map(row=>`<p><strong>${escapeHTML(row[0])}:</strong><br>${escapeHTML(row[1]).replace(/\n/g,"<br>")}</p>`).join("")}
 ${link?`<p><a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">અરજી / વધુ માહિતીની લિંક</a></p>`:""}
 <div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(x.createdAt))}</div>
+<div style="margin-top: 12px;">
 <button class="editAnnouncement btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
 <button class="toggleAnnouncement btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${x.published?"true":"false"}">${x.published?"Unpublish":"Publish"}</button>
 <button class="deleteAnnouncement btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+</div>
 </article>`;
 }).join("");
 }catch(e){
@@ -600,7 +725,7 @@ showMessage("announcementMessage",errorText(err),"error");
 
 byId("refreshAnnouncements").addEventListener("click",loadAnnouncements);
 
-// CSC સેવાઓ — આઇકન સાથે
+// CSC સેવાઓ
 function resetServiceForm(){
 byId("serviceForm").reset();
 byId("serviceId").value="";
@@ -677,9 +802,11 @@ ${x.price?`<p><strong>ફી / ભાવ:</strong> ${escapeHTML(x.price)}</p>`:"
 <p><strong>સેવાની વિગતો:</strong><br>${escapeHTML(x.description||"").replace(/\n/g,"<br>")}</p>
 ${x.documents?`<p><strong>જરૂરી દસ્તાવેજો:</strong><br>${escapeHTML(x.documents).replace(/\n/g,"<br>")}</p>`:""}
 <div class="muted">ઉમેર્યાની તારીખ: ${escapeHTML(formatDate(x.createdAt))}</div>
+<div style="margin-top: 12px;">
 <button class="editService btn-light" data-id="${escapeHTML(doc.id)}">Edit</button>
 <button class="toggleService btn-gray" data-id="${escapeHTML(doc.id)}" data-published="${x.published?"true":"false"}">${x.published?"Unpublish":"Publish"}</button>
 <button class="deleteService btn-red" data-id="${escapeHTML(doc.id)}">Delete</button>
+</div>
 </article>`;
 }).join("");
 }catch(e){
@@ -735,7 +862,7 @@ showMessage("serviceMessage",errorText(err),"error");
 
 byId("refreshServices").addEventListener("click",loadServices);
 
-// ગ્રાહક અરજીઓ
+// ગ્રાહક અરજીઓ (ડેશબોર્ડ આંકડા અને વોટ્સએપ સાથે)
 const statusLabels={
 new:"નવી",
 contacted:"સંપર્ક કર્યો",
@@ -755,12 +882,24 @@ byId("requestList").textContent="અરજીઓ લોડ થઈ શકી ન�
 }
 }
 
+function generateWhatsAppMsg(name, service, status, id) {
+  let msg = `નમસ્તે ${name}ભાઈ,\nઆર્વી ઓનલાઈન & CSC માંથી મેસેજ છે.\n\nતમારી "${service}" ની અરજી (નંબર: ${id})`;
+  if(status === 'new') msg += ` અમને મળી ગઈ છે. અમે ટૂંક સમયમાં તમારું કામ શરૂ કરીશું.`;
+  else if(status === 'in_progress') msg += ` નું કામ અત્યારે ચાલુ છે.`;
+  else if(status === 'completed') msg += ` નું કામ સફળતાપૂર્વક પૂર્ણ થઈ ગયું છે!`;
+  else msg += ` બાબતે તમારો સંપર્ક કરવામાં આવ્યો છે.`;
+  msg += `\n\n- રાહુલ ઠાકોર\n(જન સુવિધા કેન્દ્ર, ખોડાણા)`;
+  return encodeURIComponent(msg);
+}
+
 function renderRequests(){
 const filter=byId("requestFilter").value;
 const total=currentRequests.length;
 
+// ડેશબોર્ડ આંકડા અપડેટ
 byId("totalRequests").textContent=total;
 byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
+byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
 byId("completedRequests").textContent=currentRequests.filter(r=>r.status==="completed").length;
 
 const visible=filter==="all"?currentRequests:currentRequests.filter(r=>r.status===filter);
@@ -772,25 +911,33 @@ return;
 byId("requestList").innerHTML=visible.map(x=>{
 const status=statusLabels[x.status]||"અન્ય";
 const digits=String(x.phone||"").replace(/\D/g,"");
-const wa=/^[6-9][0-9]{9}$/.test(digits)?"https://wa.me/91"+digits:"";
+const isWa = /^[6-9][0-9]{9}$/.test(digits);
+const waMsg = isWa ? generateWhatsAppMsg(x.name, x.service, x.status, x.id) : '';
+const waLink = isWa ? `https://wa.me/91${digits}?text=${waMsg}` : '';
 
-return `<article class="item">
+return `<article class="item" style="border-left: 5px solid ${x.status==='completed'?'#10b981':x.status==='new'?'#ef4444':'#2563eb'}">
 <div class="topline"><h3>${escapeHTML(x.name||"નામ નથી")}</h3><span class="pill">${escapeHTML(status)}</span></div>
 <p><strong>અરજી નંબર:</strong> ${escapeHTML(x.id)}</p>
 <p><strong>મોબાઇલ:</strong> ${escapeHTML(x.phone||"ઉપલબ્ધ નથી")}</p>
 <p><strong>સેવા:</strong> ${escapeHTML(x.service||"ઉપલબ્ધ નથી")}</p>
 <p><strong>નોંધ:</strong><br>${escapeHTML(x.note||"નોંધ નથી").replace(/\n/g,"<br>")}</p>
 <p class="muted">અરજી તારીખ: ${escapeHTML(formatDate(x.createdAt))}</p>
-<label for="status-${escapeHTML(x.id)}">અરજીનો સ્ટેટસ</label>
-<select id="status-${escapeHTML(x.id)}" class="requestStatus">
+
+<hr style="border-top:1px solid var(--border); margin:15px 0;">
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+<label for="status-${escapeHTML(x.id)}" style="margin:0;">સ્ટેટસ બદલો:</label>
+<select id="status-${escapeHTML(x.id)}" class="requestStatus" style="width:auto; min-width:140px;">
 <option value="new" ${x.status==="new"?"selected":""}>નવી</option>
 <option value="contacted" ${x.status==="contacted"?"selected":""}>સંપર્ક કર્યો</option>
 <option value="in_progress" ${x.status==="in_progress"?"selected":""}>કામ ચાલુ</option>
 <option value="completed" ${x.status==="completed"?"selected":""}>પૂર્ણ</option>
 </select>
 <button class="saveRequestStatus" data-id="${escapeHTML(x.id)}">સ્ટેટસ સેવ કરો</button>
-${wa?`<button class="btn-green openWhatsApp" data-url="${escapeHTML(wa)}">WhatsApp સંપર્ક</button>`:""}
+</div>
+<div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+${waLink?`<button class="btn-green openWhatsApp" data-url="${waLink}">💬 WhatsApp મેસેજ મોકલો</button>`:""}
 <button class="btn-red deleteRequest" data-id="${escapeHTML(x.id)}">અરજી ડિલીટ કરો</button>
+</div>
 </article>`;
 }).join("");
 }
@@ -813,6 +960,7 @@ const request=currentRequests.find(x=>x.id===id);
 if(!request)throw new Error("અરજી મળી નથી. ફરી Refresh કરો.");
 
 save.disabled=true;
+save.textContent="સેવ થાય છે...";
 const serverTime=firebase.firestore.FieldValue.serverTimestamp();
 const batch=db.batch();
 
@@ -828,12 +976,12 @@ updatedAt:serverTime
 },{merge:true});
 
 await batch.commit();
-showMessage("requestMessage","અરજીનો સ્ટેટસ અપડેટ થયો.","success");
+showMessage("requestMessage","અરજીનો સ્ટેટસ સફળતાપૂર્વક અપડેટ થયો!","success");
 await loadRequests();
 }catch(err){
 showMessage("requestMessage",errorText(err),"error");
 }finally{
-save.disabled=false;
+if(save) { save.disabled=false; save.textContent="સ્ટેટસ સેવ કરો"; }
 }
 }
 
@@ -846,7 +994,7 @@ const batch=db.batch();
 batch.delete(db.collection("customerRequests").doc(id));
 batch.delete(db.collection("publicRequestStatus").doc(id));
 await batch.commit();
-showMessage("requestMessage","અરજી ડિલીટ થઈ.","success");
+showMessage("requestMessage","અરજી સફળતાપૂર્વક ડિલીટ થઈ.","success");
 await loadRequests();
 }catch(err){
 showMessage("requestMessage",errorText(err),"error");
