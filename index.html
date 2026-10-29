@@ -405,7 +405,68 @@ function getText(...values){
 
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+/* ARVI ONLINE & CSC - Notification Button */
+const enableBtn = document.getElementById("enableNotifications");
+const statusText = document.getElementById("notificationStatus");
 
+if (enableBtn) {
+  enableBtn.addEventListener("click", async function () {
+    try {
+      enableBtn.disabled = true;
+
+      if (statusText) {
+        statusText.textContent = "નોટિફિકેશન ચાલુ થઈ રહ્યું છે...";
+      }
+
+      if (!("Notification" in window)) {
+        throw new Error("તમારું બ્રાઉઝર નોટિફિકેશન સપોર્ટ કરતું નથી.");
+      }
+
+      if (!("serviceWorker" in navigator)) {
+        throw new Error("Service Worker ઉપલબ્ધ નથી.");
+      }
+
+      const permission = await Notification.requestPermission();
+
+      if (permission !== "granted") {
+        throw new Error("નોટિફિકેશન માટે Allow કરો.");
+      }
+
+      const registration = await navigator.serviceWorker.register(
+        "./firebase-messaging-sw.js"
+      );
+
+      await navigator.serviceWorker.ready;
+
+      const messaging = firebase.messaging();
+
+      const token = await messaging.getToken({
+        vapidKey: "BI9lIlS7t8lPr0UEJ--F7ybSW4o8FLKzLoiSL_wr7ZsIZrSGm0m1jYHsFUBTQyNgSDK9syLEKInBZBohXROH3G0",
+        serviceWorkerRegistration: registration
+      });
+
+      if (!token) {
+        throw new Error("નોટિફિકેશન ટોકન મળ્યો નથી.");
+      }
+
+      if (statusText) {
+        statusText.textContent =
+          "✅ મંજૂરી મળી ગઈ! નોટિફિકેશન ટોકન તૈયાર છે.";
+      }
+
+      console.log("FCM token:", token);
+
+    } catch (error) {
+      console.error("Notification error:", error);
+
+      if (statusText) {
+        statusText.textContent = "❌ " + error.message;
+      }
+    } finally {
+      enableBtn.disabled = false;
+    }
+  });
+  }
 /* ગુજરાતી / English ભાષા બટન */
 let currentLanguage="gu";
 document.getElementById("langBtn").addEventListener("click",()=>{
