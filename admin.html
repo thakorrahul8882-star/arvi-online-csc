@@ -96,6 +96,7 @@ header h1{font-size:20px}
 <button class="active" data-tab="announcementsPanel">યોજના અને ભરતી</button>
 <button data-tab="servicesPanel">CSC સેવાઓ</button>
 <button data-tab="requestsPanel">ગ્રાહકની અરજીઓ</button>
+<button data-tab="offerPanel">🎯 Offer Popup</button>
 </div>
 
 <section id="announcementsPanel" class="tabPanel">
@@ -287,6 +288,37 @@ header h1{font-size:20px}
 <div id="requestList">અરજીઓ લોડ થઈ રહી છે...</div>
 </div>
 </section>
+
+<section id="offerPanel" class="tabPanel hidden">
+  <div class="card">
+    <h2>🎯 Offer Popup Banner</h2>
+    <div id="offerMessage" class="notice hidden"></div>
+
+    <form id="offerForm">
+      <label for="offerImageUrl">બેનર ફોટાની લિંક *</label>
+      <input id="offerImageUrl" type="url" required placeholder="https://example.com/offer.jpg">
+
+      <label for="offerWhatsappNumber">WhatsApp નંબર *</label>
+      <input id="offerWhatsappNumber" type="tel" value="917265013972" required>
+
+      <label for="offerWhatsappMessage">WhatsApp મેસેજ *</label>
+      <textarea id="offerWhatsappMessage" required placeholder="નમસ્તે, મને આ ઓફર વિશે માહિતી જોઈએ છે."></textarea>
+
+      <div class="checkrow">
+        <input id="offerActive" type="checkbox">
+        <label for="offerActive">Offer Popup ચાલુ કરો</label>
+      </div>
+
+      <button id="offerSaveBtn" type="submit">Offer સેવ કરો</button>
+      <button id="offerPreviewBtn" type="button" class="btn-light">Preview જુઓ</button>
+    </form>
+
+    <div id="offerPreview" class="item hidden" style="margin-top:15px;">
+      <img id="offerPreviewImage" alt="Offer Banner" style="width:100%;max-width:500px;border-radius:10px">
+    </div>
+  </div>
+</section>
+
 </section>
 </main>
 
@@ -322,7 +354,7 @@ function byId(id){return document.getElementById(id)}
 
 function escapeHTML(value){
 return String(value==null?"":value).replace(/[&<>"']/g,ch=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+"&":"&","<":"<",">":">",'"':""","'":"'"
 }[ch]))
 }
 
@@ -427,6 +459,11 @@ byId("adminIdentity").textContent="લૉગિન: "+(user.email||"Admin");
 await loadAnnouncements();
 await loadServices();
 await loadRequests();
+try {
+  await loadOfferSettings();
+} catch (error) {
+  showMessage("globalMessage", errorText(error), "error");
+}
 }else{
 if(user)await auth.signOut();
 byId("dashboard").classList.add("hidden");
@@ -441,6 +478,58 @@ document.querySelectorAll(".tabPanel").forEach(p=>p.classList.add("hidden"));
 button.classList.add("active");
 byId(button.dataset.tab).classList.remove("hidden");
 }));
+
+// OFFER POPUP ADMIN SETTINGS
+async function loadOfferSettings() {
+  ensureAdmin();
+  const doc = await db.collection("siteSettings").doc("offerPopup").get();
+  if (!doc.exists) return;
+  const data = doc.data();
+  byId("offerImageUrl").value = data.imageUrl || "";
+  byId("offerWhatsappNumber").value = data.whatsappNumber || "917265013972";
+  byId("offerWhatsappMessage").value = data.message || "";
+  byId("offerActive").checked = data.active === true;
+}
+
+byId("offerForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  try {
+    ensureAdmin();
+    const imageUrl = safeHttpUrl(byId("offerImageUrl").value.trim());
+    const whatsappNumber = byId("offerWhatsappNumber").value.trim().replace(/\D/g, "");
+    const message = byId("offerWhatsappMessage").value.trim();
+
+    if (!imageUrl) throw new Error("યોગ્ય ફોટાની લિંક લખો.");
+    if (!/^[0-9]{10,15}$/.test(whatsappNumber)) throw new Error("WhatsApp નંબર યોગ્ય રીતે લખો.");
+    if (!message) throw new Error("WhatsApp મેસેજ લખો.");
+
+    setButtonLoading("offerSaveBtn", true, "સેવ થઈ રહ્યું છે...");
+
+    await db.collection("siteSettings").doc("offerPopup").set({
+      imageUrl: imageUrl,
+      whatsappNumber: whatsappNumber,
+      message: message,
+      active: byId("offerActive").checked,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    showMessage("offerMessage", "Offer સેટિંગ્સ સેવ થઈ ગઈ.", "success");
+  } catch (error) {
+    showMessage("offerMessage", errorText(error), "error");
+  } finally {
+    setButtonLoading("offerSaveBtn", false);
+  }
+});
+
+byId("offerPreviewBtn").addEventListener("click", function() {
+  const url = safeHttpUrl(byId("offerImageUrl").value.trim());
+  if (!url) {
+    showMessage("offerMessage", "યોગ્ય ફોટાની લિંક લખો.", "error");
+    return;
+  }
+  byId("offerPreviewImage").src = url;
+  byId("offerPreview").classList.remove("hidden");
+});
 
 // યોજના અને ભરતી
 function resetAnnouncementForm(){
@@ -600,7 +689,7 @@ showMessage("announcementMessage",errorText(err),"error");
 
 byId("refreshAnnouncements").addEventListener("click",loadAnnouncements);
 
-// CSC સેવાઓ — આઇકન સાથે
+// CSC સેવાઓ
 function resetServiceForm(){
 byId("serviceForm").reset();
 byId("serviceId").value="";
