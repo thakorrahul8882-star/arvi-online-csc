@@ -73,7 +73,7 @@ header h1{font-size:20px}
 
 <section id="loginSection" class="card">
 <h2>🔐 Admin Login</h2>
-<p class="muted">ફક્ત અધિકૃત Admin જ લૉગિન કરી શકે છે.</p>
+<p class="muted">તમારું ઈમેલ અને પાસવર્ડ નાખીને લોગીન કરો.</p>
 <form id="loginForm">
 <label for="email">Admin Email</label>
 <input id="email" type="email" autocomplete="username" required placeholder="તમારું Admin Email">
@@ -160,7 +160,7 @@ header h1{font-size:20px}
 </div>
 </section>
 
-<!-- ગ્રાહકની અરજીઓ -->
+<!-- ગ્રાહકની અરજીઓ (નવા ડેશબોર્ડ અને વોટ્સએપ સાથે) -->
 <section id="requestsPanel" class="tabPanel hidden">
 <div class="card">
 <div class="topline">
@@ -168,7 +168,7 @@ header h1{font-size:20px}
 <button id="refreshRequests" class="btn-light">Refresh</button>
 </div>
 
-<!-- સ્માર્ટ ડેશબોર્ડ -->
+<!-- સ્માર્ટ ડેશબોર્ડ (Smart Analytics Dashboard) -->
 <div class="stats">
 <div class="stat"><strong id="totalRequests">0</strong><span>કુલ અરજીઓ</span></div>
 <div class="stat"><strong id="newRequests" style="color:#d32f2f;">0</strong><span>નવી (New)</span></div>
@@ -211,6 +211,8 @@ appId:"1:57206587457:web:3723726ba2f2ecbd6d86c0",
 measurementId:"G-JJX8CE0TE9"
 };
 
+// નોંધ: જૂનો ADMIN_UID લૉક અહીથી સંપૂર્ણપણે કાઢી નાખ્યો છે.
+
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.firestore();
@@ -243,11 +245,14 @@ const code=error&&error.code?error.code.replace("auth/","").replace("firestore/"
 const msgs={"permission-denied":"પરવાનગી મળી નથી.","invalid-login-credentials":"Email અથવા Password ખોટો છે.","invalid-credential":"Email/Password ખોટો છે."};
 return msgs[code]||(error&&error.message?error.message:"અજાણી ભૂલ આવી છે.");
 }
+
+// નવું સિમ્પલ એડમિન ચેકિંગ (પાસકોડ વગર)
 function ensureAdmin(){
 const user=auth.currentUser;
-if(!user)throw new Error("Admin લૉગિન ચકાસી શકાઈ નથી.");
+if(!user)throw new Error("કૃપા કરીને લૉગિન કરો.");
 return user;
 }
+
 function setButtonLoading(id,loading,text){
 const b=byId(id);
 if(loading){if(!b.dataset.originalText)b.dataset.originalText=b.textContent;b.textContent=text;b.disabled=true;}
@@ -374,7 +379,7 @@ if(rm&&confirm("ડિલીટ કરવું છે?")){await db.collection("
 });
 byId("refreshServices").addEventListener("click",loadServices);
 
-// --- Requests ---
+// --- Requests (Dashboard & Smart WhatsApp) ---
 const statusLabels={new:"નવી",contacted:"સંપર્ક કર્યો",in_progress:"કામ ચાલુ",completed:"પૂર્ણ"};
 
 async function loadRequests(){
@@ -401,6 +406,7 @@ function renderRequests(){
 const filter=byId("requestFilter").value;
 const total=currentRequests.length;
 
+// ડેશબોર્ડના આંકડા અપડેટ
 byId("totalRequests").textContent=total;
 byId("newRequests").textContent=currentRequests.filter(r=>r.status==="new").length;
 byId("progressRequests").textContent=currentRequests.filter(r=>r.status==="in_progress").length;
