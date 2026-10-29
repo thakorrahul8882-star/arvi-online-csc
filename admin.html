@@ -440,6 +440,7 @@ byId("loginForm").addEventListener("submit",async e=>{
 e.preventDefault();
 if(loginBusy)return;
 loginBusy=true;
+  console.log("ADMIN LOGIN BUTTON CLICKED");
 setButtonLoading("loginBtn",true,"લૉગિન થઈ રહ્યું છે...");
 clearMessage("loginMessage");
 try{
