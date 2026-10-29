@@ -586,41 +586,121 @@ function updateServiceDropdown(){
   }
 }
 
-function renderDynamicServices(snapshot){
-  dynamicServicesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));
-  dynamicServicesContainer.replaceChildren();
-  servicesStatus.textContent=dynamicServicesData.length?"નવી સેવાઓ ઉપલબ્ધ છે.":"હાલમાં કોઈ નવી સેવા ઉપલબ્ધ નથી.";
+function renderDynamicServices(snapshot) {
+  dynamicServicesData = snapshot.docs.map(d => ({
+    id: d.id,
+    ...d.data()
+  }));
 
-  dynamicServicesData.forEach(s=>{
-    const card=document.createElement("article");
-    card.className="service-card";
-    const icon=document.createElement("div");
-    icon.className="service-icon";
-    icon.textContent=getText(s.icon,s.serviceIcon,"🛠️");
+  dynamicServicesContainer.replaceChildren();
+
+  servicesStatus.textContent = dynamicServicesData.length
+    ? "નવી સેવાઓ ઉપલબ્ધ છે."
+    : "હાલમાં કોઈ નવી સેવા ઉપલબ્ધ નથી.";
+
+  dynamicServicesData.forEach(s => {
+    const title = getServiceTitle(s);
+    const titleLower = title.toLowerCase();
+
+    // Admin માંથી મળેલું આઇકન પહેલાં વાપરવું
+    let serviceIcon = getText(
+      s.icon,
+      s.serviceIcon,
+      s.emoji,
+      s.serviceIconEmoji
+    );
+
+    // આઇકન ન હોય તો સેવાના નામ પ્રમાણે પસંદ કરવું
+    if (!serviceIcon) {
+      if (titleLower.includes("વીમા") ||
+          titleLower.includes("વાહન") ||
+          titleLower.includes("rc") ||
+          titleLower.includes("ડ્રાઇવિંગ")) {
+        serviceIcon = "🚗";
+      } else if (titleLower.includes("આયુષ્માન")) {
+        serviceIcon = "🏥";
+      } else if (titleLower.includes("ખેડૂત")) {
+        serviceIcon = "🌾";
+      } else if (titleLower.includes("લગ્ન")) {
+        serviceIcon = "💍";
+      } else if (titleLower.includes("ભરતી")) {
+        serviceIcon = "📋";
+      } else if (titleLower.includes("શિષ્યવૃત્તિ")) {
+        serviceIcon = "🎓";
+      } else if (titleLower.includes("રેશન")) {
+        serviceIcon = "🏠";
+      } else if (titleLower.includes("પાન") ||
+                 titleLower.includes("pan")) {
+        serviceIcon = "🪪";
+      } else if (titleLower.includes("યોજના")) {
+        serviceIcon = "📋";
+      } else {
+        serviceIcon = "🛠️";
+      }
+    }
+
+    // ઉપરની સેવાઓ જેવી જ કાર્ડ ડિઝાઇન
+    const card = document.createElement("article");
+    card.className = "service";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+
+    const icon = document.createElement("div");
+    icon.className = "service-icon";
+    icon.textContent = serviceIcon;
     card.appendChild(icon);
-    const h=document.createElement("h3");
-    h.textContent=getServiceTitle(s);
-    card.appendChild(h);
-    const p=document.createElement("p");
-    p.textContent=getServiceDescription(s)||"વધુ માહિતી માટે વિગતો જુઓ.";
-    card.appendChild(p);
-    const fee=document.createElement("p");
-    fee.className="service-fee";
-    fee.textContent="ફી: "+getServiceFee(s);
+
+    const heading = document.createElement("h3");
+    heading.textContent = title;
+    card.appendChild(heading);
+
+    const description = document.createElement("p");
+    description.textContent =
+      getServiceDescription(s) || "વધુ માહિતી માટે વિગતો જુઓ.";
+    card.appendChild(description);
+
+    const fee = document.createElement("div");
+    fee.className = "fee";
+    fee.textContent = "ફી: " + getServiceFee(s);
     card.appendChild(fee);
-    const b=document.createElement("button");
-    b.type="button";
-    b.className="btn primary";
-    b.textContent="ડોક્યુમેન્ટ અને સંપૂર્ણ વિગતો જુઓ";
-    b.addEventListener("click",()=>{
+
+    const link = document.createElement("a");
+    link.className = "text-link";
+    link.href = "#services";
+    link.textContent = "ડોક્યુમેન્ટ જુઓ →";
+
+    function openDetails() {
       showServiceDetails({
-        title:getServiceTitle(s),fee:getServiceFee(s),description:getServiceDescription(s),
-        docs:getServiceDocs(s),note:getText(s.note,s.instructions),link:s.link||""
+        title: title,
+        fee: getServiceFee(s),
+        description: getServiceDescription(s),
+        docs: getServiceDocs(s),
+        note: getText(s.note, s.instructions),
+        link: s.link || ""
       });
+    }
+
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openDetails();
     });
-    card.appendChild(b);
+
+    card.addEventListener("click", openDetails);
+
+    card.addEventListener("keydown", event => {
+      if (event.target !== card) return;
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openDetails();
+      }
+    });
+
+    card.appendChild(link);
     dynamicServicesContainer.appendChild(card);
   });
+
   updateServiceDropdown();
 }
 
