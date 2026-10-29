@@ -405,6 +405,8 @@ function getText(...values){
 
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+  console.log("Firebase version:", firebase.SDK_VERSION);
+console.log("Messaging function:", typeof firebase.messaging);
 /* ARVI ONLINE & CSC - Notification Button */
 const enableBtn = document.getElementById("enableNotifications");
 const statusText = document.getElementById("notificationStatus");
