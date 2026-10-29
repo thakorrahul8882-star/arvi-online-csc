@@ -63,7 +63,91 @@ gtag('config', 'G-XZX6WJH2QM');
 </style>
 </head>
 
-<body>
+
+<!-- ARVI ONLINE & CSC Notification Popup -->
+<div id="notificationPopup" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+">
+  <div style="
+    width:100%;
+    max-width:360px;
+    background:#ffffff;
+    border-radius:20px;
+    padding:25px 20px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,0.3);
+  ">
+    <div style="font-size:42px;">🔔</div>
+
+    <h2 style="color:#0759c7;margin:10px 0;">
+      ARVI ONLINE & CSC
+    </h2>
+
+    <h3 style="color:#222;">નવી અપડેટ મેળવો!</h3>
+
+    <p style="color:#555;line-height:1.7;">
+      સરકારી ભરતી, યોજનાઓ અને નવી સેવાઓની માહિતી
+      સીધી તમારા મોબાઇલમાં મેળવો.
+    </p>
+
+    <button id="enableNotifications"
+      style="width:100%;background:#0759c7;color:white;
+      padding:13px;border:0;border-radius:10px;
+      font-size:16px;font-weight:bold;">
+      🔔 હા, નોટિફિકેશન ચાલુ કરો
+    </button>
+
+    <button id="closeNotificationPopup"
+      style="width:100%;margin-top:10px;background:#eeeeee;
+      color:#333;padding:12px;border:0;border-radius:10px;
+      font-size:15px;">
+      હમણાં નહીં
+    </button>
+
+    <p id="notificationStatus"
+      style="font-size:13px;color:#555;margin-top:12px;"
+      aria-live="polite"></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  const popup = document.getElementById("notificationPopup");
+  const closeBtn = document.getElementById("closeNotificationPopup");
+
+  if (!popup || !closeBtn) return;
+
+  // પરવાનગી અગાઉથી મળી હોય તો Popup ફરી ન બતાવો
+  if ("Notification" in window &&
+      Notification.permission === "granted") {
+    return;
+  }
+
+  // "હમણાં નહીં" દબાવ્યા પછી આ મુલાકાતમાં ફરી ન બતાવો
+  if (sessionStorage.getItem("arviPopupClosed") === "yes") {
+    return;
+  }
+
+  popup.style.display = "flex";
+
+  closeBtn.addEventListener("click", function () {
+    popup.style.display = "none";
+    sessionStorage.setItem("arviPopupClosed", "yes");
+  });
+})();
+</script>
+<!-- End ARVI Notification Popup -->
+</body>
+</html>
+
+  <body>
 <header class="hero">
   <nav class="nav wrap">
     <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
