@@ -127,21 +127,12 @@ gtag('config', 'G-XZX6WJH2QM');
   fill: #ffffff;
 }
 
-/* Google Translate Button CSS */
-#google_translate_element select {
-  background: #123b70;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-}
-.goog-te-gadget { color: transparent !important; font-size: 0px !important; }
-.goog-logo-link, .goog-te-gadget span { display: none !important; }
+/* Google Translate ને સંપૂર્ણ છુપાવવા માટેનો કોડ */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0px !important; }
-.skiptranslate > iframe.skiptranslate { display: none !important; }
+#goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+.goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+.goog-te-gadget { display:none !important; }
 </style>
 </head>
 
@@ -149,8 +140,11 @@ body { top: 0px !important; }
 <header class="hero">
   <nav class="nav wrap">
     <div class="brand">ARVI <span>ONLINE & CSC</span><small>જન સુવિધા કેન્દ્ર</small></div>
-    <!-- Google Translate Dropdown -->
-    <div id="google_translate_element"></div>
+    
+    <!-- Google Translate છુપાવેલું છે -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <!-- તમારું જૂનું બટન -->
+    <button id="langBtn" class="lang" type="button">English</button>
   </nav>
 
   <div class="hero-content wrap">
@@ -878,6 +872,24 @@ window.addEventListener('scroll', () => {
 topBtn.addEventListener('click', () => {
   window.scrollTo({top: 0, behavior: 'smooth'});
 });
+
+/* 5. Custom Language Button (તમારું જૂનું બટન + Google Translate) */
+let isEnglish = false;
+const langBtn = document.getElementById('langBtn');
+
+if (langBtn) {
+  langBtn.addEventListener('click', function() {
+    const select = document.querySelector('.goog-te-combo');
+    if (select) {
+      isEnglish = !isEnglish;
+      select.value = isEnglish ? 'en' : 'gu';
+      select.dispatchEvent(new Event('change'));
+      this.textContent = isEnglish ? 'ગુજરાતી' : 'English';
+    } else {
+      alert("ભાષા લોડ થઈ રહી છે, કૃપા કરીને થોડી સેકન્ડ રાહ જુઓ...");
+    }
+  });
+}
 </script>
 
 <!-- Google Translate Script (For Auto-Translation) -->
