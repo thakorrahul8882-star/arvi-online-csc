@@ -1,12 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="gu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="આર્વી ઓનલાઈન & CSC – જન સુવિધા કેન્દ્ર, ખોડાણા, પાટણ, ગુજરાત. સરકારી યોજનાઓ, ભરતી અને ઓનલાઈન સેવાઓ.">
+
+<!-- PWA & SEO / Marketing Meta Tags -->
+<meta name="keywords" content="આર્વી ઓનલાઈન, CSC Khodana, Patan, સરકારી યોજના, PAN કાર્ડ, આયુષ્માન કાર્ડ, Online Form Gujarat, Rahul Thakor">
+<meta name="theme-color" content="#123b70">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+
+<!-- Open Graph Meta Tags (For WhatsApp & Facebook Sharing) -->
+<meta property="og:title" content="આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર">
+<meta property="og:description" content="તમારી સરકારી યોજનાઓ, ભરતી, PAN કાર્ડ, અને તમામ ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય. 📍 ખોડાણા, પાટણ">
+<meta property="og:image" content="https://thakorrahul8882-star.github.io/arvi-online-csc/banner.jpg">
+<meta property="og:url" content="https://thakorrahul8882-star.github.io/arvi-online-csc/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર">
+<meta name="twitter:description" content="તમારી સરકારી યોજનાઓ અને ઓનલાઈન સેવાઓ માટે એક જ સ્થળે સહાય.">
+<meta name="twitter:image" content="https://thakorrahul8882-star.github.io/arvi-online-csc/banner.jpg">
+
 <title>આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર</title>
 <link rel="stylesheet" href="./style.css">
+
+<!-- Google Local Business SEO Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર",
+  "image": "https://thakorrahul8882-star.github.io/arvi-online-csc/banner.jpg",
+  "url": "https://thakorrahul8882-star.github.io/arvi-online-csc/",
+  "telephone": "+917265013972",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "જન સુવિધા કેન્દ્ર",
+    "addressLocality": "Khodana, Patan",
+    "addressRegion": "Gujarat",
+    "addressCountry": "IN"
+  },
+  "founder": "Rahul Thakor",
+  "description": "સરકારી યોજનાઓ, ભરતી, PAN કાર્ડ, અને તમામ ઓનલાઈન સેવાઓ માટે ખોડાણાનું શ્રેષ્ઠ કેન્દ્ર."
+}
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XZX6WJH2QM"></script>
 <script>
@@ -60,6 +100,32 @@ gtag('config', 'G-XZX6WJH2QM');
 .dialog-actions .btn,.news-link{width:100%;box-sizing:border-box;text-align:center}
 .form-box{padding:15px}
 }
+
+/* Floating WhatsApp Button CSS */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 55px;
+  height: 55px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+.floating-whatsapp:hover {
+  transform: scale(1.1);
+  background-color: #128C7E;
+}
+.floating-whatsapp svg {
+  width: 32px;
+  height: 32px;
+  fill: #ffffff;
+}
 </style>
 </head>
 
@@ -78,6 +144,8 @@ gtag('config', 'G-XZX6WJH2QM');
       <a class="btn primary" href="https://wa.me/917265013972" target="_blank" rel="noopener noreferrer" data-gu="WhatsApp પર સંપર્ક કરો" data-en="Contact on WhatsApp">WhatsApp પર સંપર્ક કરો</a>
       <a class="btn ghost" href="#services" data-gu="સેવાઓ જુઓ" data-en="View Services">સેવાઓ જુઓ</a>
       <a class="btn ghost" href="#updates" data-gu="યોજના / ભરતી જુઓ" data-en="Schemes / Recruitment">યોજના / ભરતી જુઓ</a>
+      <!-- શેર બટન -->
+      <button id="shareWebBtn" class="btn primary" style="background:#123b70; border:none;" type="button">મિત્રોને શેર કરો ↗️</button>
     </div>
     <div class="quick-info">
       <span data-gu="📍 ખોડાણા, પાટણ, ગુજરાત" data-en="📍 Khodana, Patan, Gujarat">📍 ખોડાણા, પાટણ, ગુજરાત</span>
@@ -276,6 +344,11 @@ gtag('config', 'G-XZX6WJH2QM');
   </div>
 </dialog>
 
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/917265013972?text=નમસ્તે આર્વી ઓનલાઈન & CSC, મારે માહિતી જોઈએ છે." class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp પર સંપર્ક કરો">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
 
@@ -329,7 +402,6 @@ function getText(...values){
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-/* ગુજરાતી / English ભાષા બટન */
 let currentLanguage="gu";
 document.getElementById("langBtn").addEventListener("click",()=>{
   currentLanguage=currentLanguage==="gu"?"en":"gu";
@@ -340,7 +412,6 @@ document.getElementById("langBtn").addEventListener("click",()=>{
   document.getElementById("langBtn").textContent=currentLanguage==="gu"?"English":"ગુજરાતી";
 });
 
-/* સેવા વિગતનો ડાયલોગ */
 const dialog=document.getElementById("serviceDialog");
 const dialogTitle=document.getElementById("dialogTitle");
 const dialogBody=document.getElementById("dialogBody");
@@ -381,10 +452,8 @@ function showServiceDetails(item){
     const h=document.createElement("h3");
     h.textContent="જરૂરી દસ્તાવેજો";
     dialogBody.appendChild(h);
-
     const list=document.createElement("ul");
     list.className="doc-list";
-
     (Array.isArray(docs)?docs:String(docs).split(/\n|,/))
       .map(s=>String(s).trim())
       .filter(Boolean)
@@ -393,7 +462,6 @@ function showServiceDetails(item){
         li.textContent=s;
         list.appendChild(li);
       });
-
     dialogBody.appendChild(list);
   }
 
@@ -425,53 +493,16 @@ function showServiceDetails(item){
   if(!dialog.open)dialog.showModal();
 }
 
-/* હાલની સેવાઓના ડોક્યુમેન્ટ */
 const serviceInfo={
-  pan:{
-    title:"PAN કાર્ડ સેવા",fee:"₹250",
-    docs:["આધાર કાર્ડ","મોબાઇલ નંબર","પાસપોર્ટ સાઇઝ ફોટો (જરૂર મુજબ)","સહી અથવા જરૂરી વિગતો (અરજીના પ્રકાર મુજબ)"],
-    note:"નવું PAN અથવા સુધારા માટે જરૂરી માહિતી WhatsApp પર પુષ્ટિ કરશો."
-  },
-  gazette:{
-    title:"ગેઝેટ / નામમાં ફેરફાર",fee:"₹3,000",
-    docs:["આધાર કાર્ડ","જૂના નામનો પુરાવો","નવા નામ અથવા સુધારાનો પુરાવો","ફેરફાર મુજબ અન્ય જરૂરી દસ્તાવેજો"],
-    note:"ફેરફારના પ્રકાર મુજબ વધારાના દસ્તાવેજો જરૂરી થઈ શકે છે."
-  },
-  marriage:{
-    title:"લગ્ન નોંધણી પ્રમાણપત્ર",fee:"₹3,000",
-    docs:["પતિનું આધાર કાર્ડ","પતિનું રેશન કાર્ડ","પતિનું LC અથવા જન્મ દાખલો","પતિના પિતાનું આધાર કાર્ડ","પત્નીનું આધાર કાર્ડ","પત્નીનું રેશન કાર્ડ","પત્નીનું LC અથવા જન્મ દાખલો","પત્નીના પિતાનું આધાર કાર્ડ","પતિ-પત્નીનો જોઈન્ટ ફોટો","લગ્નની કંકોત્રી","બે સાક્ષીના આધાર કાર્ડ અને ફોટા","મહારાજનું આધાર કાર્ડ અને ફોટો"],
-    note:"ડોક્યુમેન્ટ અને કુરિયર સુવિધા અંગે WhatsApp પર પહેલાં પુષ્ટિ કરશો."
-  },
-  land:{
-    title:"7/12 અને 8-A ઉતારા",fee:"₹30",
-    docs:["ગામનું નામ","સર્વે નંબર અથવા ખાતા નંબર","જમીનના માલિકનું નામ"],
-    note:"ઉતારા માટે જરૂરી માહિતી WhatsApp પર પુષ્ટિ કરશો."
-  },
-  rc:{
-    title:"ખોવાયેલી RC બુક",fee:"₹200",
-    docs:["વાહનનો રજિસ્ટ્રેશન નંબર","વાહન માલિકની ઓળખની વિગતો","RCની ઉપલબ્ધ વિગતો","જરૂર મુજબ અન્ય દસ્તાવેજો"],
-    note:"ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી અંગે માર્ગદર્શન મળશે."
-  },
-  dl:{
-    title:"ખોવાયેલ ડ્રાઇવિંગ લાઇસન્સ",fee:"WhatsApp પર પૂછો",
-    docs:["લાઇસન્સ નંબર (જો ઉપલબ્ધ હોય)","જન્મ તારીખ","ઓળખની વિગતો","મોબાઇલ નંબર"],
-    note:"ચોક્કસ ફી અને જરૂરી દસ્તાવેજો WhatsApp પર જાણી લો."
-  },
-  ayushman:{
-    title:"આયુષ્માન કાર્ડ",fee:"₹200",
-    docs:["આધાર કાર્ડ","રેશન કાર્ડ અથવા પાત્રતા સંબંધિત વિગતો","મોબાઇલ નંબર"],
-    note:"પાત્રતા અને જરૂરી દસ્તાવેજો યોજના મુજબ ચકાસવામાં આવશે."
-  },
-  scheme:{
-    title:"સરકારી યોજનાઓ અને ફોર્મ",fee:"₹200",
-    docs:["યોજનાની માહિતી","આધાર કાર્ડ","મોબાઇલ નંબર","યોજનાની શરતો મુજબ જરૂરી દસ્તાવેજો"],
-    note:"દરેક યોજનાની પાત્રતા અને દસ્તાવેજો અલગ હોઈ શકે છે."
-  },
-  rationAdd:{
-    title:"રેશન કાર્ડમાં નામ ઉમેરવું",fee:"WhatsApp પર પૂછો",
-    docs:["નામ ઉમેરનાર વ્યક્તિનું આધાર કાર્ડ","હાલનું રેશન કાર્ડ"],
-    note:"અરજીના પ્રકાર પ્રમાણે વધારાના દસ્તાવેજો જરૂરી થઈ શકે છે."
-  }
+  pan:{title:"PAN કાર્ડ સેવા",fee:"₹250",docs:["આધાર કાર્ડ","મોબાઇલ નંબર","પાસપોર્ટ સાઇઝ ફોટો (જરૂર મુજબ)","સહી અથવા જરૂરી વિગતો (અરજીના પ્રકાર મુજબ)"],note:"નવું PAN અથવા સુધારા માટે જરૂરી માહિતી WhatsApp પર પુષ્ટિ કરશો."},
+  gazette:{title:"ગેઝેટ / નામમાં ફેરફાર",fee:"₹3,000",docs:["આધાર કાર્ડ","જૂના નામનો પુરાવો","નવા નામ અથવા સુધારાનો પુરાવો","ફેરફાર મુજબ અન્ય જરૂરી દસ્તાવેજો"],note:"ફેરફારના પ્રકાર મુજબ વધારાના દસ્તાવેજો જરૂરી થઈ શકે છે."},
+  marriage:{title:"લગ્ન નોંધણી પ્રમાણપત્ર",fee:"₹3,000",docs:["પતિનું આધાર કાર્ડ","પતિનું રેશન કાર્ડ","પતિનું LC અથવા જન્મ દાખલો","પતિના પિતાનું આધાર કાર્ડ","પત્નીનું આધાર કાર્ડ","પત્નીનું રેશન કાર્ડ","પત્નીનું LC અથવા જન્મ દાખલો","પત્નીના પિતાનું આધાર કાર્ડ","પતિ-પત્નીનો જોઈન્ટ ફોટો","લગ્નની કંકોત્રી","બે સાક્ષીના આધાર કાર્ડ અને ફોટા","મહારાજનું આધાર કાર્ડ અને ફોટો"],note:"ડોક્યુમેન્ટ અને કુરિયર સુવિધા અંગે WhatsApp પર પહેલાં પુષ્ટિ કરશો."},
+  land:{title:"7/12 અને 8-A ઉતારા",fee:"₹30",docs:["ગામનું નામ","સર્વે નંબર અથવા ખાતા નંબર","જમીનના માલિકનું નામ"],note:"ઉતારા માટે જરૂરી માહિતી WhatsApp પર પુષ્ટિ કરશો."},
+  rc:{title:"ખોવાયેલી RC બુક",fee:"₹200",docs:["વાહનનો રજિસ્ટ્રેશન નંબર","વાહન માલિકની ઓળખની વિગતો","RCની ઉપલબ્ધ વિગતો","જરૂર મુજબ અન્ય દસ્તાવેજો"],note:"ગુજરાતના કોઈપણ જિલ્લાના વાહન માટે અરજી અંગે માર્ગદર્શન મળશે."},
+  dl:{title:"ખોવાયેલ ડ્રાઇવિંગ લાઇસન્સ",fee:"WhatsApp પર પૂછો",docs:["લાઇસન્સ નંબર (જો ઉપલબ્ધ હોય)","જન્મ તારીખ","ઓળખની વિગતો","મોબાઇલ નંબર"],note:"ચોક્કસ ફી અને જરૂરી દસ્તાવેજો WhatsApp પર જાણી લો."},
+  ayushman:{title:"આયુષ્માન કાર્ડ",fee:"₹200",docs:["આધાર કાર્ડ","રેશન કાર્ડ અથવા પાત્રતા સંબંધિત વિગતો","મોબાઇલ નંબર"],note:"પાત્રતા અને જરૂરી દસ્તાવેજો યોજના મુજબ ચકાસવામાં આવશે."},
+  scheme:{title:"સરકારી યોજનાઓ અને ફોર્મ",fee:"₹200",docs:["યોજનાની માહિતી","આધાર કાર્ડ","મોબાઇલ નંબર","યોજનાની શરતો મુજબ જરૂરી દસ્તાવેજો"],note:"દરેક યોજનાની પાત્રતા અને દસ્તાવેજો અલગ હોઈ શકે છે."},
+  rationAdd:{title:"રેશન કાર્ડમાં નામ ઉમેરવું",fee:"WhatsApp પર પૂછો",docs:["નામ ઉમેરનાર વ્યક્તિનું આધાર કાર્ડ","હાલનું રેશન કાર્ડ"],note:"અરજીના પ્રકાર પ્રમાણે વધારાના દસ્તાવેજો જરૂરી થઈ શકે છે."}
 };
 
 document.querySelectorAll("[data-service]").forEach(card=>{
@@ -479,12 +510,10 @@ document.querySelectorAll("[data-service]").forEach(card=>{
     const item=serviceInfo[card.dataset.service];
     if(item)showServiceDetails(item);
   };
-
   card.addEventListener("click",e=>{
     if(e.target.closest("a"))e.preventDefault();
     open();
   });
-
   card.addEventListener("keydown",e=>{
     if(e.key==="Enter"||e.key===" "){
       e.preventDefault();
@@ -496,11 +525,9 @@ document.querySelectorAll("[data-service]").forEach(card=>{
 function closeServiceDialog(){
   if(dialog&&dialog.open)dialog.close();
 }
-
 document.getElementById("closeDialog").addEventListener("click",closeServiceDialog);
 document.getElementById("closeDialogBottom").addEventListener("click",closeServiceDialog);
 
-/* UPI ID કોપી */
 document.getElementById("copyUpi").addEventListener("click",async()=>{
   const upi="7265013972sonu@ybl";
   const button=document.getElementById("copyUpi");
@@ -514,124 +541,80 @@ document.getElementById("copyUpi").addEventListener("click",async()=>{
 
 document.getElementById("year").textContent=new Date().getFullYear();
 
-/* Admin Panel દ્વારા ઉમેરેલી સેવાઓ */
 let dynamicServicesData=[];
 const dynamicServicesContainer=document.getElementById("dynamicServices");
 const serviceSelect=document.getElementById("customerService");
 const servicesStatus=document.getElementById("servicesStatus");
 
-function getServiceTitle(s){
-  return getText(s.title,s.name,s.serviceName,"નવી સેવા");
-}
+function getServiceTitle(s){return getText(s.title,s.name,s.serviceName,"નવી સેવા");}
+function getServiceFee(s){return getText(s.price,s.fee,s.amount,"WhatsApp પર પૂછો");}
+function getServiceDescription(s){return getText(s.description,s.details,s.note);}
+function getServiceDocs(s){return s.documents||s.docs||s.requiredDocuments||"";}
 
-function getServiceFee(s){
-  return getText(s.price,s.fee,s.amount,"WhatsApp પર પૂછો");
-}
-
-function getServiceDescription(s){
-  return getText(s.description,s.details,s.note);
-}
-
-function getServiceDocs(s){
-  return s.documents||s.docs||s.requiredDocuments||"";
-}
-
-/* અરજી ફોર્મમાં સેવાઓની યાદી */
 function updateServiceDropdown(){
   const prev=serviceSelect.value;
-
   const old=[
-    ["pan","PAN કાર્ડ સેવા"],
-    ["gazette","ગેઝેટ / નામમાં ફેરફાર"],
-    ["marriage","લગ્ન નોંધણી પ્રમાણપત્ર"],
-    ["land","7/12 અને 8-A ઉતારા"],
-    ["rc","ખોવાયેલી RC બુક"],
-    ["dl","ડ્રાઇવિંગ લાઇસન્સ"],
-    ["ayushman","આયુષ્માન કાર્ડ"],
-    ["scheme","સરકારી યોજનાઓ અને ફોર્મ"],
-    ["rationAdd","રેશન કાર્ડમાં નામ ઉમેરવું"],
-    ["recruitment","સરકારી ભરતી"],
-    ["other","અન્ય સેવા"]
+    ["pan","PAN કાર્ડ સેવા"],["gazette","ગેઝેટ / નામમાં ફેરફાર"],["marriage","લગ્ન નોંધણી પ્રમાણપત્ર"],
+    ["land","7/12 અને 8-A ઉતારા"],["rc","ખોવાયેલી RC બુક"],["dl","ડ્રાઇવિંગ લાઇસન્સ"],
+    ["ayushman","આયુષ્માન કાર્ડ"],["scheme","સરકારી યોજનાઓ અને ફોર્મ"],["rationAdd","રેશન કાર્ડમાં નામ ઉમેરવું"],
+    ["recruitment","સરકારી ભરતી"],["other","અન્ય સેવા"]
   ];
-
   serviceSelect.replaceChildren();
-
   const first=document.createElement("option");
   first.value="";
   first.textContent="-- સેવા પસંદ કરો --";
   serviceSelect.appendChild(first);
-
   old.forEach(([v,l])=>{
     const o=document.createElement("option");
-    o.value=v;
-    o.textContent=l;
+    o.value=v; o.textContent=l;
     serviceSelect.appendChild(o);
   });
-
   dynamicServicesData.forEach(s=>{
     const o=document.createElement("option");
     o.value="dynamic:"+s.id;
     o.textContent=getServiceTitle(s);
     serviceSelect.appendChild(o);
   });
-
   if([...serviceSelect.options].some(o=>o.value===prev)){
     serviceSelect.value=prev;
   }
 }
 
-/* નવી સેવાઓ: Icon + નામ + વર્ણન + ફી */
 function renderDynamicServices(snapshot){
   dynamicServicesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));
   dynamicServicesContainer.replaceChildren();
-
-  servicesStatus.textContent=dynamicServicesData.length
-    ?"નવી સેવાઓ ઉપલબ્ધ છે."
-    :"હાલમાં કોઈ નવી સેવા ઉપલબ્ધ નથી.";
+  servicesStatus.textContent=dynamicServicesData.length?"નવી સેવાઓ ઉપલબ્ધ છે.":"હાલમાં કોઈ નવી સેવા ઉપલબ્ધ નથી.";
 
   dynamicServicesData.forEach(s=>{
     const card=document.createElement("article");
     card.className="service-card";
-
-    /* આ ભાગ Admin માંથી Icon બતાવે છે */
     const icon=document.createElement("div");
     icon.className="service-icon";
     icon.textContent=getText(s.icon,s.serviceIcon,"🛠️");
     card.appendChild(icon);
-
     const h=document.createElement("h3");
     h.textContent=getServiceTitle(s);
     card.appendChild(h);
-
     const p=document.createElement("p");
     p.textContent=getServiceDescription(s)||"વધુ માહિતી માટે વિગતો જુઓ.";
     card.appendChild(p);
-
     const fee=document.createElement("p");
     fee.className="service-fee";
     fee.textContent="ફી: "+getServiceFee(s);
     card.appendChild(fee);
-
     const b=document.createElement("button");
     b.type="button";
     b.className="btn primary";
     b.textContent="ડોક્યુમેન્ટ અને સંપૂર્ણ વિગતો જુઓ";
-
     b.addEventListener("click",()=>{
       showServiceDetails({
-        title:getServiceTitle(s),
-        fee:getServiceFee(s),
-        description:getServiceDescription(s),
-        docs:getServiceDocs(s),
-        note:getText(s.note,s.instructions),
-        link:s.link||""
+        title:getServiceTitle(s),fee:getServiceFee(s),description:getServiceDescription(s),
+        docs:getServiceDocs(s),note:getText(s.note,s.instructions),link:s.link||""
       });
     });
-
     card.appendChild(b);
     dynamicServicesContainer.appendChild(card);
   });
-
   updateServiceDropdown();
 }
 
@@ -644,10 +627,8 @@ db.collection("services").where("published","==",true).onSnapshot(
   }
 );
 
-/* યોજનાઓ અને ભરતીની માહિતી */
 let announcementsData=[];
 let currentNewsFilter="all";
-
 const newsList=document.getElementById("newsList");
 const newsStatus=document.getElementById("newsStatus");
 
@@ -660,45 +641,35 @@ function announcementCategory(item){
 
 function renderAnnouncements(){
   newsList.replaceChildren();
-
   const filtered=announcementsData.filter(item=>
-    currentNewsFilter==="all"||
-    announcementCategory(item)===currentNewsFilter
+    currentNewsFilter==="all"||announcementCategory(item)===currentNewsFilter
   );
-
   if(!filtered.length){
     newsStatus.hidden=false;
     newsStatus.textContent="હાલમાં આ વિભાગમાં કોઈ અપડેટ ઉપલબ્ધ નથી.";
     return;
   }
-
   newsStatus.hidden=true;
-
   filtered.forEach(item=>{
     const card=document.createElement("article");
     card.className="news-card";
-
     const type=document.createElement("span");
     type.className="news-type";
     type.textContent=announcementCategory(item);
     card.appendChild(type);
-
     const title=document.createElement("h3");
     title.textContent=item.title||"નવી માહિતી";
     card.appendChild(title);
-
     const description=document.createElement("p");
     description.className="news-description";
     description.textContent=item.description||"";
     card.appendChild(description);
-
     if(item.lastDate){
       const date=document.createElement("p");
       date.className="news-date";
       date.textContent="છેલ્લી તારીખ: "+formatDate(item.lastDate);
       card.appendChild(date);
     }
-
     const button=document.createElement("button");
     button.type="button";
     button.className="btn primary";
@@ -706,7 +677,6 @@ function renderAnnouncements(){
     button.textContent="સંપૂર્ણ માહિતી / ડોક્યુમેન્ટ જુઓ";
     button.addEventListener("click",()=>showAnnouncementDetails(item));
     card.appendChild(button);
-
     const url=safeHttpUrl(item.link);
     if(url){
       const a=document.createElement("a");
@@ -717,43 +687,29 @@ function renderAnnouncements(){
       a.textContent="સત્તાવાર વેબસાઇટ / અરજી કરો";
       card.appendChild(a);
     }
-
     newsList.appendChild(card);
   });
 }
 
 function showAnnouncementDetails(item){
   const category=announcementCategory(item);
-
   const details={
-    title:item.title||"યોજના / ભરતીની માહિતી",
-    fee:item.fee||"",
-    description:item.description||"",
-    post:item.post||"",
-    vacancies:item.vacancies||"",
-    qualification:item.qualification||"",
-    age:item.age||"",
-    applicationFee:item.fee||"",
-    startDate:item.startDate?formatDate(item.startDate):"",
-    lastDate:item.lastDate?formatDate(item.lastDate):"",
-    categoryDetails:item.categoryDetails||"",
-    extraInfo:item.extraInfo||"",
-    docs:item.documents||"",
-    link:item.link||"",
+    title:item.title||"યોજના / ભરતીની માહિતી",fee:item.fee||"",description:item.description||"",
+    post:item.post||"",vacancies:item.vacancies||"",qualification:item.qualification||"",
+    age:item.age||"",applicationFee:item.fee||"",startDate:item.startDate?formatDate(item.startDate):"",
+    lastDate:item.lastDate?formatDate(item.lastDate):"",categoryDetails:item.categoryDetails||"",
+    extraInfo:item.extraInfo||"",docs:item.documents||"",link:item.link||"",
     note:"પ્રકાર: "+category+(item.note?"\n"+item.note:"")
   };
-
   showServiceDetails(details);
 }
 
 document.querySelectorAll(".news-tabs button").forEach(button=>{
   button.addEventListener("click",()=>{
     currentNewsFilter=button.dataset.filter||"all";
-
     document.querySelectorAll(".news-tabs button").forEach(b=>{
       b.classList.toggle("active",b===button);
     });
-
     renderAnnouncements();
   });
 });
@@ -770,39 +726,27 @@ db.collection("announcements").where("published","==",true).onSnapshot(
   }
 );
 
-/* ગ્રાહકની ઓનલાઈન અરજી */
 const requestForm=document.getElementById("customerRequestForm");
 const requestMessage=document.getElementById("requestMessage");
 const requestWhatsApp=document.getElementById("requestWhatsApp");
 const submitRequestBtn=document.getElementById("submitRequestBtn");
 const requestStatusLink=document.getElementById("requestStatusLink");
 
-function setRequestMessage(m){
-  requestMessage.textContent=m;
-}
+function setRequestMessage(m){requestMessage.textContent=m;}
 
 function getSelectedService(){
   const value=serviceSelect.value;
   const option=serviceSelect.options[serviceSelect.selectedIndex];
-
   if(value.startsWith("dynamic:")){
     const id=value.slice(8);
     const item=dynamicServicesData.find(s=>s.id===id);
-    return {
-      id,
-      title:item?getServiceTitle(item):""
-    };
+    return {id,title:item?getServiceTitle(item):""};
   }
-
-  return {
-    id:value,
-    title:option?option.textContent:""
-  };
+  return {id:value,title:option?option.textContent:""};
 }
 
 requestForm.addEventListener("submit",async event=>{
   event.preventDefault();
-
   const name=document.getElementById("customerName").value.trim();
   const phone=document.getElementById("customerPhone").value.trim();
   const note=document.getElementById("customerNote").value.trim();
@@ -813,12 +757,10 @@ requestForm.addEventListener("submit",async event=>{
     setRequestMessage("કૃપા કરીને નામ, મોબાઇલ નંબર અને સેવા પસંદ કરો.");
     return;
   }
-
   if(!/^[6-9][0-9]{9}$/.test(phone)){
     setRequestMessage("કૃપા કરીને 10 અંકનો યોગ્ય ભારતીય મોબાઇલ નંબર દાખલ કરો.");
     return;
   }
-
   if(!consent.checked){
     setRequestMessage("આગળ વધવા માટે સંમતિ આપવી જરૂરી છે.");
     return;
@@ -835,49 +777,25 @@ requestForm.addEventListener("submit",async event=>{
     const requestRef=db.collection("customerRequests").doc();
     const publicStatusRef=db.collection("publicRequestStatus").doc(requestRef.id);
     const timestamp=firebase.firestore.FieldValue.serverTimestamp();
-
-    const requestData={
-      name,
-      phone,
-      service:selected.title,
-      serviceId:selected.id,
-      note,
-      status:"new",
-      createdAt:timestamp
-    };
-
+    const requestData={name,phone,service:selected.title,serviceId:selected.id,note,status:"new",createdAt:timestamp};
     const batch=db.batch();
     batch.set(requestRef,requestData);
-    batch.set(publicStatusRef,{
-      service:selected.title,
-      status:"new",
-      createdAt:timestamp,
-      updatedAt:timestamp
-    });
-
+    batch.set(publicStatusRef,{service:selected.title,status:"new",createdAt:timestamp,updatedAt:timestamp});
     await batch.commit();
 
     const statusUrl=new URL("./status.html",window.location.href);
     statusUrl.searchParams.set("id",requestRef.id);
-
     requestStatusLink.href=statusUrl.href;
     requestStatusLink.hidden=false;
     requestStatusLink.style.display="flex";
 
     const message="નમસ્તે ARVI ONLINE & CSC!\n\nમારી અરજીની વિગતો:\nઅરજી નંબર: "+requestRef.id+"\nનામ: "+name+"\nમોબાઇલ: "+phone+"\nસેવા: "+selected.title+"\nવધારાની માહિતી: "+(note||"નથી")+"\n\nઅરજીનું સ્ટેટસ અહીં ચેક કરો:\n"+statusUrl.href;
-
-    setRequestMessage(
-      "તમારી અરજી સફળતાપૂર્વક નોંધાઈ ગઈ છે!\n\n"+
-      "અરજી નંબર: "+requestRef.id+
-      "\n\nઅરજી નંબર સાચવી રાખો. નીચેના બટનથી સ્ટેટસ ચેક કરી પ્રિન્ટ કાઢી શકશો."
-    );
-
+    setRequestMessage("તમારી અરજી સફળતાપૂર્વક નોંધાઈ ગઈ છે!\n\nઅરજી નંબર: "+requestRef.id+"\n\nઅરજી નંબર સાચવી રાખો. નીચેના બટનથી સ્ટેટસ ચેક કરી પ્રિન્ટ કાઢી શકશો.");
     requestWhatsApp.href=makeWhatsAppUrl(message);
     requestWhatsApp.hidden=false;
 
     requestForm.reset();
     updateServiceDropdown();
-
   }catch(error){
     console.error("Request submit error:",error);
     setRequestMessage("અરજી સેવ થઈ શકી નથી. Firebase Firestore Rules અને ઇન્ટરનેટ કનેક્શન તપાસો. પછી ફરી પ્રયાસ કરો.");
@@ -888,6 +806,36 @@ requestForm.addEventListener("submit",async event=>{
 });
 
 updateServiceDropdown();
+
+/* 1. માર્કેટિંગ - વેબસાઇટ શેર કરવાનું બટન (Web Share API) */
+const shareBtn = document.getElementById("shareWebBtn");
+if (shareBtn) {
+  shareBtn.addEventListener("click", async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "આર્વી ઓનલાઈન & CSC | જન સુવિધા કેન્દ્ર",
+          text: "સરકારી યોજનાઓ, PAN કાર્ડ, અને તમામ ઓનલાઈન સેવાઓ માટે બેસ્ટ સુવિધા! આજે જ આર્વી ઓનલાઈન વેબસાઈટ જુઓ 👇",
+          url: window.location.href
+        });
+      } catch (error) {
+        console.log("શેરિંગ કેન્સલ કર્યું", error);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("વેબસાઇટની લિંક કોપી થઈ ગઈ છે! હવે તમે WhatsApp પર પેસ્ટ કરી શકો છો.");
+    }
+  });
+}
+
+/* 2. PWA - Service Worker Registration (એપ બનાવવા માટે) */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker Registered! App is Installable.'))
+      .catch(err => console.log('Service Worker Error', err));
+  });
+}
 </script>
 </body>
 </html>
